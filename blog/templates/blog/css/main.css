@@ -1,0 +1,35 @@
+*{
+	font-family: 'Roboto', sans-serif;
+}
+
+#signin{
+	background-color: transparent;
+}
+
+#signup{
+	background-color: transparent;
+	color: black; 
+	border: 2px solid #3F978D;
+}
+
+#search{
+	width: 540px;
+}
+
+#butsearch{
+	background-color: #3F978D;
+}
+
+.modal-card{
+	width: 350px;
+}
+
+#signupbut{
+	background-color: #3F978D; 
+	color: black;
+}
+
+#loginbut{
+	background-color: #3F978D;
+	color: black;
+}
