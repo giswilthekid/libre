@@ -1,25 +1,32 @@
+{% load static %}
 <!DOCTYPE html>
 <html>
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Libre</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css">
     <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
-    <link rel="stylesheet" type="text/css" href="css/main.css"> 
+    <link rel="stylesheet" type="text/css" href="{% static 'css/main.css' %}">
+
+    {% if title %}
+        <title>Libre - {{ title }}</title>
+    {% else %}
+        <title>Libre</title>
+    {% endif %}
+
   </head>
   <body>
     <!-- Hero -->
-      <section class="hero is-white is-fullheight" style="background-image: url('assets/home2.jpg'); background-size: cover;">
+      <section class="hero is-white is-fullheight" style="background-image: url('{% static 'images/landingpage.jpg' %}'); background-size: cover;">
         <!-- Hero head: will stick at the top -->
         <div class="hero-head">
           <header class="navbar">
             <div class="container">
               <div class="navbar-brand">
                 <a class="navbar-item">
-                  <img src="assets/librelogo.png" alt="Logo">
+                  <img src="{% static 'images/librelogo.png' %}" alt="Logo">
                 </a>
                 <span class="navbar-burger" data-target="navbarMenuHeroC">
                   <span></span>
@@ -164,6 +171,6 @@
         </div>
       </div>
 
-      <script src="js/index.js"></script>
+      <script src="{% static ' js/index.js' %}"></script>
   </body>
 </html>
