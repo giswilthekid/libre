@@ -1,0 +1,204 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Hello Bulma!</title>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.2/css/bulma.min.css">
+        <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
+        <link rel="preconnect" href="https://fonts.gstatic.com">
+        <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet"> 
+        <link rel="stylesheet" type="text/css" href="{% static 'css/main.css' %}">
+
+        {% if title %}
+            <title>Libre - {{ title }}</title>
+        {% else %}
+            <title>Libre</title>
+        {% endif %}
+    </head>
+
+    <body>
+      {% if request.user.is_authenticated %}
+        <nav class="navbar" role="navigation" aria-label="main navigation">
+          <div class="navbar-brand mb-1">
+            <a class="navbar-item" href="{% url 'buyerpage' %}">
+              <img src="{% static 'images/librelogo.png' %}" width="112" height="28">
+            </a>
+
+            <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
+              <span aria-hidden="true"></span>
+              <span aria-hidden="true"></span>
+              <span aria-hidden="true"></span>
+            </a>
+          </div>
+
+          <div id="navbarBasicExample" class="navbar-menu">
+            <div class="field has-addons mt-4 ml-2">
+              <div class="control has-icons-left" >
+                <input class="input is-small fas fa-search" type="text" placeholder="Try some services">
+                <span class="icon is-small is-left">
+                  <i class="fas fa-search"></i>
+                </span>
+              </div>
+              <div class="control">
+                <a class="button is-small has-text-black" style="background-color: #3F978D">
+                  Search
+                </a>
+              </div>
+            </div>
+
+            <div class="navbar-end">
+              <div class="navbar-start">
+                <a class="navbar-item">
+                  List
+                </a>
+
+                <a class="navbar-item">
+                  Orders
+                </a>
+
+                <a class="navbar-item" style="color: #3F978D">
+                  Freelancer Page
+                </a>
+              </div>
+              <div class="navbar-item">
+                <div class="dropdown is-right">
+                  <div class="dropdown-trigger">
+                    <button class="button is-dark is-inverted" aria-haspopup="true" aria-controls="dropdown-menu">
+                      <span>
+                        <figure class="image is-square is-24x24">
+                          <img class="is-rounded" src="{{account.image.url}}">
+                        </figure>
+                      </span>
+                    </button>
+                  </div>
+                  <div class="dropdown-menu" id="dropdown-menu" role="menu">
+                    <div class="dropdown-content">
+                      <a href="#" class="dropdown-item">
+                        Dropdown item
+                      </a>
+                      <a class="dropdown-item">
+                        Other dropdown item
+                      </a>
+                      <a href="#" class="dropdown-item is-active">
+                        Active dropdown item
+                      </a>
+                      <a href="#" class="dropdown-item">
+                        Other dropdown item
+                      </a>
+                      <hr class="dropdown-divider">
+                      <a href="{% url 'logout' %}" class="dropdown-item">
+                        Log Out
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </nav>
+      <section>
+        <div class="container">
+
+          <header>
+            <h1>{{blog_post.title}}</h1>
+            <p id="cb">Requested By:</p>            
+          </header>
+
+          <div class="columns mt-2">
+            <div class="column is-full has-text-centered">
+              <figure class="image is-48x48">
+                <img class="is-rounded" src="https://bulma.io/images/placeholders/128x128.png">
+              </figure> 
+            </div>
+          </div>
+
+          <h2>Project Detail</h2>
+
+          <div class="columns">
+            <div class="column has-text-centered">
+              <li>
+                <span class="icon">
+                  <i class="fas fa-tags"></i>
+                </span>
+                <br>
+                <span>
+                  Category
+                </span>
+              </li>
+              <li>
+                <div class="box">
+                  I'm in a box.
+                </div>
+              </li>
+            </div>
+            <div class="column has-text-centered">
+              <li>
+                <span class="icon">
+                  <i class="fas fa-hourglass-end"></i>
+                </span>
+                <br>
+                <span>
+                  Deadline
+                </span>
+              </li>
+              <li>
+                <div class="box">
+                  I'm in a box.
+                </div>
+              </li>
+            </div>
+            <div class="column has-text-centered">
+              <li>
+                <span class="icon">
+                  <i class="fas fa-users"></i>
+                </span>
+                <br>
+                <span>
+                  Total Freelancer
+                </span>
+              </li>
+              <li>
+                <div class="box">
+                  I'm in a box.
+                </div>
+              </li>
+            </div>
+            <div class="column has-text-centered">
+              <li>
+                <span class="icon">
+                  <i class="fas fa-money-bill-wave"></i>
+                </span>
+                <br>
+                <span>
+                  Budget
+                </span>
+              </li>
+              <li>
+                <div class="box">
+                  I'm in a box.
+                </div>
+              </li>
+            </div>
+          </div>
+
+          <!-- Description -->
+
+          <div class="card">
+            <div class="card-content">
+              <div class="content">
+                <h2>Description</h2>
+                <p>{{blog_post.body|safe}}</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="buttons">
+            <button class="button is-success">Apply</button>
+          </div>
+        </div>
+      </section>
+      {% endif %}
+    </body>
+</html>

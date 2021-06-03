@@ -1,6 +1,10 @@
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
 
+def upload_location(instance, filename):
+	file_path = 'account/profilepict/{filename}'.format(filename=filename)
+	return file_path
+
 class MyAccountManager(BaseUserManager):
 	def create_user(self, email, username, password=None):
 		if not email:
@@ -32,21 +36,22 @@ class MyAccountManager(BaseUserManager):
 
 
 class Account (AbstractBaseUser):
-	email = models.EmailField(verbose_name='email', unique= True)
-	username = models.CharField(max_length=30, unique=True)
-	date_joined	= models.DateTimeField(verbose_name='date joined', auto_now_add=True)
-	last_login = models.DateTimeField(verbose_name='last login', auto_now=True)
-	is_admin = models.BooleanField(default=False)
-	is_active = models.BooleanField(default=True)
-	is_staff = models.BooleanField(default=False)
-	is_superuser = models.BooleanField(default=False)
-	first_name = models.CharField(max_length=50)
-	last_name = models.CharField(max_length=50)
+	email					= models.EmailField(verbose_name='email', unique= True)
+	username				= models.CharField(max_length=30, unique=True)
+	date_joined				= models.DateTimeField(verbose_name='date joined', auto_now_add=True)
+	last_login				= models.DateTimeField(verbose_name='last login', auto_now=True)
+	is_admin				= models.BooleanField(default=False)
+	is_active				= models.BooleanField(default=True)
+	is_staff				= models.BooleanField(default=False)
+	is_superuser			= models.BooleanField(default=False)
+	image					= models.ImageField(upload_to=upload_location, null=True, blank=True)
+	first_name				= models.CharField(max_length=50)
+	last_name				= models.CharField(max_length=50)
 
 	USERNAME_FIELD = 'email'
 	REQUIRED_FIELDS = ['username']
 
-	object = MyAccountManager()
+	objects = MyAccountManager()
 
 	def __str__(self):
 		return self.email

@@ -9,7 +9,6 @@ const modalsignin = document.querySelector('#modalsignin');
 const modalsignup = document.querySelector('#modalsignup');
 
 //dropdown
-var dropdown = document.querySelector('.dropdown');
 
 signinButton.addEventListener('click', () => {
   modalsignin.classList.add('is-active');
@@ -34,8 +33,3 @@ modalsignupBg.addEventListener('click', () => {
 closeButtonSignup.addEventListener('click', () => {
 	modalsignup.classList.remove('is-active');
 })
-
-dropdown.addEventListener('click', function(event) {
-  event.stopPropagation();
-  dropdown.classList.toggle('is-active');
-});
