@@ -4,7 +4,7 @@ from django.contrib.auth.decorators import login_required
 
 from blog.models import BlogPost
 from blog.forms import CreateBlogPostForm
-from account.models import Account
+from account.models import Account, ProjectList
 
 @login_required
 def buyerpage(request):
@@ -50,4 +50,23 @@ def detail_blog_view(request, slug):
 	context['account'] = account
 
 	return render(request, 'blog/post_detail.html', context)
+
+def add_to_projectlist(request, slug):
+
+	project = get_object_or_404(BlogPost, slug=slug)
+
+	order_project, created = ProjectList.objects.get_or_create(
+		project=project,
+		user=request.user,
+		status='pending'
+	)
+
+	order_project.save()
+
+	print(order_project)
+	print('alfianasu')
+
+	return redirect('projectlist')
+
+
 

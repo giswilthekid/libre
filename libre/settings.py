@@ -71,6 +71,7 @@ TEMPLATES = [
 ]
 
 AUTH_USER_MODEL = 'account.Account'
+AUTH_BLOG_MODEL = 'blog.BlogPost'
 
 WSGI_APPLICATION = 'libre.wsgi.application'
 

@@ -7,7 +7,8 @@ from account.views import(
     landing_view,
     registration_view,
     login_view,
-    logout_view
+    logout_view,
+    project_view,
 )
 
 from blog.views import(
@@ -19,6 +20,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('blog/', include('blog.urls', 'blog')),
     path('buyerpage/', buyerpage, name='buyerpage'),
+    path('projectlist/', project_view, name='projectlist'),
     path('login/', login_view, name='login'),
     path('logout/', logout_view, name='logout'),
     path('register/', registration_view, name='register'),

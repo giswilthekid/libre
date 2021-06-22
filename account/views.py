@@ -1,7 +1,11 @@
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.contrib.auth import login, authenticate, logout
+from django.contrib.auth.decorators import login_required
+
+
 from account.forms import RegistrationForm, AccountAuthenticationForm
+from account.models import Account, ProjectList
 
 def landing_view(request):
 	context = {}
@@ -49,3 +53,15 @@ def login_view(request):
 				return redirect("buyerpage")
 
 	return redirect('landing')
+
+@login_required
+def project_view(request):
+
+	context={}
+
+	user = request.user
+	project = ProjectList.objects.filter(id=request.user.id).all()
+
+	context['project'] = project
+
+	return render(request, 'account/listproject.html', context)

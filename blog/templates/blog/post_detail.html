@@ -50,7 +50,7 @@
 
             <div class="navbar-end">
               <div class="navbar-start">
-                <a class="navbar-item">
+                <a href="{% url 'projectlist' %}" class="navbar-item">
                   List
                 </a>
 
@@ -58,7 +58,7 @@
                   Orders
                 </a>
 
-                <a class="navbar-item" style="color: #3F978D">
+                <a class="navbar-item"  style="color: #3F978D">
                   Freelancer Page
                 </a>
               </div>
@@ -194,11 +194,19 @@
             </div>
           </div>
 
-          <div class="buttons">
-            <button class="button is-success">Apply</button>
-          </div>
+          <a href="{{ object.add_to_projectlist }}" class="button is-success">
+            Apply
+          </a>
         </div>
       </section>
+      <script>
+      var dropdown = document.querySelector('.dropdown');
+
+      dropdown.addEventListener('click', function(event) {
+        event.stopPropagation();
+        dropdown.classList.toggle('is-active');
+      })
+    </script>
       {% endif %}
     </body>
 </html>

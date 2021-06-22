@@ -4,6 +4,7 @@ from django.utils.text import slugify
 from django.conf import settings
 from django.db.models.signals import post_delete
 from django.dispatch import receiver
+from django.shortcuts import reverse
 
 def upload_location(instance, filename):
 	file_path = 'blog/{author_id}/{title}-{filename}'.format(
@@ -22,6 +23,11 @@ class BlogPost(models.Model):
 
 	def __str__(self):
 		return self.title
+
+	def add_to_projectlist(self):
+		return reverse("blog:add-to-projectlist", kwargs={
+			'slug': self.slug
+		})
 
 @receiver(post_delete, sender=BlogPost)
 def submission_delete(sender, instance, **kwargs):

@@ -50,7 +50,7 @@
 
             <div class="navbar-end">
               <div class="navbar-start">
-                <a href="{% url 'projectlist' %}" class="navbar-item">
+                <a class="navbar-item">
                   List
                 </a>
 
@@ -58,7 +58,7 @@
                   Orders
                 </a>
 
-                <a class="navbar-item"  style="color: #3F978D">
+                <a class="navbar-item" style="color: #3F978D">
                   Freelancer Page
                 </a>
               </div>
@@ -100,60 +100,34 @@
         </nav>
         <section class="section is-hidden-mobile">
           <div class="container">
-            
-            
-            <div class="columns">
-              <div class="column">
-                
-              </div>
-              <div class="column">
-                <h3 class="title has-text-centered is-size-4">Services</h3>
-              </div>
-              <div class="column has-text-right">
-                <a href="{% url 'blog:create' %}">
-                  <button class="button is-rounded" style="background-color: #3F978D; font-family: 'Roboto', sans-serif;">Add Project</button>
-                </a>
-              </div>
-            </div>
-            <div class="mt-5 columns is-multiline is-8 is-variable">
-              {% for post in blog_posts %}
-              <div class="column is-4-tablet is-3-desktop">
 
-                <div class="card">
-
-                  <div class="card-image">
-                    <figure class="image is-4by3">
-                      <img src="{{post.image.url}}" alt="Post Image">
-                    </figure>
-                  </div>
-
-                  <div class="card-content">
-                    <div class="media">
-                      <div class="media-left">
-                        <figure class="image is-square is-48x48">
-                          <img class="is-rounded" src="{{post.author.image.url}}" alt="Placeholder image">
-                        </figure>
-                      </div>
-                      <div class="media-content">
-                        <a href="{% url 'blog:detail' post.slug %}" class="title is-4">{{post.title}}</a>
-                        <br>
-                        <a class="subtitle is-6">@{{post.author.username}}</a>
-                      </div>
-                    </div>
-
-                    <div class="content" id="content">
-                      {{post.body|safe}}
-                    </div>
-                  </div>
-
-                  <footer class="card-footer pl-1">
-                    <time datetime="2016-1-1" class="is-size-7">{{post.date_published}}</time>
-                  </footer>
-
-                </div>
-              </div>
+          <table class="table">
+            <thead>
+              <tr>
+                <th>No.</th>
+                <th>Title</th>
+                <th>Author</th>
+                <th>Category</th>
+                <th>Deadline</th>
+                <th>Budget</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for prj in project %}
+              <tr>
+                <th>{{ forloop.counter }}</th>
+                <td>{{ prj.blogpost.title }}</td>
+                <td>{{ prj.blogpost.author.username }}</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td>{{ prj.status }}</td>
+              </tr>
               {% endfor %}
-            </div>
+            </tbody>
+          </table>
+
           </div>
         </section>
     <script>

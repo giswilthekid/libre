@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
+from django.conf import settings
 
 def upload_location(instance, filename):
 	file_path = 'account/profilepict/{filename}'.format(filename=filename)
@@ -61,3 +62,11 @@ class Account (AbstractBaseUser):
 
 	def has_module_perms(self, app_label):
 		return True
+
+class ProjectList(models.Model):
+	status					= models.CharField(max_length=20, default='pending')
+	project					= models.ForeignKey(settings.AUTH_BLOG_MODEL, on_delete=models.CASCADE)
+	timestamp	 			= models.DateTimeField(auto_now_add=True, verbose_name="timestamp")
+
+	def __str__(self):
+		return self.status
