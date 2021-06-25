@@ -66,6 +66,7 @@ class Account (AbstractBaseUser):
 class ProjectList(models.Model):
 	status					= models.CharField(max_length=20, default='pending')
 	project					= models.ForeignKey(settings.AUTH_BLOG_MODEL, on_delete=models.CASCADE)
+	user 					= models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, null=True)
 	timestamp	 			= models.DateTimeField(auto_now_add=True, verbose_name="timestamp")
 
 	def __str__(self):

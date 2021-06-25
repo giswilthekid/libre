@@ -9,6 +9,7 @@ from account.views import(
     login_view,
     logout_view,
     project_view,
+    profile_view,
 )
 
 from blog.views import(
@@ -24,6 +25,7 @@ urlpatterns = [
     path('login/', login_view, name='login'),
     path('logout/', logout_view, name='logout'),
     path('register/', registration_view, name='register'),
+    path('profile/', profile_view, name='profile'),
 ]
 
 if settings.DEBUG:

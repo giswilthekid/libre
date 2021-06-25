@@ -42,7 +42,6 @@ def create_post_view(request):
 def detail_blog_view(request, slug):
 	
 	context = {}
-	user = request.user
 	account = Account.objects.filter(email=request.user.email).first()
 
 	blog_post = get_object_or_404(BlogPost, slug=slug)
@@ -54,19 +53,24 @@ def detail_blog_view(request, slug):
 def add_to_projectlist(request, slug):
 
 	project = get_object_or_404(BlogPost, slug=slug)
+	print(project)
 
-	order_project, created = ProjectList.objects.get_or_create(
+	order_project = ProjectList.objects.filter(project=project, user=request.user)
+	if order_project.exists():
+		print('Project Sudah Ada')
+	else:
+		order_project = ProjectList.objects.create(
 		project=project,
 		user=request.user,
 		status='pending'
-	)
+		)
+		print(order_project.project)
+		return redirect("projectlist")
 
-	order_project.save()
 
-	print(order_project)
-	print('alfianasu')
 
-	return redirect('projectlist')
+
+	return redirect('buyerpage')
 
 
 

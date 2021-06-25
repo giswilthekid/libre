@@ -1,0 +1,485 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Hello Bulma!</title>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.2/css/bulma.min.css">
+        <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
+        <link rel="preconnect" href="https://fonts.gstatic.com">
+        <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet"> 
+        <link rel="stylesheet" type="text/css" href="{% static 'css/main.css' %}">
+
+        {% if title %}
+            <title>Libre - {{ title }}</title>
+        {% else %}
+            <title>Libre</title>
+        {% endif %}
+    </head>
+
+    <body style="background-color: #f7f7f7;">
+        {% if request.user.is_authenticated %}
+        <nav class="navbar" role="navigation" aria-label="main navigation">
+          <div class="navbar-brand mb-1">
+            <a class="navbar-item" href="{% url 'buyerpage' %}">
+              <img src="{% static 'images/librelogo.png' %}" width="112" height="28">
+            </a>
+
+            <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
+              <span aria-hidden="true"></span>
+              <span aria-hidden="true"></span>
+              <span aria-hidden="true"></span>
+            </a>
+          </div>
+
+          <div id="navbarBasicExample" class="navbar-menu">
+            <div class="field has-addons mt-4 ml-2">
+              <div class="control has-icons-left" >
+                <input class="input is-small fas fa-search" type="text" placeholder="Try some services">
+                <span class="icon is-small is-left">
+                  <i class="fas fa-search"></i>
+                </span>
+              </div>
+              <div class="control">
+                <a class="button is-small has-text-black" style="background-color: #3F978D">
+                  Search
+                </a>
+              </div>
+            </div>
+
+            <div class="navbar-end">
+              <div class="navbar-start">
+                <a href="{% url 'projectlist' %}" class="navbar-item">
+                  List
+                </a>
+
+                <a class="navbar-item">
+                  Orders
+                </a>
+
+                <a class="navbar-item" style="color: #3F978D">
+                  Freelancer Page
+                </a>
+              </div>
+              <div class="navbar-item">
+                <div class="dropdown is-right">
+                  <div class="dropdown-trigger">
+                    <button class="button is-dark is-inverted" aria-haspopup="true" aria-controls="dropdown-menu">
+                      <span>
+                        <figure class="image is-square is-24x24">
+                          <img class="is-rounded" src="{{account.image.url}}">
+                        </figure>
+                      </span>
+                    </button>
+                  </div>
+                  <div class="dropdown-menu" id="dropdown-menu" role="menu">
+                    <div class="dropdown-content">
+                      <a href="{% url 'profile' %}" class="dropdown-item">
+                        Profile
+                      </a>
+                      <a class="dropdown-item">
+                        Other dropdown item
+                      </a>
+                      <a href="#" class="dropdown-item is-active">
+                        Active dropdown item
+                      </a>
+                      <a href="#" class="dropdown-item">
+                        Other dropdown item
+                      </a>
+                      <hr class="dropdown-divider">
+                      <a href="{% url 'logout' %}" class="dropdown-item">
+                        Log Out
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </nav>
+        <section class="section is-hidden-mobile">
+          <div class="container">
+
+            <div class="columns">
+
+              <div class="column is-one-third">
+
+                <div class="card">
+                  <div class="card-content">
+
+                    <div class="media">
+                      <div class="media-left" style="margin-left: 100px;">
+                        <figure class="image is-128x128">
+                          <img class="is-rounded" src="https://bulma.io/images/placeholders/96x96.png" alt="Placeholder image">
+                        </figure>
+                      </div>
+                    </div>
+
+                    <div class="content has-text-centered">
+                      <p style="font-size: 2em; margin: 0px;">Giswil</p>
+                      <p style="font-size: 1em; color: #b2b2b2; margin: -5px;">@giswilolisamping</p>                      
+                    </div>
+
+                    <div class="content has-text-centered" style="margin-top: 10px;">
+                      <p>
+                        skripsi budrekii ndang bar aku pingin ndang sugih tak tukuni kabehhh
+                      </p>
+                      <span class="icon-text">
+                        <span class="icon">
+                          <i class="fas fa-star" style="color: #ffc100;"></i>
+                        </span>
+                        <span>5/5</span>
+                        <p style="margin-left: 5px; color: #b2b2b2">(120 Reviews)</p>
+                      </span>
+                      <br>
+                      <button class="icon-text" style="font-size: 0.75em; background-color: Transparent; background-repeat:no-repeat; border: none; cursor:pointer; overflow: hidden; outline:none; margin-top: 5px;">
+                        <span class="icon">
+                          <i class="fas fa-flag"></i>
+                        </span>
+                        <span>Report</span>
+                      </button>
+                      <br>
+                      <button class="button is-success" style="margin-top: 5px; padding-left: 40px; padding-right: 40px;">Contact Me</button>
+                      <hr>
+                      <table class="table" style="font-size: 0.75em;">
+                        <tr>
+                          <td class="has-text-left">
+                            <span class="icon">
+                              <i class="fas fa-map-marker-alt"></i>
+                            </span>
+                            <span>From</span>
+                          </td>
+                          <td class="has-text-right">Indo</td>
+                        </tr>
+                        <tr>
+                          <td class="has-text-left">
+                            <span class="icon">
+                              <i class="fas fa-user"></i>
+                            </span>
+                            <span>Member Since</span>
+                          </td>
+                          <td class="has-text-right">January 2020</td>
+                        </tr>
+                        <tr>
+                          <td class="has-text-left">
+                            <span class="icon">
+                              <i class="fas fa-concierge-bell"></i>
+                            </span>
+                            <span>Services</span>
+                          </td>
+                          <td class="has-text-right">15</td>
+                        </tr>
+                        <tr>
+                          <td class="has-text-left">
+                            <span class="icon">
+                              <i class="fas fa-tasks"></i>
+                            </span>
+                            <span>Projects</span>
+                          </td>
+                          <td class="has-text-right">18</td>
+                        </tr>
+                      </table>
+                    </div>
+
+                  </div>
+                </div>
+
+                <div class="card" style="margin-top: 20px;">
+                  <div class="card-content">
+                    <div class="content">
+                      <h5>Description</h5>
+                      <p style="color: #62646a;">
+                        Lorem ipsum leo risus, porta ac consectetur ac, vestibulum at eros. Donec id elit non mi porta gravida at eget metus. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Cras mattis consectetur purus sit amet fermentum.
+                      </p>
+                    </div>
+                    <hr>
+                    <div class="content">
+                      <h5>Languages</h5>
+                      <span>Nyangkem</span>
+                      <span class="icon">
+                        <i class="fas fa-horizontal-rule" style="color: #62646a"></i>
+                      </span>
+                      <span style="color: #b2b2b2">Legend</span>
+                    </div>
+                    <hr>
+                    <div class="content">
+                      <h5>Skills</h5>
+                      <span>
+                        <button class="button is-rounded" style="margin-top: 10px; margin-right: 5px;">Bacot</button>
+                      </span>
+                      <span>
+                        <button class="button is-rounded" style="margin-top: 10px; margin-right: 5px;">Dota</button>
+                      </span>
+                      <span>
+                        <button class="button is-rounded" style="margin-top: 10px; margin-right: 5px;">Turu</button>
+                      </span>
+                      <span>
+                        <button class="button is-rounded" style="margin-top: 10px; margin-right: 5px;">Ga ngapa2in</button>
+                      </span>
+                    </div>
+                    <hr>
+                    <div class="content">
+                      <h5>Education</h5>
+                      <span>S.ex - After Cigarrates</span>
+                      <br>
+                      <span style="color: #b2b2b2">Institut Teknologi Nyusahi, Bandung, Graduated 2021</span>
+                    </div>
+                  </div>
+                </div>
+                
+                
+
+              </div>
+
+              <div class="column" >
+
+                <div class="column">
+
+                  <h3 style="font-size: 1.5em; font-weight: 750;">User Gigs</h3>
+
+                </div>
+              
+                <div class="column" style="display:grid; max-width: 800px; grid-gap: 40px; grid-template-columns: repeat(auto-fill, 225px);">
+
+                  <div class="card" style="width: 250px;">
+                    <div class="card-image">
+                      <figure class="image is-4by3">
+                        <img src="https://bulma.io/images/placeholders/1280x960.png" alt="Placeholder image">
+                      </figure>
+                    </div>
+                    <div class="card-content">
+                      <div class="media">
+                        <div class="media-left">
+                          <figure class="image is-48x48">
+                            <img src="https://bulma.io/images/placeholders/96x96.png" alt="Placeholder image">
+                          </figure>
+                        </div>
+                        <div class="media-content">
+                          <p class="title is-4">Giswil Ganteng</p>
+                          <p class="subtitle is-6">@giswilolisamping</p>
+                        </div>
+                      </div>
+
+                      <div class="content">
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                        Phasellus nec iaculis mauris. <a>@bulmaio</a>.
+                        <a href="#">#css</a> <a href="#">#responsive</a>
+                        <br>
+                        <time datetime="2016-1-1">11:09 PM - 1 Jan 2016</time>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="card" style="width: 250px;">
+                    <div class="card-image">
+                      <figure class="image is-4by3">
+                        <img src="https://bulma.io/images/placeholders/1280x960.png" alt="Placeholder image">
+                      </figure>
+                    </div>
+                    <div class="card-content">
+                      <div class="media">
+                        <div class="media-left">
+                          <figure class="image is-48x48">
+                            <img src="https://bulma.io/images/placeholders/96x96.png" alt="Placeholder image">
+                          </figure>
+                        </div>
+                        <div class="media-content">
+                          <p class="title is-4">Giswil Ganteng</p>
+                          <p class="subtitle is-6">@giswilolisamping</p>
+                        </div>
+                      </div>
+
+                      <div class="content">
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                        Phasellus nec iaculis mauris. <a>@bulmaio</a>.
+                        <a href="#">#css</a> <a href="#">#responsive</a>
+                        <br>
+                        <time datetime="2016-1-1">11:09 PM - 1 Jan 2016</time>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="card" style="width: 250px;">
+                    <div class="card-image">
+                      <figure class="image is-4by3">
+                        <img src="https://bulma.io/images/placeholders/1280x960.png" alt="Placeholder image">
+                      </figure>
+                    </div>
+                    <div class="card-content">
+                      <div class="media">
+                        <div class="media-left">
+                          <figure class="image is-48x48">
+                            <img src="https://bulma.io/images/placeholders/96x96.png" alt="Placeholder image">
+                          </figure>
+                        </div>
+                        <div class="media-content">
+                          <p class="title is-4">Giswil Ganteng</p>
+                          <p class="subtitle is-6">@giswilolisamping</p>
+                        </div>
+                      </div>
+
+                      <div class="content">
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                        Phasellus nec iaculis mauris. <a>@bulmaio</a>.
+                        <a href="#">#css</a> <a href="#">#responsive</a>
+                        <br>
+                        <time datetime="2016-1-1">11:09 PM - 1 Jan 2016</time>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="card" style="width: 250px;">
+                    <div class="card-image">
+                      <figure class="image is-4by3">
+                        <img src="https://bulma.io/images/placeholders/1280x960.png" alt="Placeholder image">
+                      </figure>
+                    </div>
+                    <div class="card-content">
+                      <div class="media">
+                        <div class="media-left">
+                          <figure class="image is-48x48">
+                            <img src="https://bulma.io/images/placeholders/96x96.png" alt="Placeholder image">
+                          </figure>
+                        </div>
+                        <div class="media-content">
+                          <p class="title is-4">Giswil Ganteng</p>
+                          <p class="subtitle is-6">@giswilolisamping</p>
+                        </div>
+                      </div>
+
+                      <div class="content">
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                        Phasellus nec iaculis mauris. <a>@bulmaio</a>.
+                        <a href="#">#css</a> <a href="#">#responsive</a>
+                        <br>
+                        <time datetime="2016-1-1">11:09 PM - 1 Jan 2016</time>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="card" style="width: 250px;">
+                    <div class="card-image">
+                      <figure class="image is-4by3">
+                        <img src="https://bulma.io/images/placeholders/1280x960.png" alt="Placeholder image">
+                      </figure>
+                    </div>
+                    <div class="card-content">
+                      <div class="media">
+                        <div class="media-left">
+                          <figure class="image is-48x48">
+                            <img src="https://bulma.io/images/placeholders/96x96.png" alt="Placeholder image">
+                          </figure>
+                        </div>
+                        <div class="media-content">
+                          <p class="title is-4">Giswil Ganteng</p>
+                          <p class="subtitle is-6">@giswilolisamping</p>
+                        </div>
+                      </div>
+
+                      <div class="content">
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                        Phasellus nec iaculis mauris. <a>@bulmaio</a>.
+                        <a href="#">#css</a> <a href="#">#responsive</a>
+                        <br>
+                        <time datetime="2016-1-1">11:09 PM - 1 Jan 2016</time>
+                      </div>
+                    </div>
+                  </div>
+
+                </div>
+
+                <div class="column" style="margin-top: 10px;">
+                  <span style="font-size: 1.5em; font-weight: 750; margin-right: 5px;">Reviews as Freelancer</span>
+                  <span class="icon" style="margin-right: 5px;">
+                    <i class="fas fa-star" style="color: #ffc100; font-size: 1.5em;"></i>
+                  </span>
+                  <span style="font-size: 1.5em; margin-right: 5px;">5</span>
+                  <span style="font-size: 1.5em; color: #b2b2b2">(120)</span>
+
+                  <hr style="border-top: 1px solid; border-color: #000000">
+
+                  <div class="columns">
+                    <div class="column is-1" style="margin-right: -10px;">
+                      <figure class="image is-16x24">
+                        <img src="https://bulma.io/images/placeholders/128x128.png" style="border-radius: 50%; width: 40px;">
+                      </figure>
+                    </div>
+                    <div class="column">
+                      <p style="font-size: 1em; font-weight: 750">
+                        Elpriska
+                      </p>
+                      <i class="fas fa-star" style="color: #ffc100; font-size: 1em;"></i>
+                      <span>5</span>
+                      <p style="margin-top: 5px;">
+                        Lorem ipsum leo risus, porta ac consectetur ac, vestibulum at eros. Donec id elit non mi porta gravida at eget metus. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Cras mattis consectetur purus sit amet fermentum.
+                      </p>
+                    </div>
+
+                  </div>
+
+                  <hr style="border-top: 1px solid; border-color: #b5b6ba"> 
+
+                  <div class="columns">
+                    <div class="column is-1" style="margin-right: -10px;">
+                      <figure class="image is-16x24">
+                        <img src="https://bulma.io/images/placeholders/128x128.png" style="border-radius: 50%; width: 40px;">
+                      </figure>
+                    </div>
+                    <div class="column">
+                      <p style="font-size: 1em; font-weight: 750">
+                        Elpriska
+                      </p>
+                      <i class="fas fa-star" style="color: #ffc100; font-size: 1em;"></i>
+                      <span>5</span>
+                      <p style="margin-top: 5px;">
+                        Lorem ipsum leo risus, porta ac consectetur ac, vestibulum at eros. Donec id elit non mi porta gravida at eget metus. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Cras mattis consectetur purus sit amet fermentum.
+                      </p>
+                    </div>
+
+                  </div>
+
+                  <hr style="border-top: 1px solid; border-color: #b5b6ba">
+
+                  <div class="columns">
+                    <div class="column is-1" style="margin-right: -10px;">
+                      <figure class="image is-16x24">
+                        <img src="https://bulma.io/images/placeholders/128x128.png" style="border-radius: 50%; width: 40px;">
+                      </figure>
+                    </div>
+                    <div class="column">
+                      <p style="font-size: 1em; font-weight: 750">
+                        Elpriska
+                      </p>
+                      <i class="fas fa-star" style="color: #ffc100; font-size: 1em;"></i>
+                      <span>5</span>
+                      <p style="margin-top: 5px;">
+                        Lorem ipsum leo risus, porta ac consectetur ac, vestibulum at eros. Donec id elit non mi porta gravida at eget metus. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Cras mattis consectetur purus sit amet fermentum.
+                      </p>
+                    </div>
+
+                  </div>
+
+                  <hr style="border-top: 1px solid; border-color: #b5b6ba">                 
+
+                </div>
+
+              </div>
+
+              
+
+            </div>
+
+          </div>
+        </section>
+    <script>
+      var dropdown = document.querySelector('.dropdown');
+
+      dropdown.addEventListener('click', function(event) {
+        event.stopPropagation();
+        dropdown.classList.toggle('is-active');
+      })
+    </script>
+    {% endif %}
+    </body>
+</html>

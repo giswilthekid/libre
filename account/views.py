@@ -60,8 +60,20 @@ def project_view(request):
 	context={}
 
 	user = request.user
-	project = ProjectList.objects.filter(id=request.user.id).all()
+	project = ProjectList.objects.filter(user=request.user).all()
+	account = Account.objects.filter(email=request.user.email).first()
 
 	context['project'] = project
+	context['account'] = account
 
 	return render(request, 'account/listproject.html', context)
+
+@login_required
+def profile_view(request):
+	
+	context={}
+
+	account = Account.objects.filter(email=request.user.email).first()
+	context['account'] = account
+
+	return render(request, 'account/profile.html', context)

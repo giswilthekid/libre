@@ -50,7 +50,7 @@
 
             <div class="navbar-end">
               <div class="navbar-start">
-                <a class="navbar-item">
+                <a href="{% url 'projectlist' %}" class="navbar-item">
                   List
                 </a>
 
@@ -75,8 +75,8 @@
                   </div>
                   <div class="dropdown-menu" id="dropdown-menu" role="menu">
                     <div class="dropdown-content">
-                      <a href="#" class="dropdown-item">
-                        Dropdown item
+                      <a href="{% url 'profile' %}" class="dropdown-item">
+                        Profile
                       </a>
                       <a class="dropdown-item">
                         Other dropdown item
@@ -117,8 +117,8 @@
               {% for prj in project %}
               <tr>
                 <th>{{ forloop.counter }}</th>
-                <td>{{ prj.blogpost.title }}</td>
-                <td>{{ prj.blogpost.author.username }}</td>
+                <td>{{ prj.project.title }}</td>
+                <td>{{ prj.project.author.username }}</td>
                 <td></td>
                 <td></td>
                 <td></td>
