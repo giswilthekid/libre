@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
 from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.decorators import login_required
@@ -6,6 +6,7 @@ from django.contrib.auth.decorators import login_required
 
 from account.forms import RegistrationForm, AccountAuthenticationForm
 from account.models import Account, ProjectList
+from blog.models import BlogPost
 
 def landing_view(request):
 	context = {}
@@ -60,11 +61,21 @@ def project_view(request):
 	context={}
 
 	user = request.user
-	project = ProjectList.objects.filter(user=request.user).all()
+	project_pending = ProjectList.objects.filter(user=request.user, status='pending').all()
+	project_ongoing = ProjectList.objects.filter(user=request.user, status='ongoing').all()
+	project_done = ProjectList.objects.filter(user=request.user, status='done').all()
+	project_cancelled = ProjectList.objects.filter(user=request.user, status='cancelled').all()
 	account = Account.objects.filter(email=request.user.email).first()
+	title = 'Project List'
 
-	context['project'] = project
+	context['project_pending'] = project_pending
+	context['project_ongoing'] = project_ongoing
+	context['project_done'] = project_done
+	context['project_cancelled'] = project_cancelled
 	context['account'] = account
+	context['title'] = title
+
+	
 
 	return render(request, 'account/listproject.html', context)
 
@@ -72,8 +83,12 @@ def project_view(request):
 def profile_view(request):
 	
 	context={}
+	user = request.user
 
+	project_list = BlogPost.objects.filter(author=request.user).all()
 	account = Account.objects.filter(email=request.user.email).first()
+
 	context['account'] = account
+	context['project_list'] = project_list
 
 	return render(request, 'account/profile.html', context)

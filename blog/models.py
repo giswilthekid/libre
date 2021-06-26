@@ -25,7 +25,6 @@ class BlogPost(models.Model):
 		return self.title
 
 	def add_to_projectlist(self):
-		print ('alfiancupu')
 		return reverse("blog:add-to-projectlist", kwargs={
 			'slug': self.slug
 		})

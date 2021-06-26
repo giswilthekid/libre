@@ -50,7 +50,7 @@
 
             <div class="navbar-end">
               <div class="navbar-start">
-                <a href="{% url 'projectlist' %}" class="navbar-item">
+                <a href="{% url 'projectlist' %}" class="navbar-item" id="prjlist">
                   List
                 </a>
 
@@ -110,15 +110,15 @@
 
                     <div class="media">
                       <div class="media-left" style="margin-left: 100px;">
-                        <figure class="image is-128x128">
-                          <img class="is-rounded" src="https://bulma.io/images/placeholders/96x96.png" alt="Placeholder image">
+                        <figure class="image is-square is-128x128">
+                          <img class="is-rounded" src="{{account.image.url}}" alt="Placeholder image">
                         </figure>
                       </div>
                     </div>
 
                     <div class="content has-text-centered">
-                      <p style="font-size: 2em; margin: 0px;">Giswil</p>
-                      <p style="font-size: 1em; color: #b2b2b2; margin: -5px;">@giswilolisamping</p>                      
+                      <p style="font-size: 2em; margin: 0px;">{{account.first_name}} {{account.last_name}}</p>
+                      <p style="font-size: 1em; color: #b2b2b2; margin: -5px;">@{{account.username}}</p>                      
                     </div>
 
                     <div class="content has-text-centered" style="margin-top: 10px;">
@@ -242,150 +242,40 @@
               
                 <div class="column" style="display:grid; max-width: 800px; grid-gap: 40px; grid-template-columns: repeat(auto-fill, 225px);">
 
-                  <div class="card" style="width: 250px;">
-                    <div class="card-image">
-                      <figure class="image is-4by3">
-                        <img src="https://bulma.io/images/placeholders/1280x960.png" alt="Placeholder image">
-                      </figure>
-                    </div>
-                    <div class="card-content">
-                      <div class="media">
-                        <div class="media-left">
-                          <figure class="image is-48x48">
-                            <img src="https://bulma.io/images/placeholders/96x96.png" alt="Placeholder image">
-                          </figure>
+                  {% for prjl in project_list %}
+                    <div class="card">
+
+                      <div class="card-image">
+                        <figure class="image is-4by3">
+                          <img src="{{prjl.image.url}}" alt="Post Image">
+                        </figure>
+                      </div>
+
+                      <div class="card-content">
+                        <div class="media">
+                          <div class="media-left">
+                            <figure class="image is-square is-48x48">
+                              <img class="is-rounded" src="{{prjl.author.image.url}}" alt="Placeholder image">
+                            </figure>
+                          </div>
+                          <div class="media-content">
+                            <a href="{% url 'blog:detail' prjl.slug %}" class="title is-4">{{prjl.title}}</a>
+                            <br>
+                            <a class="subtitle is-6">@{{prjl.author.username}}</a>
+                          </div>
                         </div>
-                        <div class="media-content">
-                          <p class="title is-4">Giswil Ganteng</p>
-                          <p class="subtitle is-6">@giswilolisamping</p>
+
+                        <div class="content" id="content">
+                          {{prjl.body|safe}}
                         </div>
                       </div>
 
-                      <div class="content">
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                        Phasellus nec iaculis mauris. <a>@bulmaio</a>.
-                        <a href="#">#css</a> <a href="#">#responsive</a>
-                        <br>
-                        <time datetime="2016-1-1">11:09 PM - 1 Jan 2016</time>
-                      </div>
-                    </div>
-                  </div>
+                      <footer class="card-footer pl-1">
+                        <time datetime="2016-1-1" class="is-size-7">{{prjl.date_published}}</time>
+                      </footer>
 
-                  <div class="card" style="width: 250px;">
-                    <div class="card-image">
-                      <figure class="image is-4by3">
-                        <img src="https://bulma.io/images/placeholders/1280x960.png" alt="Placeholder image">
-                      </figure>
                     </div>
-                    <div class="card-content">
-                      <div class="media">
-                        <div class="media-left">
-                          <figure class="image is-48x48">
-                            <img src="https://bulma.io/images/placeholders/96x96.png" alt="Placeholder image">
-                          </figure>
-                        </div>
-                        <div class="media-content">
-                          <p class="title is-4">Giswil Ganteng</p>
-                          <p class="subtitle is-6">@giswilolisamping</p>
-                        </div>
-                      </div>
-
-                      <div class="content">
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                        Phasellus nec iaculis mauris. <a>@bulmaio</a>.
-                        <a href="#">#css</a> <a href="#">#responsive</a>
-                        <br>
-                        <time datetime="2016-1-1">11:09 PM - 1 Jan 2016</time>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div class="card" style="width: 250px;">
-                    <div class="card-image">
-                      <figure class="image is-4by3">
-                        <img src="https://bulma.io/images/placeholders/1280x960.png" alt="Placeholder image">
-                      </figure>
-                    </div>
-                    <div class="card-content">
-                      <div class="media">
-                        <div class="media-left">
-                          <figure class="image is-48x48">
-                            <img src="https://bulma.io/images/placeholders/96x96.png" alt="Placeholder image">
-                          </figure>
-                        </div>
-                        <div class="media-content">
-                          <p class="title is-4">Giswil Ganteng</p>
-                          <p class="subtitle is-6">@giswilolisamping</p>
-                        </div>
-                      </div>
-
-                      <div class="content">
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                        Phasellus nec iaculis mauris. <a>@bulmaio</a>.
-                        <a href="#">#css</a> <a href="#">#responsive</a>
-                        <br>
-                        <time datetime="2016-1-1">11:09 PM - 1 Jan 2016</time>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div class="card" style="width: 250px;">
-                    <div class="card-image">
-                      <figure class="image is-4by3">
-                        <img src="https://bulma.io/images/placeholders/1280x960.png" alt="Placeholder image">
-                      </figure>
-                    </div>
-                    <div class="card-content">
-                      <div class="media">
-                        <div class="media-left">
-                          <figure class="image is-48x48">
-                            <img src="https://bulma.io/images/placeholders/96x96.png" alt="Placeholder image">
-                          </figure>
-                        </div>
-                        <div class="media-content">
-                          <p class="title is-4">Giswil Ganteng</p>
-                          <p class="subtitle is-6">@giswilolisamping</p>
-                        </div>
-                      </div>
-
-                      <div class="content">
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                        Phasellus nec iaculis mauris. <a>@bulmaio</a>.
-                        <a href="#">#css</a> <a href="#">#responsive</a>
-                        <br>
-                        <time datetime="2016-1-1">11:09 PM - 1 Jan 2016</time>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div class="card" style="width: 250px;">
-                    <div class="card-image">
-                      <figure class="image is-4by3">
-                        <img src="https://bulma.io/images/placeholders/1280x960.png" alt="Placeholder image">
-                      </figure>
-                    </div>
-                    <div class="card-content">
-                      <div class="media">
-                        <div class="media-left">
-                          <figure class="image is-48x48">
-                            <img src="https://bulma.io/images/placeholders/96x96.png" alt="Placeholder image">
-                          </figure>
-                        </div>
-                        <div class="media-content">
-                          <p class="title is-4">Giswil Ganteng</p>
-                          <p class="subtitle is-6">@giswilolisamping</p>
-                        </div>
-                      </div>
-
-                      <div class="content">
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                        Phasellus nec iaculis mauris. <a>@bulmaio</a>.
-                        <a href="#">#css</a> <a href="#">#responsive</a>
-                        <br>
-                        <time datetime="2016-1-1">11:09 PM - 1 Jan 2016</time>
-                      </div>
-                    </div>
-                  </div>
+                  {% endfor %}
 
                 </div>
 

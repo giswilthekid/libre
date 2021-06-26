@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
 from django.conf import settings
+from django.utils.text import slugify
 
 def upload_location(instance, filename):
 	file_path = 'account/profilepict/{filename}'.format(filename=filename)
