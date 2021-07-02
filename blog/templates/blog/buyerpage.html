@@ -16,155 +16,225 @@
         {% else %}
             <title>Libre</title>
         {% endif %}
+
+
     </head>
 
     <body>
-        {% if request.user.is_authenticated %}
-        <nav class="navbar" role="navigation" aria-label="main navigation">
-          <div class="navbar-brand mb-1">
-            <a class="navbar-item" href="{% url 'buyerpage' %}">
-              <img src="{% static 'images/librelogo.png' %}" width="112" height="28">
-            </a>
+      {% if request.user.is_authenticated %}
+      
+      
+        <nav class="navbar" role="navigation" aria-label="main navigation" id="buyernavbar">
+          <div class="navbar-start" id="buyernavbarstart">
+            <div class="navbar-brand mb-1">
+              <a class="navbar-item" href="{% url 'buyerpage' %}">
+                <img src="{% static 'images/librelogo.png' %}" width="112" height="28">
+              </a>
 
-            <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
-              <span aria-hidden="true"></span>
-              <span aria-hidden="true"></span>
-              <span aria-hidden="true"></span>
-            </a>
-          </div>
-
-          <div id="navbarBasicExample" class="navbar-menu">
-            <div class="field has-addons mt-4 ml-2">
-              <div class="control has-icons-left" >
-                <input class="input is-small fas fa-search" type="text" placeholder="Try some services">
-                <span class="icon is-small is-left">
-                  <i class="fas fa-search"></i>
-                </span>
-              </div>
-              <div class="control">
-                <a class="button is-small has-text-black" style="background-color: #3F978D">
-                  Search
-                </a>
-              </div>
+              <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
+                <span aria-hidden="true"></span>
+                <span aria-hidden="true"></span>
+                <span aria-hidden="true"></span>
+              </a>
             </div>
-
-            <div class="navbar-end">
-              <div class="navbar-start">
-                <a href="{% url 'projectlist' %}" class="navbar-item">
-                  List
-                </a>
-
-                <a class="navbar-item">
-                  Orders
-                </a>
-
-                <a class="navbar-item"  style="color: #3F978D">
-                  Freelancer Page
-                </a>
-              </div>
-              <div class="navbar-item">
-                <div class="dropdown is-right">
-                  <div class="dropdown-trigger">
-                    <button class="button is-dark is-inverted" aria-haspopup="true" aria-controls="dropdown-menu">
-                      <span>
-                        <figure class="image is-square is-24x24">
-                          <img class="is-rounded" src="{{account.image.url}}">
-                        </figure>
-                      </span>
-                    </button>
-                  </div>
-                  <div class="dropdown-menu" id="dropdown-menu" role="menu">
-                    <div class="dropdown-content">
-                      <a href="{% url 'profile' %}" class="dropdown-item">
-                        Profile
-                      </a>
-                      <a class="dropdown-item">
-                        Other dropdown item
-                      </a>
-                      <a href="#" class="dropdown-item is-active">
-                        Active dropdown item
-                      </a>
-                      <a href="#" class="dropdown-item">
-                        Other dropdown item
-                      </a>
-                      <hr class="dropdown-divider">
-                      <a href="{% url 'logout' %}" class="dropdown-item">
-                        Log Out
-                      </a>
-                    </div>
+            <div class="field has-addons" id="searchbar">
+              <p class="control">
+                <input class="input" type="text" placeholder="Find a post">
+              </p>
+              <p class="control">
+                <button class="button">
+                  Search
+                </button>
+              </p>
+            </div>
+          </div>
+          
+          <div class="navbar-end" id="buyernavbarend">
+              <a style="font-weight: bold;" href="{% url 'projectlist' %}" class="navbar-item">
+                List
+              </a>
+              <a style="font-weight: bold;" class="navbar-item">
+                Orders
+              </a>
+              <a class="navbar-item"  style="color: #3F978D; font-weight: bold;">
+                Freelancer Page
+              </a>
+              <div class="dropdown is-right" id="buyerpagedropdown">
+                <div class="dropdown-trigger">
+                  <span>
+                    <figure class="image" >
+                      <img style="width: 35px; height: 35px; border-radius: 50%;" src="{{account.image.url}}">
+                    </figure>
+                  </span>
+                </div>
+                <div class="dropdown-menu" id="dropdown-menu" role="menu">
+                  <div class="dropdown-content">
+                    <a href="{% url 'profile' account.slug %}" class="dropdown-item">
+                      Profile
+                    </a>
+                    <hr class="dropdown-divider">
+                    <a href="{% url 'logout' %}" class="dropdown-item">
+                      Log Out
+                    </a>
                   </div>
                 </div>
               </div>
             </div>
-          </div>
-        </nav>
-        <section class="section is-hidden-mobile">
-          <div class="container">
-            
-            
-            <div class="columns">
-              <div class="column">
-                
-              </div>
-              <div class="column">
-                <h3 class="title has-text-centered is-size-4">Services</h3>
-              </div>
-              <div class="column has-text-right">
-                <a href="{% url 'blog:create' %}">
-                  <button class="button is-rounded" style="background-color: #3F978D; font-family: 'Roboto', sans-serif;">Add Project</button>
-                </a>
-              </div>
-            </div>
-            <div class="mt-5 columns">
-              
-              <div class="column" style="display:grid; max-width: 1250px; grid-column-gap: 50px; grid-row-gap: 40px; grid-template-columns: repeat(auto-fill, 250px);">
-                {% for post in blog_posts %}
-                <div class="card">
 
-                  <div class="card-image">
-                    <figure class="image is-4by3">
-                      <img src="{{post.image.url}}" alt="Post Image">
+            <div class="clearnavbar"></div>
+        </nav>
+
+      <div class="containerr" id="buypagecontainer">
+        <div class="main">
+          <!-- <section class="section is-hidden-mobile">
+            <div class="container"> -->
+          <div class="main-header">
+            <div class="box" id="box-postproject" style="display: block; padding: 45px;">
+              <p style="font-size: 20px; text-align: center;">Woii {{account.first_name}},</p>
+              <p style="text-align: center;">Get offers from freelancers for your project</p>
+              <a href="{% url 'blog:create' %}">
+                <button class="button is-outlined" style="margin:15px auto; border-color: #3F978D; color: #3F978D; background-color: #fafafa;">Post a Project</button>
+              </a>
+            </div>
+            <div class="box" id="box-poster" style="background-image: url('{% static 'images/posterimage.jpg' %}'); background-size: cover;">
+              <div class="textt" style="width: 40%; height: 100%; float: left;">
+                <p style="font-size: 25px; margin-top: 17%; color: white;">
+                  {{account.first_name}}, Here's what you probably need for your project
+                </p>
+              </div>
+              <div class="category" style="width: 60%; height: 100%; float: right; overflow: hidden;">
+                <div class="slideshow-container">
+
+                  <!-- Full-width images with number and caption text -->
+                  <div class="mySlides fade">
+                    <div class="box" style="width: 200px; height: 100px; margin: 10px auto; background-color: transparent;" id="box-category">
+                      <figure class="image">
+                        <img style="width: 55px; height: 55px; margin-top: 5px;" src="{% static 'images/web-design.png' %}">
+                        <p style="font-size: 15px; position: relative;left: 40px; bottom: 40px; font-weight: bold; color: white;">Website Design</p>
+                      </figure>
+                    </div>
+                  </div>
+
+                  <div class="mySlides fade">
+                    <div class="box" style="width: 200px; height: 100px; margin: 10px auto; background-color: transparent;" id="box-category">
+                      <figure class="image">
+                        <img style="width: 55px; height: 55px; margin-top: 5px;" src="{% static 'images/ai-file.png' %}">
+                        <p style="font-size: 15px; position: relative;left: 40px; bottom: 40px; font-weight: bold; color: white;">Machine Learning</p>
+                      </figure>
+                    </div>
+                  </div>
+
+                  <div class="mySlides fade">
+                    <div class="box" style="width: 200px; height: 100px; margin: 10px auto; background-color: transparent;" id="box-category">
+                      <figure class="image">
+                        <img style="width: 55px; height: 55px; margin-top: 5px;" src="{% static 'images/grid-lines.png' %}">
+                        <p style="font-size: 15px; position: relative;left: 40px; bottom: 40px; font-weight: bold; color: white;">Architecture</p>
+                      </figure>
+                    </div>
+                  </div>
+
+                  <!-- Next and previous buttons -->
+                  <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
+                  <a class="next" onclick="plusSlides(1)">&#10095;</a>
+                </div>
+              </div>
+              <div class="clearboxposter" style="clear: both;"></div>
+            </div>
+          </div>
+          <div class="body-title" style="margin-bottom: 10px;">
+              <p style="font-size: 30px;">Explore our Services</p>
+          </div>
+
+          <div class="main-body">
+            
+          {% for post in blog_posts %}
+            <div class="card" id="postcard">
+              <div class="card-image">
+                <figure class="image is-4by3">
+                  <img src="{{post.image.url}}" alt="Placeholder image">
+                </figure>
+              </div>
+              <div class="card-content">
+                <div class="media">
+                  <div class="media-left">
+                    <figure class="image is-square is-48x48">
+                      <img class="is-rounded" src="{{post.author.image.url}}" alt="Placeholder image">
                     </figure>
                   </div>
-
-                  <div class="card-content">
-                    <div class="media">
-                      <div class="media-left">
-                        <figure class="image is-square is-48x48">
-                          <img class="is-rounded" src="{{post.author.image.url}}" alt="Placeholder image">
-                        </figure>
-                      </div>
-                      <div class="media-content">
-                        <a href="{% url 'blog:detail' post.slug %}" class="title is-4">{{post.title}}</a>
-                        <br>
-                        <a class="subtitle is-6">@{{post.author.username}}</a>
-                      </div>
-                    </div>
-
-                    <div class="content" id="content">
-                      {{post.body|safe}}
-                    </div>
+                  <div class="media-content">
+                    <a href="{% url 'blog:detail' post.slug %}">
+                      <p class="title is-4" id="post-title">{{post.title}}</p>
+                    </a>
+                    <a href="{% url 'profile' post.author.slug %}">
+                      <p class="subtitle is-6">@{{post.author.username}}</p>
+                    </a>
                   </div>
-
-                  <footer class="card-footer pl-1">
-                    <time datetime="2016-1-1" class="is-size-7">{{post.date_published}}</time>
-                  </footer>
-
                 </div>
-                {% endfor %}
-              </div>
-              
-            </div>
-          </div>
-        </section>
-    <script>
-      var dropdown = document.querySelector('.dropdown');
 
-      dropdown.addEventListener('click', function(event) {
-        event.stopPropagation();
-        dropdown.classList.toggle('is-active');
-      })
-    </script>
+                <div class="content" id="post-body">
+                  {{post.body|safe}}
+                </div>
+
+                <footer class="card-footer"> 
+                  <time datetime="2016-1-1">{{post.date_published}}</time>
+                </footer>
+              </div>
+            </div>
+          {% endfor %}
+            <div class="clear"></div>
+          </div>     
+        </div>
+
+        <div class="buyerpage-footer" style="height: 80px; border-top: 2px solid #e4e5e7">
+          <div class="content-left">
+            <img style="width: 80px; height: 80px; display: inline-block; margin-bottom: -6px;" src="{% static 'images/libre.png' %}">
+            <p style="font-size: 12px; color: #b5b6ba; display: inline-block; position: relative; bottom: 30px;">&copy; Libre Semarang Pride Company Ltd. 2021</p>
+          </div>
+          
+        </div>
+
+      </div>
+      
+        
+      <script>
+
+        var dropdown = document.querySelector('.dropdown');
+
+        dropdown.addEventListener('click', function(event) {
+          event.stopPropagation();
+          dropdown.classList.toggle('is-active');
+        })
+
+        var slideIndex = 1;
+        showSlides(slideIndex);
+
+        // Next/previous controls
+        function plusSlides(n) {
+          showSlides(slideIndex += n);
+        }
+
+        // Thumbnail image controls
+        function currentSlide(n) {
+          showSlides(slideIndex = n);
+        }
+
+        function showSlides(n) {
+          var i;
+          var slides = document.getElementsByClassName("mySlides");
+          var dots = document.getElementsByClassName("dot");
+          if (n > slides.length) {slideIndex = 1}
+          if (n < 1) {slideIndex = slides.length}
+          for (i = 0; i < slides.length; i++) {
+              slides[i].style.display = "none";
+          }
+          for (i = 0; i < dots.length; i++) {
+              dots[i].className = dots[i].className.replace(" active", "");
+          }
+          slides[slideIndex-1].style.display = "block";
+          dots[slideIndex-1].className += " active";
+        }
+
+      </script>
     {% endif %}
     </body>
 </html>

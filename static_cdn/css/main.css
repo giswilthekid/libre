@@ -109,3 +109,57 @@ h2:after {
 	left: 47%;
 }
 
+#box-postproject {
+	display: flex;
+	margin-right: 16px;
+	width: 260px;
+	height: 240px;
+}
+
+#box-poster{
+	display: flex;
+	height: 240px;
+	width: 100%; 
+}
+
+.main-header{
+	display: flex;
+}
+
+.container{
+	margin-top: 40px;
+	margin-bottom: 40px;
+}
+
+.main-body{
+	display: flex;
+}
+
+.card{
+	width: 270px;
+	height: 520px;
+	margin: 10px;
+}
+
+#post-body{
+	height: 170px;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	display: -webkit-box;
+	-webkit-line-clamp: 7; /* number of lines to show */
+	-webkit-box-orient: vertical;
+}
+
+#post-title{
+	overflow: hidden;
+	text-overflow: ellipsis;
+	display: -webkit-box;
+	-webkit-line-clamp: 1; /* number of lines to show */
+	-webkit-box-orient: vertical;
+	font-size: 1.25em;
+}
+
+.card-footer{
+	font-size: 1em;
+	color: #b2b2b2;
+}

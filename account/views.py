@@ -64,29 +64,27 @@ def project_view(request):
 	project_pending = ProjectList.objects.filter(user=request.user, status='pending').all()
 	project_ongoing = ProjectList.objects.filter(user=request.user, status='ongoing').all()
 	project_done = ProjectList.objects.filter(user=request.user, status='done').all()
-	project_cancelled = ProjectList.objects.filter(user=request.user, status='cancelled').all()
+	project_declined = ProjectList.objects.filter(user=request.user, status='cancelled').all()
 	account = Account.objects.filter(email=request.user.email).first()
-	title = 'Project List'
 
 	context['project_pending'] = project_pending
 	context['project_ongoing'] = project_ongoing
 	context['project_done'] = project_done
-	context['project_cancelled'] = project_cancelled
+	context['project_declined'] = project_declined
 	context['account'] = account
-	context['title'] = title
-
 	
 
 	return render(request, 'account/listproject.html', context)
 
 @login_required
-def profile_view(request):
+def profile_view(request, slug):
 	
 	context={}
 	user = request.user
 
-	project_list = BlogPost.objects.filter(author=request.user).all()
-	account = Account.objects.filter(email=request.user.email).first()
+	
+	account = Account.objects.filter(slug=slug).first()
+	project_list = BlogPost.objects.filter(author=account.id).all()
 
 	context['account'] = account
 	context['project_list'] = project_list

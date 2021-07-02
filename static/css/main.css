@@ -1,8 +1,6 @@
 html {
   height: 100%;
   margin: auto;
-  background-color: #ededed;
-
 }
 
 *{
@@ -106,4 +104,170 @@ h2:after {
 	left: 47%;
 }
 
+
+
+/*BUYERPAGE*/
+
+#buyernavbar {
+	position: fixed;
+	border-bottom: 1.5px solid #e4e5e7;
+	top: 0;
+	left: 0;
+	right: 0;	
+	height: 60px;
+}
+
+#buyerpagenavbarstart{
+	float: left;
+}
+
+#buyerpagenavbarend{
+	float: right;
+}
+
+#searchbar{
+	margin-top: 8px;
+	margin-bottom: 0;
+	margin-left: 10px;
+}
+
+#buyerpagedropdown{
+	margin-right: 10px; 
+	margin-left: 10px;
+	padding-top: 12px;
+}
+
+.clearnavbar{
+	clear: both;
+}
+
+#buypagecontainer{
+	margin: auto;
+	width: 1300px;
+}
+
+.main-header{
+	display: flex;
+	padding-top: 100px;
+	padding-bottom: 20px;
+}
+
+.main-body{
+	padding-top: 20px;
+	padding-bottom: 40px;
+	width: 100%;
+	margin:auto;
+}
+
+
+#box-postproject {
+	margin-right: 16px;
+	margin-bottom: 0;
+	width: 260px;
+	height: 240px;
+	background-color: #fafafa;
+}
+
+#box-poster{
+	height: 240px;
+	width: 100%; 
+}
+
+#postcard{
+	width: 260px;
+	height: 520px;
+	display: inline-block;
+	margin-left: 48px;
+	margin-bottom: 15px;
+}
+
+.clear{
+	clear: left;
+}
+
+#post-body{
+	height: 170px;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	display: -webkit-box;
+	-webkit-line-clamp: 7; /* number of lines to show */
+	-webkit-box-orient: vertical;
+}
+
+#post-title{
+	overflow: hidden;
+	text-overflow: ellipsis;
+	display: -webkit-box;
+	-webkit-line-clamp: 1; /* number of lines to show */
+	-webkit-box-orient: vertical;
+	font-size: 1.25em;
+}
+
+.card-footer{
+	font-size: 1em;
+	color: #b2b2b2;
+}
+
+
+.slideshow-container {
+  max-width: 90%;
+  position: relative;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 50px;
+}
+
+/* Hide the images by default */
+.mySlides {
+  display: none;
+}
+
+/* Next & previous buttons */
+.prev, .next {
+  cursor: pointer;
+  position: absolute;
+  top: 44%;
+  width: auto;
+  margin-top: -22px;
+  padding: 16px;
+  color: white;
+  font-weight: bold;
+  font-size: 18px;
+  transition: 0.6s ease;
+  border-radius: 0 3px 3px 0;
+  user-select: none;
+}
+
+/* Position the "next button" to the right */
+.next {
+  right: 60px;
+  border-radius: 3px 0 0 3px;
+}
+
+.prev{
+	left:60px;
+}
+
+/* On hover, add a black background color with a little bit see-through */
+.prev:hover, .next:hover {
+  background-color: rgba(0,0,0,0.8);
+}
+
+/* Fading animation */
+.fade {
+  -webkit-animation-name: fade;
+  -webkit-animation-duration: 1.5s;
+  animation-name: fade;
+  animation-duration: 1.5s;
+}
+
+@-webkit-keyframes fade {
+  from {opacity: .4}
+  to {opacity: 1}
+}
+
+@keyframes fade {
+  from {opacity: .4}
+  to {opacity: 1}
+}
 

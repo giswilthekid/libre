@@ -2,6 +2,10 @@ from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
 from django.conf import settings
 from django.utils.text import slugify
+from django.db.models.signals import pre_save
+from django.db.models.signals import post_delete
+from django.dispatch import receiver
+from django.shortcuts import reverse
 
 def upload_location(instance, filename):
 	file_path = 'account/profilepict/{filename}'.format(filename=filename)
@@ -49,6 +53,7 @@ class Account (AbstractBaseUser):
 	image					= models.ImageField(upload_to=upload_location, null=True, blank=True)
 	first_name				= models.CharField(max_length=50)
 	last_name				= models.CharField(max_length=50)
+	slug 					= models.SlugField()
 
 	USERNAME_FIELD = 'email'
 	REQUIRED_FIELDS = ['username']
@@ -63,6 +68,18 @@ class Account (AbstractBaseUser):
 
 	def has_module_perms(self, app_label):
 		return True
+
+	def get_absolute_url(self):
+		return reverse("profile", kwargs={
+			'slug': self.slug
+	})
+
+@receiver(post_delete, sender=Account)
+def pre_save_account_receiver(sender, instance, *args, **kwargs):
+	if not instance.slug:
+		instance.slug = slugify(instance.username)
+
+pre_save.connect(pre_save_account_receiver, sender=Account)
 
 class ProjectList(models.Model):
 	status					= models.CharField(max_length=20, default='pending')

@@ -67,15 +67,15 @@
                   <div class="dropdown-trigger">
                     <button class="button is-dark is-inverted" aria-haspopup="true" aria-controls="dropdown-menu">
                       <span>
-                        <figure class="image is-24x24">
-                          <img class="is-rounded" src="{% static 'images/danilla.jpg' %}">
+                        <figure class="image is-square is-24x24">
+                          <img class="is-rounded" src="{{ account.image.url }}">
                         </figure>
                       </span>
                     </button>
                   </div>
                   <div class="dropdown-menu" id="dropdown-menu" role="menu">
                     <div class="dropdown-content">
-                      <a href="{% url 'profile' %}" class="dropdown-item">
+                      <a href="{% url 'profile' account.slug %}" class="dropdown-item">
                         Profile
                       </a>
                       <a class="dropdown-item">
@@ -104,7 +104,7 @@
               <div class="field">
                 <label for="id_title">Title</label>
                 <div class="control">
-                  <input class="input" type="text" placeholder="Ttitle" name="title" id="id_title" required autofocus>
+                  <input class="input" type="text" placeholder="Title" name="title" id="id_title" required autofocus>
                 </div>
               </div>
 
@@ -173,6 +173,13 @@
         })
       }
     })
+
+    var dropdown = document.querySelector('.dropdown');
+
+      dropdown.addEventListener('click', function(event) {
+        event.stopPropagation();
+        dropdown.classList.toggle('is-active');
+      })
 
     </script>
     </body>

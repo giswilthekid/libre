@@ -71,7 +71,7 @@
                   </div>
                   <div class="dropdown-menu" id="dropdown-menu" role="menu">
                     <div class="dropdown-content">
-                      <a href="{% url 'profile' %}" class="dropdown-item">
+                      <a href="{% url 'profile' account.slug %}" class="dropdown-item">
                         Profile
                       </a>
                       <a class="dropdown-item">
@@ -119,10 +119,10 @@
                   <span>Done</span>
                 </a>
               </li>
-              <li data-target="prj-cancelled">
+              <li data-target="prj-declined">
                 <a style="color: #3F978D">
                   <span class="icon is-small"><i class="far fa-file-alt" aria-hidden="true"></i></span>
-                  <span>Cancelled</span>
+                  <span>Decline</span>
                 </a>
               </li>
             </ul>
@@ -151,7 +151,11 @@
                       {{ prj.project.title }}
                     </a>
                   </td>
-                  <td>{{ prj.project.author.username }}</td>
+                  <td>
+                    <a href="{% url 'profile' prj.project.author.slug %}">
+                      {{ prj.project.author.username }}
+                    </a>
+                  </td>
                   <td></td>
                   <td></td>
                   <td></td>
@@ -221,7 +225,7 @@
               </tbody>
             </table>
 
-            <table style="width: 1155px;" class="table is-hidden" id="prj-cancelled">
+            <table style="width: 1155px;" class="table is-hidden" id="prj-declined">
               <thead>
                 <tr>
                   <th>No.</th>
@@ -234,7 +238,7 @@
                 </tr>
               </thead>
               <tbody>
-                {% for prj in project_cancelled %}
+                {% for prj in project_declined %}
                 <tr>
                   <th>{{ forloop.counter }}</th>
                   <td>{{ prj.project.title }}</td>
@@ -243,7 +247,7 @@
                   <td></td>
                   <td></td>
                   <td>
-                    <span class="tag is-danger is-light">Cancelled</span>
+                    <span class="tag is-danger is-light">Declined</span>
                   </td>
                 </tr>
                 {% endfor %}
