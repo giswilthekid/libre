@@ -20,86 +20,68 @@
 
     <body style="background-color: #f7f7f7;">
         {% if request.user.is_authenticated %}
-        <nav class="navbar" role="navigation" aria-label="main navigation">
-          <div class="navbar-brand mb-1">
-            <a class="navbar-item" href="{% url 'buyerpage' %}">
-              <img src="{% static 'images/librelogo.png' %}" width="112" height="28">
-            </a>
+        <nav class="navbar" role="navigation" aria-label="main navigation" id="buyernavbar">
+          <div class="navbar-start" id="buyernavbarstart">
+            <div class="navbar-brand mb-1">
+              <a class="navbar-item" href="{% url 'buyerpage' %}">
+                <img src="{% static 'images/librelogo.png' %}" width="112" height="28">
+              </a>
 
-            <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
-              <span aria-hidden="true"></span>
-              <span aria-hidden="true"></span>
-              <span aria-hidden="true"></span>
-            </a>
-          </div>
-
-          <div id="navbarBasicExample" class="navbar-menu">
-            <div class="field has-addons mt-4 ml-2">
-              <div class="control has-icons-left" >
-                <input class="input is-small fas fa-search" type="text" placeholder="Try some services">
-                <span class="icon is-small is-left">
-                  <i class="fas fa-search"></i>
-                </span>
-              </div>
-              <div class="control">
-                <a class="button is-small has-text-black" style="background-color: #3F978D">
-                  Search
-                </a>
-              </div>
+              <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
+                <span aria-hidden="true"></span>
+                <span aria-hidden="true"></span>
+                <span aria-hidden="true"></span>
+              </a>
             </div>
-
-            <div class="navbar-end">
-              <div class="navbar-start">
-                <a href="{% url 'projectlist' %}" class="navbar-item" id="prjlist">
-                  List
-                </a>
-
-                <a class="navbar-item">
-                  Orders
-                </a>
-
-                <a class="navbar-item" style="color: #3F978D">
-                  Freelancer Page
-                </a>
-              </div>
-              <div class="navbar-item">
-                <div class="dropdown is-right">
-                  <div class="dropdown-trigger">
-                    <button class="button is-dark is-inverted" aria-haspopup="true" aria-controls="dropdown-menu">
-                      <span>
-                        <figure class="image is-square is-24x24">
-                          <img class="is-rounded" src="{{account.image.url}}">
-                        </figure>
-                      </span>
-                    </button>
-                  </div>
-                  <div class="dropdown-menu" id="dropdown-menu" role="menu">
-                    <div class="dropdown-content">
-                      <a href="{% url 'profile' account.slug %}" class="dropdown-item">
-                        Profile
-                      </a>
-                      <a class="dropdown-item">
-                        Other dropdown item
-                      </a>
-                      <a href="#" class="dropdown-item is-active">
-                        Active dropdown item
-                      </a>
-                      <a href="#" class="dropdown-item">
-                        Other dropdown item
-                      </a>
-                      <hr class="dropdown-divider">
-                      <a href="{% url 'logout' %}" class="dropdown-item">
-                        Log Out
-                      </a>
-                    </div>
+            <div class="field has-addons" id="searchbar">
+              <p class="control">
+                <input class="input" type="text" placeholder="Find a post">
+              </p>
+              <p class="control">
+                <button class="button">
+                  Search
+                </button>
+              </p>
+            </div>
+          </div>
+          
+          <div class="navbar-end" id="buyernavbarend">
+              <a style="font-weight: bold;" href="{% url 'projectlist' %}" class="navbar-item">
+                List
+              </a>
+              <a style="font-weight: bold;" class="navbar-item">
+                Orders
+              </a>
+              <a class="navbar-item"  style="color: #3F978D; font-weight: bold;">
+                Freelancer Page
+              </a>
+              <div class="dropdown is-right" id="buyerpagedropdown">
+                <div class="dropdown-trigger">
+                  <span>
+                    <figure class="image" >
+                      <img style="width: 35px; height: 35px; border-radius: 50%;" src="{{account.image.url}}">
+                    </figure>
+                  </span>
+                </div>
+                <div class="dropdown-menu" id="dropdown-menu" role="menu">
+                  <div class="dropdown-content">
+                    <a href="{% url 'profile' account.slug %}" class="dropdown-item">
+                      Profile
+                    </a>
+                    <hr class="dropdown-divider">
+                    <a href="{% url 'logout' %}" class="dropdown-item">
+                      Log Out
+                    </a>
                   </div>
                 </div>
               </div>
             </div>
-          </div>
+
+            <div class="clearnavbar"></div>
         </nav>
+
         <section class="section is-hidden-mobile">
-          <div class="container">
+          <div class="container" style="padding-top: 60px;">
 
             <div class="columns">
 
@@ -107,7 +89,10 @@
 
                 <div class="card">
                   <div class="card-content">
-
+                    <a href="" style="float: right;">
+                      <button class="button is-outlined is-rounded  is-warning">Edit</button>
+                    </a>
+                    <div class="clear" style="clear: right;"></div>
                     <div class="media">
                       <div class="media-left" style="margin-left: 100px;">
                         <figure class="image is-square is-128x128">
@@ -243,38 +228,25 @@
                 <div class="column" style="display:grid; max-width: 800px; grid-gap: 40px; grid-template-columns: repeat(auto-fill, 225px);">
 
                   {% for prjl in project_list %}
-                    <div class="card">
-
-                      <div class="card-image">
+                   <div class="card" id="profile-postcard">
+                    <div class="card-image">
+                      <a href="{% url 'blog:detail' prjl.slug %}">
                         <figure class="image is-4by3">
-                          <img src="{{prjl.image.url}}" alt="Post Image">
+                          <img src="{{prjl.image.url}}" alt="Placeholder image">
                         </figure>
-                      </div>
-
-                      <div class="card-content">
-                        <div class="media">
-                          <div class="media-left">
-                            <figure class="image is-square is-48x48">
-                              <img class="is-rounded" src="{{prjl.author.image.url}}" alt="Placeholder image">
-                            </figure>
-                          </div>
-                          <div class="media-content">
-                            <a href="{% url 'blog:detail' prjl.slug %}" class="title is-4">{{prjl.title}}</a>
-                            <br>
-                            <a class="subtitle is-6">@{{prjl.author.username}}</a>
-                          </div>
-                        </div>
-
-                        <div class="content" id="content">
+                      </a> 
+                    </div>
+                    <div class="card-content">
+                      <a href="{% url 'blog:detail' prjl.slug %}" style="color: black; margin-bottom: 5px;">
+                        <div class="content" id="post-body-profile">
                           {{prjl.body|safe}}
                         </div>
-                      </div>
-
-                      <footer class="card-footer pl-1">
-                        <time datetime="2016-1-1" class="is-size-7">{{prjl.date_published}}</time>
+                      </a>
+                      <footer class="card-footer"> 
+                        <time datetime="2016-1-1">{{prjl.date_published}}</time>
                       </footer>
-
                     </div>
+                  </div>
                   {% endfor %}
 
                 </div>

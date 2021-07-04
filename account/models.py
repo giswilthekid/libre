@@ -84,8 +84,35 @@ pre_save.connect(pre_save_account_receiver, sender=Account)
 class ProjectList(models.Model):
 	status					= models.CharField(max_length=20, default='pending')
 	project					= models.ForeignKey(settings.AUTH_BLOG_MODEL, on_delete=models.CASCADE)
-	user 					= models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, null=True)
+	user 					= models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
 	timestamp	 			= models.DateTimeField(auto_now_add=True, verbose_name="timestamp")
 
 	def __str__(self):
 		return self.status
+
+class Language(models.Model):
+    name 					= models.CharField(max_length=100, null=True, blank=True)
+    level 					= models.CharField(max_length=100, null=True, blank=True)
+    author 					= models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.name
+
+class Skill(models.Model):
+    name 					= models.CharField(max_length=100, null=False, blank=True)
+    level 					= models.CharField(max_length=100, null=False, blank=True)
+    author 					= models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.name
+
+class Education(models.Model):
+    country 				= models.CharField(max_length=100, null=True, blank=True)
+    collage 				= models.CharField(max_length=100, null=True, blank=True)
+    title 					= models.CharField(max_length=100, null=True, blank=True)
+    major 					= models.CharField(max_length=100, null=True, blank=True)
+    year 					= models.CharField(max_length=100, null=True, blank=True)
+    author 					= models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.collage

@@ -423,3 +423,14 @@ h2:after {
 .tooltip:hover .tooltiptext {
   visibility: visible;
 }
+
+/*PROFILE PAGE*/
+
+#post-body-profile{
+	height: 50px;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	display: -webkit-box;
+	-webkit-line-clamp: 2; /* number of lines to show */
+	-webkit-box-orient: vertical;
+}
