@@ -91,19 +91,27 @@
                 <div class="field">
                   <label class="label">Title</label>
                   <div class="control">
-                    <input class="input" type="text" placeholder="Title..." name="title" id="id_title" required>
+                    <input class="input" type="text" placeholder="Title..." value="{{form.initial.title}}" name="title" id="id_title" required>
                   </div>
                 </div>
                 <p style="margin-bottom: 5px; font-weight: bold;">
                   Describe the service you looking for, be detailed when you describe it okey:
                 </p>
-                <textarea class="textarea" placeholder="I need ..." maxlength="2500" name="body" id="id_body"></textarea>
+                <textarea class="textarea" placeholder="I need ..." maxlength="2500" name="body" id="id_body">{{form.initial.body}}</textarea>
                 <div id="the-count">
                   <span id="current">0</span>
                   <span id="maximum">/ 2500</span>
                 </div>
-                <div class="clear" style="clear: right;"></div>
-                <div class="file has-name" style="margin-top: 5px;">
+                <div class="clear" style="clear: right;"></div> 
+              </div>
+
+              <hr style="border-top:1px solid #efeff0;">
+
+              <div class="post-image">
+                <figure class="image">
+                  <img style="width: 350px; height: 350px; margin-left: auto; margin-right: auto;" src="{{form.initial.image.url}}" id="id_image_display">
+                </figure>
+                <div class="file has-name" style="margin-top: 20px; margin-left: 160px;">
                   <label class="file-label">
                     <input class="file-input" type="file" name="image" accept="image/*" id="id_image">
                     <span class="file-cta" style="background-color: #efeff0; color: #62646a;">
@@ -117,7 +125,7 @@
                     <span class="file-name" style="width: 200px;">
                     </span>
                   </label>
-                </div> 
+                </div>
               </div>
 
               <hr style="border-top:1px solid #efeff0;">
@@ -128,7 +136,7 @@
                   <div class="control">
                     <div class="select">
                       <select id="id_category" style="width: 200px;" name="category">
-                        <option selected disabled>Select Category</option>
+                        <option selected disabled>{{form.initial.category}}</option>
                         {% for cat in category %}
                         <option value="{{cat.id}}">{{cat.name}}</option>
                         {% endfor %}
@@ -141,10 +149,7 @@
                   <div class="control">
                     <div class="select">
                       <select id="id_subcategory" style="width: 200px;" name="subcategory">
-                        <option selected disabled>Select Subcategory</option>
-                        {% for subcat in subcategory %}
-                        <option value="{{subcat.id}}">{{subcat.name}}</option>
-                        {% endfor %}
+                        <option selected disabled>{{form.initial.subcategory}}</option>
                       </select>
                     </div>
                   </div>
@@ -160,7 +165,7 @@
                   <div class="field">
                     <label class="label">Finish the project before:</label>
                     <div class="control">
-                      <input style="width: 150px;" class="input" type="text" placeholder="Days" name="deadline" id="id_deadline">
+                      <input style="width: 150px;" class="input" type="text" value="{{form.initial.deadline}}" placeholder="Days" name="deadline" id="id_deadline">
                     </div>
                   </div> 
                 </div>
@@ -168,7 +173,7 @@
                   <div class="field">
                     <label class="label">Budget for this project:</label>
                     <div class="control">
-                      <input style="width: 450px;" class="input" type="text" placeholder="Rp" name="budget" id="id_budget">
+                      <input style="width: 450px;" class="input" type="text" value="{{form.initial.budget}}" placeholder="Rp" name="budget" id="id_budget">
                     </div>
                   </div>
                 </div>
@@ -287,6 +292,13 @@
       });
 
     });
+
+    id_image.onchange = evt => {
+      const [file] = id_image.files
+      if (file) {
+        id_image_display.src = URL.createObjectURL(file)
+      }
+    }
 
     </script>
     </body>

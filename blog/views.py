@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse
 from django.contrib.auth.decorators import login_required
 
-from blog.models import BlogPost
+from blog.models import BlogPost, Category, SubCategory
 from blog.forms import CreateBlogPostForm, UpdateBlogPostForm
 from account.models import Account, ProjectList
 
@@ -36,13 +36,20 @@ def create_post_view(request):
 
 		return redirect('buyerpage')
 
+	category = Category.objects.all()
 	account = Account.objects.filter(email=request.user.email).first()
 
 	context['form'] = form
 	context['account'] = account
+	context['category'] = category
 
 
 	return render(request, 'blog/create_post.html', context)
+
+def load_subcategory(request):
+	category_id = request.GET.get('category')
+	subcategory = SubCategory.objects.filter(category=category_id).order_by('name')
+	return render(request, 'blog/subcategory_dropdown_list_options.html', {'subcategory': subcategory})
 
 @login_required
 def detail_blog_view(request, slug):
@@ -86,7 +93,7 @@ def cancelled_project(request, slug):
 
 	return redirect('projectlist')
 
-def edit_blog_view(request, slug):
+def edit_post_view(request, slug):
 	
 	context = {}
 	user = request.user
@@ -101,21 +108,31 @@ def edit_blog_view(request, slug):
 			obj = form.save(commit=False)
 			obj.save()
 			blog_post = obj
+
+			return redirect('buyerpage')
+
+	category = Category.objects.all()
 	
 	form = UpdateBlogPostForm(
 			initial={
 					"title": blog_post.title, 
 					"body": blog_post.body,
 					"image": blog_post.image,
+					"category": blog_post.category,
+					"subcategory": blog_post.subcategory,
+					"deadline": blog_post.deadline,
+					"budget": blog_post.budget,
 				}
 			)
 
 	context['form'] = form
 	context['account'] = account
+	context['category'] = category
+	context['blog_post'] = blog_post
 
-	return render(request, 'blog/edit_blog.html', context)
+	return render(request, 'blog/edit_post.html', context)
 
-def delete_blog_view(request, slug):
+def delete_post_view(request, slug):
 	
 	context = {}
 	blog_post = get_object_or_404(BlogPost, slug=slug)
