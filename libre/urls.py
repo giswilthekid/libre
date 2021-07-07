@@ -10,6 +10,9 @@ from account.views import(
     logout_view,
     project_view,
     profile_view,
+    delete_language,
+    delete_skill,
+    delete_education,
 )
 
 from blog.views import(
@@ -26,6 +29,9 @@ urlpatterns = [
     path('logout/', logout_view, name='logout'),
     path('register/', registration_view, name='register'),
     path('profile/<slug>/', profile_view, name='profile'),
+    path('language/delete/<id>/', delete_language, name='delete-language'),
+    path('skill/delete/<id>/', delete_skill, name='delete-skill'),
+    path('education/delete/<id>/', delete_education, name='delete-education'),
 ]
 
 if settings.DEBUG:

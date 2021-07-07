@@ -93,9 +93,11 @@
                 <figure class="image" style="display: inline-block;">
                   <img style="width: 35px; height: 35px; border-radius: 50%;" src="{{blog_post.author.image.url}}">
                 </figure>
-                <p style="display: inline-block; font-weight: bold; position: relative; bottom: 12px; left: 5px;">
-                  {{blog_post.author.username}}
-                </p>
+                <a href="{% url 'profile' blog_post.author.slug %}" style="color: black;">
+                  <p style="display: inline-block; font-weight: bold; position: relative; bottom: 12px; left: 5px;">
+                    {{blog_post.author.username}}
+                  </p>
+                </a>
                 <p style="display: inline-block; position: relative; bottom: 13.5px; left: 8px; font-size: 15px; color: #62646a">|
                 </p>
                 <i class="fas fa-star" style="display: inline-block; position: relative; bottom: 12px; left: 10px; color: #ffb33e"></i>
@@ -130,9 +132,11 @@
               <figure class="image" style="display: inline-block;">
                 <img style="width: 35px; height: 35px; border-radius: 50%;" src="{{blog_post.author.image.url}}">
               </figure>
-              <p style="display: inline-block; font-weight: bold; position: relative; bottom: 12px; left: 5px;">
-                {{blog_post.author.username}}
-              </p>
+              <a href="{% url 'profile' blog_post.author.slug %}" style="color: black;">
+                <p style="display: inline-block; font-weight: bold; position: relative; bottom: 12px; left: 5px;">
+                  {{blog_post.author.username}}
+                </p>
+              </a>
               <p style="display: inline-block; position: relative; bottom: 13.5px; left: 8px; font-size: 15px; color: #62646a">|
               </p>
               <i class="fas fa-star" style="display: inline-block; position: relative; bottom: 12px; left: 10px; color: #ffb33e"></i>
@@ -230,13 +234,19 @@
                   <img style="width: 110px; height: 110px; border-radius: 50%;" src="{{blog_post.author.image.url}}">
                 </figure>
                 <div class="figuretext" style="display: inline-block; position: relative; bottom: 30px; left: 10px;">
-                  <p style="font-weight: bold; font-size: 1.25em;">{{blog_post.author.first_name}} {{blog_post.author.last_name}}</p>
-                  <p>Sangar Gento Gali !!</p>
+                  <a href="{% url 'profile' blog_post.author.slug %}" style="color: black;">
+                    <p style="font-weight: bold; font-size: 1.25em;">
+                      {{blog_post.author.first_name}} {{blog_post.author.last_name}}
+                    </p>
+                  </a>
+                  
+                  <p>{{blog_post.author.status}}</p>
                   <i class="fas fa-star" style="display: inline-block; color: #ffb33e; margin-top: 5px;"></i>
                   <p style="display: inline-block; color: #ffb33e; font-weight: bold;">4.9</p>
                   <p style="display: inline-block; color: #62646a;">(120)</p>
                 </div>
               </div>
+              {% if blog_post.author.email != request.user.email %}
               <div class="rightside-profile" style="float: right; padding-top: 10px;">
                 <button class="button is-outlined" style="display: block;">Contact Me</button>
                 <div class="tooltip">
@@ -244,7 +254,10 @@
                   <span class="tooltiptext">Report</span>
                 </div>
               </div>
-              <div class="clear" style="clear: both;"></div>              
+              <div class="clear" style="clear: both;"></div>
+              {% else %} 
+              <div class="clear" style="clear: left;"></div>
+              {% endif %}            
             </div>
             <div class="sidebar-desc">
               <div class="sidebar-desc-header">
@@ -253,13 +266,13 @@
                     From
                   </p>
                   <p style="font-weight: bold;">
-                    Semarang Pride
+                    {{blog_post.author.origin}}
                   </p>
                   <p style="margin-top: 20px;">
                     Total Project Request
                   </p>
                   <p style="font-weight: bold;">
-                    5
+                    {{project_count}}
                   </p>
                 </div>
                 <div class="rightside-desc-header" style="width: 200px; float: right;">
@@ -278,7 +291,7 @@
                 </div>
               </div>
               <div class="clear" style="clear: both;"></div>
-              <p style="margin-top: 20px; border-top: 1px solid #dadbdd">I have often told you stories about the way I lived the life of a drifter Waiting for the day When I'd take your hand and sing you songs Then maybe you would say "Come lay with me and love me" And I would surely stay But I feel I'm growing older And the songs that I have sung Echo in the distance Like the sound Of a windmill going round Guess I'll always be a soldier of fortune Many times I've been a traveller I looked for something new In days of old when nights were cold I wandered without you But those days I thought my eyes had seen you standing near Though blindness is confusing It shows that you're not here</p>
+              <p style="margin-top: 20px; border-top: 1px solid #dadbdd">{{blog_post.author.description}}</p>
             </div>
           </div>
 

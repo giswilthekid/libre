@@ -4,8 +4,20 @@ from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.decorators import login_required
 
 
-from account.forms import RegistrationForm, AccountAuthenticationForm
-from account.models import Account, ProjectList
+from account.forms import(
+	RegistrationForm, 
+	AccountAuthenticationForm, 
+	UpdateProfileForm, 
+	UpdateLanguageForm, 
+	UpdateSkillForm, 
+	UpdateEducationForm,
+	) 
+from account.models import(
+	Account, 
+	ProjectList,
+	Language, 
+	Skill, 
+	Education,) 
 from blog.models import BlogPost
 
 def landing_view(request):
@@ -83,10 +95,97 @@ def profile_view(request, slug):
 	user = request.user
 
 	
-	account = Account.objects.filter(slug=slug).first()
+	account = get_object_or_404(Account, slug=slug)
 	project_list = BlogPost.objects.filter(author=account.id).all()
+	
+	if request.POST.get('status'):
+		account.status = request.POST.get('status')
+		account.save()
+		return redirect('profile', slug=slug)
 
+	if request.POST.get('description'):
+		account.description = request.POST.get('description')
+		account.save()
+		return redirect('profile', slug=slug)
+
+	formlanguage = UpdateLanguageForm(request.POST or None)
+	if formlanguage.is_valid() and request.POST.get('language_name') and request.POST.get('language_level') :
+		obj = formlanguage.save(commit=False)
+		author = Account.objects.filter(email=request.user.email).first()
+		obj.author = author
+		obj.save()
+		formlanguage = UpdateLanguageForm()
+		return redirect('profile', slug=slug)
+
+	formskill = UpdateSkillForm(request.POST or None)
+	if formskill.is_valid() and request.POST.get('skill_name') and request.POST.get('skill_level'):
+		obj = formskill.save(commit=False)
+		author = Account.objects.filter(email=request.user.email).first()
+		obj.author = author
+		obj.save()
+		formskill = UpdateSkillForm()
+		return redirect('profile', slug=slug)
+
+	formsedu = UpdateEducationForm(request.POST or None)
+	if formsedu.is_valid() and request.POST.get('country') and request.POST.get('collage') and request.POST.get('title') and request.POST.get('major') and request.POST.get('year'):
+		obj = formsedu.save(commit=False)
+		author = Account.objects.filter(email=request.user.email).first()
+		obj.author = author
+		obj.save()
+		formsedu = UpdateEducationForm()
+		return redirect('profile', slug=slug)
+
+	language = Language.objects.filter(author=account.id)
+	skill = Skill.objects.filter(author=account.id)
+	education = Education.objects.filter(author=account.id)
+	
+	form = UpdateProfileForm(
+			initial={
+					"first_name": account.first_name, 
+					"last_name": account.last_name,
+					"origin": account.origin,
+					"image": account.image,
+					"status": account.status,
+					"description": account.description,
+				}
+			)
+
+	context['user'] = user
+	context['form'] = form
 	context['account'] = account
 	context['project_list'] = project_list
+	context['language'] = language
+	context['skill'] = skill
+	context['education'] = education
 
 	return render(request, 'account/profile.html', context)
+
+def delete_language(request, id):
+	
+	language = get_object_or_404(Language, id=id)
+	language.delete()
+
+	user = request.user
+	slug = user.slug
+
+	return redirect("profile", slug=slug)
+
+def delete_skill(request, id):
+	
+	skill = get_object_or_404(Skill, id=id)
+	skill.delete()
+
+	user = request.user
+	slug = user.slug
+
+	return redirect("profile", slug=slug)
+
+def delete_education(request, id):
+	
+	education = get_object_or_404(Education, id=id)
+	education.delete()
+
+	user = request.user
+	slug = user.slug
+
+	return redirect("profile", slug=slug)

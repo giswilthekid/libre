@@ -51,8 +51,11 @@ class Account (AbstractBaseUser):
 	is_staff				= models.BooleanField(default=False)
 	is_superuser			= models.BooleanField(default=False)
 	image					= models.ImageField(upload_to=upload_location, null=True, blank=True)
-	first_name				= models.CharField(max_length=50)
-	last_name				= models.CharField(max_length=50)
+	first_name				= models.CharField(max_length=50, null=True, blank=True)
+	last_name				= models.CharField(max_length=50, null=True, blank=True)
+	origin					= models.CharField(max_length=50, null=True, blank=True)
+	status					= models.CharField(max_length=50, null=True, blank=True)
+	description				= models.TextField(max_length=2000, null=True, blank=True)
 	slug 					= models.SlugField()
 
 	USERNAME_FIELD = 'email'
@@ -91,20 +94,20 @@ class ProjectList(models.Model):
 		return self.status
 
 class Language(models.Model):
-    name 					= models.CharField(max_length=100, null=True, blank=True)
-    level 					= models.CharField(max_length=100, null=True, blank=True)
+    language_name 			= models.CharField(max_length=100, null=True, blank=True)
+    language_level 			= models.CharField(max_length=100, null=True, blank=True)
     author 					= models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
 
     def __str__(self):
-        return self.name
+        return self.language_name
 
 class Skill(models.Model):
-    name 					= models.CharField(max_length=100, null=False, blank=True)
-    level 					= models.CharField(max_length=100, null=False, blank=True)
+    skill_name 				= models.CharField(max_length=100, null=False, blank=True)
+    skill_level 			= models.CharField(max_length=100, null=False, blank=True)
     author 					= models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
 
     def __str__(self):
-        return self.name
+        return self.skill_name
 
 class Education(models.Model):
     country 				= models.CharField(max_length=100, null=True, blank=True)

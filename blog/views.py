@@ -59,10 +59,13 @@ def detail_blog_view(request, slug):
 	account = Account.objects.filter(email=request.user.email).first()
 	blog_post = get_object_or_404(BlogPost, slug=slug)
 	order_project = ProjectList.objects.filter(project=blog_post, user=request.user)
+	project_count = BlogPost.objects.filter(author=blog_post.author).count()
 
 	context['blog_post'] = blog_post
 	context['account'] = account
 	context['order_project'] = order_project
+	context['project_count'] = project_count
+
 
 	return render(request, 'blog/post_detail.html', context)
 

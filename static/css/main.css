@@ -433,4 +433,152 @@ h2:after {
 	display: -webkit-box;
 	-webkit-line-clamp: 2; /* number of lines to show */
 	-webkit-box-orient: vertical;
+	
+}
+
+/*PROFILE PAGE*/
+
+.profile-container{
+	width: 1300px;
+	margin: auto;
+	padding-top: 80px;
+	background-color: white;
+}
+
+#edit-pen-status{
+	color: #b2b2b2;
+	transition: 0.4s;
+}
+
+#edit-pen-desc{
+	color: #b2b2b2;
+	transition: 0.4s;
+}
+
+#profile-status p i:hover{
+	color: black;
+}
+
+.updatebut button{
+	background-color: white;
+	color:  #48c774;
+	transition: 0.4s;
+}
+
+.cancelbut button{
+	background-color: white;
+	color: #de4040;
+	transition: 0.4s
+}
+
+#updatebut button:hover{
+	background-color: #48c774;
+	color:  white;
+	border-color: #48c774;
+}
+
+#cancelbutstat button:hover{
+	background-color: #de4040;
+	color: white;
+	border-color: #de4040;
+}
+
+#cancelbutdesc button:hover{
+	background-color: #de4040;
+	color: white;
+}
+
+#cancelbutlang button:hover{
+	background-color: #de4040;
+	color: white;
+}
+
+#cancelbutskill button:hover{
+	background-color: #de4040;
+	color: white;
+}
+
+#cancelbutedu button:hover{
+	background-color: #de4040;
+	color: white;
+}
+
+#profile-desc i:hover{
+	color: black;
+}
+
+#language-header p:hover{
+	text-decoration: underline;
+}
+
+.language-edit{
+	display: none;
+}
+
+.language-namelevel:hover .language-edit{
+	display: inline-block;
+	transition: 0.4s;
+}
+
+.language-edit i {
+	color: #b2b2b2;
+	transition: 0.4s;
+	font-size: 13px; 
+	margin-left: 5px;
+}
+
+.language-edit i:hover{
+	color: black;
+}
+
+#skill-header p:hover{
+	text-decoration: underline;
+}
+
+#education-header p:hover{
+	text-decoration: underline;
+}
+
+#education-desc p:hover{
+	text-decoration: none;
+}
+
+.skill-edit{
+	display: none;
+}
+
+.skill-namelevel:hover .skill-edit{
+	display: inline-block;
+	transition: 0.4s;
+}
+
+.skill-edit i {
+	color: #b2b2b2;
+	transition: 0.4s;
+	font-size: 13px; 
+	margin-left: 10px;
+}
+
+.skill-edit i:hover{
+	color: black;
+}
+
+.education-edit{
+	display: none;
+}
+
+.education-desc:hover .education-edit{
+	display: inline-block;
+	transition: 0.4s;
+}
+
+.education-edit i {
+	color: #b2b2b2;
+	transition: 0.4s;
+	font-size: 13px; 
+	margin-left: 5px;
+}
+
+.education-edit i:hover{
+	color: black;
 }

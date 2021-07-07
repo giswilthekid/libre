@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
-from account.models import Account, ProjectList
+from account.models import Account, ProjectList, Language, Skill, Education
 
 
 class AccountAdmin(UserAdmin):
@@ -12,5 +12,8 @@ class AccountAdmin(UserAdmin):
 	list_filter = ()
 	fieldsets = ()
 
-admin.site.register(ProjectList)
 admin.site.register(Account, AccountAdmin)
+admin.site.register(ProjectList)
+admin.site.register(Language)
+admin.site.register(Skill)
+admin.site.register(Education)
