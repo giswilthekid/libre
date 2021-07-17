@@ -1,0 +1,237 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Hello Bulma!</title>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.2/css/bulma.min.css">
+        <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
+        <link rel="preconnect" href="https://fonts.gstatic.com">
+        <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet"> 
+        <link rel="stylesheet" type="text/css" href="{% static 'css/main.css' %}">
+
+        {% if title %}
+            <title>Libre - {{ title }}</title>
+        {% else %}
+            <title>Libre</title>
+        {% endif %}
+
+
+    </head>
+
+    <body>
+      {% if request.user.is_authenticated %}
+      
+      
+        <nav class="navbar" role="navigation" aria-label="main navigation" id="buyernavbar">
+          <div class="navbar-start" id="buyernavbarstart">
+            <div class="navbar-brand mb-1">
+              <a class="navbar-item" href="{% url 'buyerpage' %}">
+                <img src="{% static 'images/librelogo.png' %}" width="112" height="28">
+              </a>
+
+              <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
+                <span aria-hidden="true"></span>
+                <span aria-hidden="true"></span>
+                <span aria-hidden="true"></span>
+              </a>
+            </div>
+            <div class="field has-addons" id="searchbar">
+              <p class="control">
+                <input class="input" type="text" placeholder="Find a post">
+              </p>
+              <p class="control">
+                <button class="button">
+                  Search
+                </button>
+              </p>
+            </div>
+          </div>
+          
+          <div class="navbar-end" id="buyernavbarend">
+              <a style="font-weight: bold;" href="{% url 'projectlist' %}" class="navbar-item">
+                List
+              </a>
+              <a style="font-weight: bold;" class="navbar-item">
+                Orders
+              </a>
+              <a href="{% url 'buyerpage' %}" class="navbar-item"  style="color: #3F978D; font-weight: bold;">
+                Project Page
+              </a>
+              <div class="dropdown is-right" id="buyerpagedropdown">
+                <div class="dropdown-trigger">
+                  <span>
+                    <figure class="image" >
+                      <img style="width: 35px; height: 35px; border-radius: 50%;" src="{{account.image.url}}">
+                    </figure>
+                  </span>
+                </div>
+                <div class="dropdown-menu" id="dropdown-menu" role="menu">
+                  <div class="dropdown-content">
+                    <a href="{% url 'profile' account.slug %}" class="dropdown-item">
+                      Profile
+                    </a>
+                    <hr class="dropdown-divider">
+                    <a href="{% url 'logout' %}" class="dropdown-item">
+                      Log Out
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="clearnavbar"></div>
+        </nav>
+
+      <div class="buyerpage-container" id="buypagecontainer">
+        <div class="main">
+          <div class="main-header">
+            <div class="box" id="box-postproject" style="display: block; padding: 45px;">
+              <p style="font-size: 20px; text-align: center;">Hi {{account.first_name}},</p>
+              <p style="text-align: center;">Create some service and take your money</p>
+              <a href="{% url 'service:create-service' %}">
+                <button class="button is-outlined" style="margin:15px auto; border-color: #3F978D; color: #3F978D; background-color: #fafafa;">Post a Service</button>
+              </a>
+            </div>
+            <div class="box" id="box-poster" style="background-image: url('{% static 'images/flower.jpg' %}'); background-size: cover; background-position: 0 -200px;">
+              <div class="textt" style="width: 40%; height: 100%; float: left;">
+                <p style="font-size: 25px; margin-top: 17%; color: white;">
+                  {{account.first_name}}, Here's what you probably need for your project
+                </p>
+              </div>
+              <div class="category" style="width: 60%; height: 100%; float: right; overflow: hidden;">
+                <div class="slideshow-container">
+
+                  <!-- Full-width images with number and caption text -->
+                  <div class="mySlides fade">
+                    <div class="box" style="width: 200px; height: 100px; margin: 10px auto; background-color: transparent;" id="box-category">
+                      <figure class="image">
+                        <img style="width: 55px; height: 55px; margin-top: 5px;" src="{% static 'images/web-design.png' %}">
+                        <p style="font-size: 15px; position: relative;left: 40px; bottom: 40px; font-weight: bold; color: white;">Website Design</p>
+                      </figure>
+                    </div>
+                  </div>
+
+                  <div class="mySlides fade">
+                    <div class="box" style="width: 200px; height: 100px; margin: 10px auto; background-color: transparent;" id="box-category">
+                      <figure class="image">
+                        <img style="width: 55px; height: 55px; margin-top: 5px;" src="{% static 'images/ai-file.png' %}">
+                        <p style="font-size: 15px; position: relative;left: 40px; bottom: 40px; font-weight: bold; color: white;">Machine Learning</p>
+                      </figure>
+                    </div>
+                  </div>
+
+                  <div class="mySlides fade">
+                    <div class="box" style="width: 200px; height: 100px; margin: 10px auto; background-color: transparent;" id="box-category">
+                      <figure class="image">
+                        <img style="width: 55px; height: 55px; margin-top: 5px;" src="{% static 'images/grid-lines.png' %}">
+                        <p style="font-size: 15px; position: relative;left: 40px; bottom: 40px; font-weight: bold; color: white;">Architecture</p>
+                      </figure>
+                    </div>
+                  </div>
+
+                  <!-- Next and previous buttons -->
+                  <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
+                  <a class="next" onclick="plusSlides(1)">&#10095;</a>
+                </div>
+              </div>
+              <div class="clearboxposter" style="clear: both;"></div>
+            </div>
+          </div>
+          <div class="body-title" style="margin-bottom: 10px;">
+              <p style="font-size: 30px;">Take Some Projects</p>
+          </div>
+
+          <div class="main-body">
+            
+          <!-- {% for post in blog_posts %}
+            <div class="card" id="postcard">
+              <div class="card-image">
+                <figure class="image is-4by3">
+                  <img src="{{post.image.url}}" alt="Placeholder image">
+                </figure>
+              </div>
+              <div class="card-content">
+                <div class="media">
+                  <div class="media-left">
+                    <figure class="image is-square is-48x48">
+                      <img class="is-rounded" src="{{post.author.image.url}}" alt="Placeholder image">
+                    </figure>
+                  </div>
+                  <div class="media-content">
+                    <a href="{% url 'blog:detail' post.slug %}">
+                      <p class="title is-4" id="post-title">{{post.title}}</p>
+                    </a>
+                    <a href="{% url 'profile' post.author.slug %}">
+                      <p class="subtitle is-6">@{{post.author.username}}</p>
+                    </a>
+                  </div>
+                </div>
+
+                <div class="content" id="post-body">
+                  {{post.body|safe}}
+                </div>
+
+                <footer class="card-footer"> 
+                  <time datetime="2016-1-1">{{post.date_published}}</time>
+                </footer>
+              </div>
+            </div>
+          {% endfor %} -->
+          </div>     
+        </div>
+
+        <div class="libre-footer" style="height: 80px; border-top: 2px solid #e4e5e7">
+          <div class="content-left">
+            <img style="width: 80px; height: 80px; display: inline-block; margin-bottom: -6px;" src="{% static 'images/libre.png' %}">
+            <p style="font-size: 12px; color: #b5b6ba; display: inline-block; position: relative; bottom: 30px;">&copy; Libre Semarang Pride Company Ltd. 2021</p>
+          </div>
+          
+        </div>
+
+      </div>
+      
+        
+      <script>
+
+        var dropdown = document.querySelector('.dropdown');
+
+        dropdown.addEventListener('click', function(event) {
+          event.stopPropagation();
+          dropdown.classList.toggle('is-active');
+        })
+
+        var slideIndex = 1;
+        showSlides(slideIndex);
+
+        // Next/previous controls
+        function plusSlides(n) {
+          showSlides(slideIndex += n);
+        }
+
+        // Thumbnail image controls
+        function currentSlide(n) {
+          showSlides(slideIndex = n);
+        }
+
+        function showSlides(n) {
+          var i;
+          var slides = document.getElementsByClassName("mySlides");
+          var dots = document.getElementsByClassName("dot");
+          if (n > slides.length) {slideIndex = 1}
+          if (n < 1) {slideIndex = slides.length}
+          for (i = 0; i < slides.length; i++) {
+              slides[i].style.display = "none";
+          }
+          for (i = 0; i < dots.length; i++) {
+              dots[i].className = dots[i].className.replace(" active", "");
+          }
+          slides[slideIndex-1].style.display = "block";
+          dots[slideIndex-1].className += " active";
+        }
+
+      </script>
+    {% endif %}
+    </body>
+</html>

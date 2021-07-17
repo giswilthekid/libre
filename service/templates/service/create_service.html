@@ -1,0 +1,435 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Hello Bulma!</title>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.2/css/bulma.min.css">
+        <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
+        <link rel="preconnect" href="https://fonts.gstatic.com">
+        <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet"> 
+        <link rel="stylesheet" type="text/css" href="{% static 'css/main.css' %}">
+        <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+
+        {% if title %}
+            <title>Libre - {{ title }}</title>
+        {% else %}
+            <title>Libre</title>
+        {% endif %}
+    </head>
+
+    <body style="background-color: #f7f7f7">
+    {% if request.user.is_authenticated %}
+        <nav class="navbar" role="navigation" aria-label="main navigation" id="buyernavbar" style="background-color: white;">
+          <div class="navbar-start" id="buyernavbarstart">
+            <div class="navbar-brand mb-1">
+              <a class="navbar-item" href="{% url 'buyerpage' %}">
+                <img src="{% static 'images/librelogo.png' %}" width="112" height="28">
+              </a>
+
+              <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
+                <span aria-hidden="true"></span>
+                <span aria-hidden="true"></span>
+                <span aria-hidden="true"></span>
+              </a>
+            </div>
+            <div class="field has-addons" id="searchbar">
+              <p class="control">
+                <input class="input" type="text" placeholder="Find a post">
+              </p>
+              <p class="control">
+                <button class="button">
+                  Search
+                </button>
+              </p>
+            </div>
+          </div>
+          
+          <div class="navbar-end" id="buyernavbarend">
+              <a style="font-weight: bold;" href="{% url 'projectlist' %}" class="navbar-item">
+                List
+              </a>
+              <a style="font-weight: bold;" class="navbar-item">
+                Orders
+              </a>
+              <a href="{% url 'service:sellerpage' %}" class="navbar-item"  style="color: #3F978D; font-weight: bold;">
+                Service Page
+              </a>
+              <div class="dropdown is-right" id="buyerpagedropdown">
+                <div class="dropdown-trigger">
+                  <span>
+                    <figure class="image" >
+                      <img style="width: 35px; height: 35px; border-radius: 50%;" src="{{account.image.url}}">
+                    </figure>
+                  </span>
+                </div>
+                <div class="dropdown-menu" id="dropdown-menu" role="menu">
+                  <div class="dropdown-content">
+                    <a href="{% url 'profile' account.slug %}" class="dropdown-item">
+                      Profile
+                    </a>
+                    <hr class="dropdown-divider">
+                    <a href="{% url 'logout' %}" class="dropdown-item">
+                      Log Out
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="clearnavbar"></div>
+        </nav>
+
+        <div class="createpost-container">
+          <p style="font-size: 1.5em; font-weight: bold;">
+            Create Your Service {{account.first_name}} !
+          </p>
+          <form class="create-form" method="post" id="postForm" data-subcategory-url="{% url 'blog:ajax_load_subcategory' %}" enctype="multipart/form-data">{% csrf_token %}
+            <div class="postservice-content" style="background-color: white;">
+              <div class="post-desc">
+                <div class="field">
+                  <label class="label">Service title</label>
+                  <div class="control">
+                    <input class="input" type="text" placeholder="Title..." name="title" id="id_title" required>
+                  </div>
+                </div>
+                <p style="margin-bottom: 5px; font-weight: bold;">
+                  Describe the services you provide:
+                </p>
+                <textarea class="textarea" placeholder="I will ..." maxlength="2500" name="description" id="id_body"></textarea>
+                <div id="the-count">
+                  <span id="current">0</span>
+                  <span id="maximum">/ 2500</span>
+                </div>
+                <div class="clear" style="clear: right;"></div>
+                <div class="file has-name" style="margin-top: 5px;">
+                  <label class="file-label">
+                    <input class="file-input" type="file" name="image" accept="image/*" id="id_image">
+                    <span class="file-cta" style="background-color: #efeff0; color: #62646a;">
+                      <span class="file-icon">
+                        <i class="fas fa-upload"></i>
+                      </span>
+                      <span class="file-label">
+                        Image
+                      </span>
+                    </span>
+                    <span class="file-name" style="width: 200px;">
+                    </span>
+                  </label>
+                </div>
+              </div>
+
+              <hr style="border-top:1px solid #efeff0;">
+
+              <div class="post-category">
+                <div class="categories">
+                  <p style="margin-bottom: 5px; font-weight: bold;">Choose a Category:</p>
+                  <div class="control">
+                    <div class="select">
+                      <select id="id_category" style="width: 200px;" name="category">
+                        <option selected disabled>Select Category</option>
+                        {% for cat in category %}
+                        <option value="{{cat.id}}">{{cat.name}}</option>
+                        {% endfor %}
+                      </select>
+                    </div>
+                  </div>
+                </div>
+                <div class="subcategories">
+                  <p style="margin-bottom: 5px; font-weight: bold;">Choose a Subcategory:</p>
+                  <div class="control">
+                    <div class="select">
+                      <select id="id_subcategory" style="width: 200px;" name="subcategory">
+                        <option selected disabled>Select Subcategory</option>
+                        {% for subcat in subcategory %}
+                        <option value="{{subcat.id}}">{{subcat.name}}</option>
+                        {% endfor %}
+                      </select>
+                    </div>
+                  </div>
+                </div>
+                <div class="clear" style="clear: both;"></div>
+              </div>
+
+
+            </div>
+            <div class="service-packet">
+              <div class="basic">
+                <div class="packet-title" style="display: flex; justify-content: center; align-items: center; background-color: #f5f5f5;">
+                  <p style="font-weight: bold;">Basic</p>
+                </div>
+                <div class="packet-name" id="packet-name">
+                  <input class="inputt" type="text" placeholder="Name your package" style="border: none; display: block; width: 100%; height: 100%;" maxlength="50" name="basic_name">
+                </div>
+                <div class="packet-desc">
+                  <textarea placeholder="Describe your offering" style="border: none; text-decoration: none; display: block; height: 100%; width: 100%;" maxlength="500" name="basic_desc"></textarea>
+                </div>
+                <div class="packet-deliverytime">
+                  <div class="selectt">
+                    <select style="border: none; height: 49px; width: 100%;" name="basic_delivery">
+                      <option selected disabled>Delivery Time</option>
+                      <option value="1">1 Days</option>
+                      <option value="2">2 Days</option>
+                      <option value="3">3 Days</option>
+                      <option value="4">4 Days</option>
+                      <option value="5">5 Days</option>
+                      <option value="6">6 Days</option>
+                      <option value="7">7 Days</option>
+                      <option value="10">10 Days</option>
+                      <option value="14">14 Days</option>
+                      <option value="21">21 Days</option>
+                      <option value="30">30 Days</option>
+                      <option value="45">45 Days</option>
+                      <option value="60">60 Days</option>
+                      <option value="75">75 Days</option>
+                      <option value="90">90 Days</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="packet-revision">
+                  <div class="selectt">
+                    <select style="border: none; height: 49px; width: 100%;" name="basic_revision">
+                      <option selected disabled>Revisions</option>
+                      <option value="0">0</option>
+                      <option value="1">1</option>
+                      <option value="2">2</option>
+                      <option value="3">3</option>
+                      <option value="4">4</option>
+                      <option value="5">5</option>
+                      <option value="6">6</option>
+                      <option value="7">7</option>
+                      <option value="8">8</option>
+                      <option value="9">9</option>
+                      <option value="10">10</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="packet-price">
+                  <input class="inputt" type="text" placeholder="Price" style="border: none; display: block; width: 100%; height: 100%;" name="basic_price">
+                </div> 
+              </div>
+              <div class="standard">
+                <div class="packet-title" style="display: flex; justify-content: center; align-items: center; background-color: #f5f5f5;">
+                  <p style="font-weight: bold;">Standard</p>
+                </div>
+                <div class="packet-name" id="packet-name">
+                  <input class="inputt" type="text" placeholder="Name your package" style="border: none; display: block; width: 100%; height: 100%;" maxlength="50" name="standard_name">
+                </div>
+                <div class="packet-desc">
+                  <textarea placeholder="Describe your offering" style="border: none; text-decoration: none; display: block; height: 100%; width: 100%;" maxlength="500" name="standard_desc"></textarea>
+                </div>
+                <div class="packet-deliverytime">
+                  <div class="selectt">
+                    <select style="border: none; height: 49px; width: 100%;" name="standard_delivery">
+                      <option selected disabled>Delivery Time</option>
+                      <option value="1">1 Days</option>
+                      <option value="2">2 Days</option>
+                      <option value="3">3 Days</option>
+                      <option value="4">4 Days</option>
+                      <option value="5">5 Days</option>
+                      <option value="6">6 Days</option>
+                      <option value="7">7 Days</option>
+                      <option value="10">10 Days</option>
+                      <option value="14">14 Days</option>
+                      <option value="21">21 Days</option>
+                      <option value="30">30 Days</option>
+                      <option value="45">45 Days</option>
+                      <option value="60">60 Days</option>
+                      <option value="75">75 Days</option>
+                      <option value="90">90 Days</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="packet-revision">
+                  <div class="selectt">
+                    <select style="border: none; height: 49px; width: 100%;" name="standard_revision">
+                      <option selected disabled>Revisions</option>
+                      <option value="0">0</option>
+                      <option value="1">1</option>
+                      <option value="2">2</option>
+                      <option value="3">3</option>
+                      <option value="4">4</option>
+                      <option value="5">5</option>
+                      <option value="6">6</option>
+                      <option value="7">7</option>
+                      <option value="8">8</option>
+                      <option value="9">9</option>
+                      <option value="10">10</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="packet-price">
+                  <input class="inputt" type="text" placeholder="Price" style="border: none; display: block; width: 100%; height: 100%;" name="standard_price">
+                </div> 
+              </div>
+              <div class="premium">
+                <div class="packet-title" style="display: flex; justify-content: center; align-items: center; background-color: #f5f5f5;">
+                  <p style="font-weight: bold;">Premium</p>
+                </div>
+                <div class="packet-name" id="packet-name">
+                  <input class="inputt" type="text" placeholder="Name your package" style="border: none; display: block; width: 100%; height: 100%;" maxlength="50" name="premium_name">
+                </div>
+                <div class="packet-desc">
+                  <textarea placeholder="Describe your offering" style="border: none; text-decoration: none; display: block; height: 100%; width: 100%;" maxlength="500" name="premium_desc"></textarea>
+                </div>
+                <div class="packet-deliverytime">
+                  <div class="selectt">
+                    <select style="border: none; height: 49px; width: 100%;" name="premium_delivery">
+                      <option selected disabled>Delivery Time</option>
+                      <option value="1">1 Days</option>
+                      <option value="2">2 Days</option>
+                      <option value="3">3 Days</option>
+                      <option value="4">4 Days</option>
+                      <option value="5">5 Days</option>
+                      <option value="6">6 Days</option>
+                      <option value="7">7 Days</option>
+                      <option value="10">10 Days</option>
+                      <option value="14">14 Days</option>
+                      <option value="21">21 Days</option>
+                      <option value="30">30 Days</option>
+                      <option value="45">45 Days</option>
+                      <option value="60">60 Days</option>
+                      <option value="75">75 Days</option>
+                      <option value="90">90 Days</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="packet-revision">
+                  <div class="selectt">
+                    <select style="border: none; height: 49px; width: 100%;" name="premium_revision">
+                      <option selected disabled>Revisions</option>
+                      <option value="0">0</option>
+                      <option value="1">1</option>
+                      <option value="2">2</option>
+                      <option value="3">3</option>
+                      <option value="4">4</option>
+                      <option value="5">5</option>
+                      <option value="6">6</option>
+                      <option value="7">7</option>
+                      <option value="8">8</option>
+                      <option value="9">9</option>
+                      <option value="10">10</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="packet-price">
+                  <input class="inputt" type="text" placeholder="Price" style="border: none; display: block; width: 100%; height: 100%;" name="premium_price">
+                </div> 
+              </div>
+            </div>
+
+            <div class="clear" style="clear: both;"></div>
+
+            <div class="submit-but">
+              <button class="button is-success" type="submit">Post Your Service</button>
+            </div>
+          </form>
+
+
+        </div>
+        <div class="libre-footer" style="height: 80px; border-top: 2px solid #e4e5e7; margin-top: 30px; background-color: white; padding-left: 15px; padding-right: 15px;">
+          <div class="content-left">
+            <img style="width: 80px; height: 80px; display: inline-block; margin-bottom: -6px;" src="{% static 'images/libre.png' %}">
+            <p style="font-size: 12px; color: #b5b6ba; display: inline-block; position: relative; bottom: 30px;">&copy; Libre Semarang Pride Company Ltd. 2021</p>
+          </div>
+        </div>
+
+
+    {% endif %}
+    <script type="text/javascript">
+
+    document.addEventListener('DOMContentLoaded', () => {
+      // 1. Display file name when select file
+      let fileInputs = document.querySelectorAll('.file.has-name')
+      for (let fileInput of fileInputs) {
+        let input = fileInput.querySelector('.file-input')
+        let name = fileInput.querySelector('.file-name')
+        input.addEventListener('change', () => {
+          let files = input.files
+          if (files.length === 0) {
+            name.innerText = 'No file selected'
+          } else {
+            name.innerText = files[0].name
+          }
+        })
+      }
+
+      // 2. Remove file name when form reset
+      let forms = document.getElementsByTagName('form')
+      for (let form of forms) {
+        form.addEventListener('reset', () => {
+          console.log('a')
+          let names = form.querySelectorAll('.file-name')
+          for (let name of names) {
+            name.innerText = 'No file selected'
+          }
+        })
+      }
+    })
+
+    var dropdown = document.querySelector('.dropdown');
+
+      dropdown.addEventListener('click', function(event) {
+        event.stopPropagation();
+        dropdown.classList.toggle('is-active');
+      })
+
+      $('textarea').keyup(function() {
+          
+        var characterCount = $(this).val().length,
+            current = $('#current'),
+            maximum = $('#maximum'),
+            theCount = $('#the-count');
+          
+        current.text(characterCount);
+       
+        
+        /*This isn't entirely necessary, just playin around*/
+        if (characterCount < 400) {
+          current.css('color', '#666');
+        }
+        if (characterCount > 400 && characterCount < 800) {
+          current.css('color', '#6d5555');
+        }
+        if (characterCount > 800 && characterCount < 1200) {
+          current.css('color', '#793535');
+        }
+        if (characterCount > 1200 && characterCount < 1600) {
+          current.css('color', '#841c1c');
+        }
+        if (characterCount > 1600 && characterCount < 1999) {
+          current.css('color', '#8f0001');
+        }
+        
+        if (characterCount >= 2000) {
+          maximum.css('color', '#8f0001');
+          current.css('color', '#8f0001');
+          theCount.css('font-weight','bold');
+        } else {
+          maximum.css('color','#666');
+          theCount.css('font-weight','normal');
+        }
+        
+            
+      });
+
+    $("#id_category").change(function () {
+      var url = $("#postForm").attr("data-subcategory-url");  // get the url of the `load_cities` view
+      var categoryId = $(this).val();  // get the selected country ID from the HTML input
+
+      $.ajax({                       // initialize an AJAX request
+        url: url,                    // set the url of the request (= localhost:8000/hr/ajax/load-cities/)
+        data: {
+          'category': categoryId       // add the country id to the GET parameters
+        },
+        success: function (data) {   // `data` is the return of the `load_cities` view function
+          $("#id_subcategory").html(data);  // replace the contents of the city input with the data that came from the server
+        }
+      });
+
+    });
+
+    </script>
+    </body>
+</html>

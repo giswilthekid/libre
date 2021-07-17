@@ -46,16 +46,16 @@
 
             <div class="navbar-end">
               <div class="navbar-start">
-                <a href="{% url 'projectlist' %}" class="navbar-item" id="prjlist">
+                <a style="font-weight: bold;" href="{% url 'projectlist' %}" class="navbar-item" id="prjlist">
                   List
                 </a>
 
-                <a class="navbar-item">
+                <a style="font-weight: bold;" class="navbar-item">
                   Orders
                 </a>
 
-                <a class="navbar-item" style="color: #3F978D">
-                  Freelancer Page
+                <a href="{% url 'service:sellerpage' %}" class="navbar-item" style="color: #3F978D; font-weight: bold;">
+                  Service Page
                 </a>
               </div>
               <div class="navbar-item">

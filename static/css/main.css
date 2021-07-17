@@ -154,9 +154,7 @@ h2:after {
 
 .main-body{
 	padding-top: 20px;
-	padding-bottom: 40px;
 	width: 100%;
-	margin:auto;
 }
 
 
@@ -176,9 +174,8 @@ h2:after {
 #postcard{
 	width: 260px;
 	height: 520px;
+	margin: 30px;
 	display: inline-block;
-	margin-left: 48px;
-	margin-bottom: 15px;
 }
 
 .clear{
@@ -283,7 +280,7 @@ h2:after {
 .post-content{
 	width: 650px;
 	margin-top: 20px;
-	border:1px solid #efeff0;
+	border:1px solid #dadbdd;
 }
 
 .post-desc{
@@ -340,6 +337,13 @@ h2:after {
 .budget{
 	margin-top: 10px;
 	margin-bottom: 10px;
+}
+
+.post-image{
+	margin-top: 10px;
+	margin-bottom: 10px;
+	margin-left: 10px;
+	width: 630px;
 }
 
 .post-submit{
@@ -581,4 +585,89 @@ h2:after {
 
 .education-edit i:hover{
 	color: black;
+}
+
+
+/*CREATE SERVICE PAGE*/
+
+.service-packet{
+	width: 601px;
+	float: right;
+	margin-top: 20px;
+	display: flex;
+	border-right: 1px solid #dadbdd;
+}
+
+.packet-title{
+	width: 200px;
+	height: 50px;
+	border:1px solid #dadbdd;
+	border-bottom: none;
+	border-right: none;
+}
+
+.packet-name{
+	padding: 5px;
+	background-color: white;
+	width: 200px;
+	height: 60px;
+	border:1px solid #dadbdd;
+	border-bottom: none;
+	border-right: none;
+}
+
+
+.packet-desc{
+	padding: 5px;
+	background-color: white;
+	width: 200px;
+	height: 150px;
+	border:1px solid #dadbdd;
+	border-bottom: none;
+	border-right: none;
+}
+
+.packet-deliverytime{
+	width: 200px;
+	height: 50px;
+	border:1px solid #dadbdd;
+	border-bottom: none;
+	border-right: none;
+}
+
+.packet-revision{
+	width: 200px;
+	height: 50px;
+	border:1px solid #dadbdd;
+	border-bottom: none;
+	border-right: none;
+}
+
+.packet-price{
+	padding: 5px;
+	background-color: white;
+	width: 200px;
+	height: 60px;
+	border:1px solid #dadbdd;
+	border-right: none;
+}
+
+
+
+.submit-but{
+	width: 100%; 
+	height: 70px; 
+	background-color: white; 
+	margin-top: 20px;
+	border:1px solid #dadbdd;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.postservice-content{
+	width: 650px;
+	margin-top: 20px;
+	border:1px solid #dadbdd;
+	float: left;
 }

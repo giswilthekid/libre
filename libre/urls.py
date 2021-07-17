@@ -20,9 +20,10 @@ from blog.views import(
 )
 
 urlpatterns = [
+    path('blog/', include('blog.urls', 'blog')),
+    path('service/', include('service.urls', 'service')),
     path('', landing_view, name='landing'),
     path('admin/', admin.site.urls),
-    path('blog/', include('blog.urls', 'blog')),
     path('buyerpage/', buyerpage, name='buyerpage'),
     path('projectlist/', project_view, name='projectlist'),
     path('login/', login_view, name='login'),

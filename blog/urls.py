@@ -1,4 +1,5 @@
 from django.urls import path
+
 from blog.views import(
 	create_post_view,
 	detail_blog_view,
@@ -12,7 +13,7 @@ from blog.views import(
 app_name = 'blog'
 
 urlpatterns = [
-	path('create', create_post_view, name="create"),
+	path('create/', create_post_view, name="create"),
 	path('<slug>/', detail_blog_view, name="detail"),
 	path('<slug>/edit/', edit_post_view, name="edit"),
 	path('<slug>/delete/', delete_post_view, name="delete"),

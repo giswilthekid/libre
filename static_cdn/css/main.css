@@ -1,3 +1,8 @@
+html {
+  height: 100%;
+  margin: auto;
+}
+
 *{
 	font-family: 'Titillium Web', sans-serif;
 }
@@ -34,19 +39,11 @@
 	color: black;
 }
 
-#content {
-     width: 250px;
-     white-space: nowrap;
-     overflow: hidden;
-     text-overflow: ellipsis;
-}
-
 li {
 	list-style-type: none;
 }
 
 h1 {
-	font-family: sans-serif;
 	margin: auto;
 	text-align: center;
 	font-size: 60px;
@@ -55,7 +52,6 @@ h1 {
 }
 
 #cb {
-	font-family: sans-serif;
 	margin: auto;
 	text-align: center;
 	font-size: 20px;
@@ -71,7 +67,6 @@ figure {
 }
 
 h2 {
-	font-family: sans-serif;
 	margin: 10px auto;
 	text-align: center;
 	font-size: 25px;
@@ -105,40 +100,86 @@ h2:after {
 
 .buttons {
 	margin-top: 20px;
-	position: fixed;
+	position: absolute;
 	left: 47%;
 }
 
-#box-postproject {
-	display: flex;
-	margin-right: 16px;
-	width: 260px;
-	height: 240px;
+
+
+/*BUYERPAGE*/
+
+#buyernavbar {
+	position: fixed;
+	border-bottom: 1.5px solid #e4e5e7;
+	top: 0;
+	left: 0;
+	right: 0;	
+	height: 60px;
 }
 
-#box-poster{
-	display: flex;
-	height: 240px;
-	width: 100%; 
+#buyerpagenavbarstart{
+	float: left;
+}
+
+#buyerpagenavbarend{
+	float: right;
+}
+
+#searchbar{
+	margin-top: 8px;
+	margin-bottom: 0;
+	margin-left: 10px;
+}
+
+#buyerpagedropdown{
+	margin-right: 10px; 
+	margin-left: 10px;
+	padding-top: 12px;
+}
+
+.clearnavbar{
+	clear: both;
+}
+
+#buypagecontainer{
+	margin: auto;
+	width: 1300px;
 }
 
 .main-header{
 	display: flex;
-}
-
-.container{
-	margin-top: 40px;
-	margin-bottom: 40px;
+	padding-top: 100px;
+	padding-bottom: 20px;
 }
 
 .main-body{
-	display: flex;
+	padding-top: 20px;
+	width: 100%;
 }
 
-.card{
-	width: 270px;
+
+#box-postproject {
+	margin-right: 16px;
+	margin-bottom: 0;
+	width: 260px;
+	height: 240px;
+	background-color: #fafafa;
+}
+
+#box-poster{
+	height: 240px;
+	width: 100%; 
+}
+
+#postcard{
+	width: 260px;
 	height: 520px;
-	margin: 10px;
+	margin: 30px;
+	display: inline-block;
+}
+
+.clear{
+	clear: left;
 }
 
 #post-body{
@@ -162,4 +203,379 @@ h2:after {
 .card-footer{
 	font-size: 1em;
 	color: #b2b2b2;
+}
+
+
+.slideshow-container {
+  max-width: 90%;
+  position: relative;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 50px;
+}
+
+/* Hide the images by default */
+.mySlides {
+  display: none;
+}
+
+/* Next & previous buttons */
+.prev, .next {
+  cursor: pointer;
+  position: absolute;
+  top: 44%;
+  width: auto;
+  margin-top: -22px;
+  padding: 16px;
+  color: white;
+  font-weight: bold;
+  font-size: 18px;
+  transition: 0.6s ease;
+  border-radius: 0 3px 3px 0;
+  user-select: none;
+}
+
+/* Position the "next button" to the right */
+.next {
+  right: 60px;
+  border-radius: 3px 0 0 3px;
+}
+
+.prev{
+	left:60px;
+}
+
+/* On hover, add a black background color with a little bit see-through */
+.prev:hover, .next:hover {
+  background-color: rgba(0,0,0,0.8);
+}
+
+/* Fading animation */
+.fade {
+  -webkit-animation-name: fade;
+  -webkit-animation-duration: 1.5s;
+  animation-name: fade;
+  animation-duration: 1.5s;
+}
+
+@-webkit-keyframes fade {
+  from {opacity: .4}
+  to {opacity: 1}
+}
+
+@keyframes fade {
+  from {opacity: .4}
+  to {opacity: 1}
+}
+
+/*CREATE POST*/
+
+.createpost-container{
+	width: 1300px;
+	margin: auto;
+	padding-top: 40px;
+	margin-top: 60px;
+}
+
+.post-content{
+	width: 650px;
+	margin-top: 20px;
+	border:1px solid #efeff0;
+}
+
+.post-desc{
+	margin-top: 10px;
+	margin-bottom: 10px;
+	margin-left: 10px;
+	width: 630px;
+}
+
+.post-image{
+	margin-top: 10px;
+	margin-bottom: 10px;
+	margin-left: 10px;
+	width: 630px;
+}
+
+#the-count{
+	float: right;
+}
+
+.post-category{
+	margin-top: 10px;
+	margin-bottom: 10px;
+	margin-left: 10px;
+	width: 630px;
+}
+
+.categories{
+	margin-left: 10px;
+	width: 300px;
+	float: left;
+}
+
+.subcategories{
+	margin-right: 10px;
+	width: 300px;
+	float: right;
+}
+
+
+.post-deadlinebudget{
+	margin-top: 10px;
+	margin-bottom: 10px;
+	margin-left: 10px;
+	width: 630px;
+}
+
+.deadline{
+	margin-top: 10px;
+	margin-bottom: 10px;
+}
+
+
+.budget{
+	margin-top: 10px;
+	margin-bottom: 10px;
+}
+
+.post-submit{
+	margin-top: 10px;
+	margin-bottom: 10px;
+	margin-left: 10px;
+	width: 630px;
+}
+
+/*POST DETAIL*/
+
+.postdetail-container{
+	width: 1300px;
+	margin: auto;
+	padding-top: 80px;
+}
+
+.postdetail-content{
+	width: 700px;
+	margin-top: 20px;
+	float: left;
+}
+
+
+.postdetail-sidebar{
+	width: 450px;
+	margin-top: 20px;
+	float: right;
+}
+
+.sidebar-profile{
+	width: 100%;
+}
+
+.leftside-profile{
+	width: 315px;
+	position: relative;
+}
+
+.rightside-profile{
+	width: 115px;
+}
+
+.sidebar-desc{
+	margin-top: 15px;
+	border:1px solid #dadbdd;
+	padding: 10px;
+}
+
+.tooltip {
+  position: relative;
+  display: inline-block;
+}
+
+.tooltip .tooltiptext {
+  visibility: hidden;
+  width: 120px;
+  background-color: black;
+  color: #fff;
+  text-align: center;
+  border-radius: 6px;
+  padding: 5px 0;
+  position: absolute;
+  z-index: 1;
+  top: 150%;
+  left: 50%;
+  margin-left: -60px;
+}
+
+.tooltip .tooltiptext::after {
+  content: "";
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  margin-left: -5px;
+  border-width: 5px;
+  border-style: solid;
+  border-color: transparent transparent black transparent;
+}
+
+.tooltip:hover .tooltiptext {
+  visibility: visible;
+}
+
+/*PROFILE PAGE*/
+
+#post-body-profile{
+	height: 50px;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	display: -webkit-box;
+	-webkit-line-clamp: 2; /* number of lines to show */
+	-webkit-box-orient: vertical;
+	
+}
+
+/*PROFILE PAGE*/
+
+.profile-container{
+	width: 1300px;
+	margin: auto;
+	padding-top: 80px;
+	background-color: white;
+}
+
+#edit-pen-status{
+	color: #b2b2b2;
+	transition: 0.4s;
+}
+
+#edit-pen-desc{
+	color: #b2b2b2;
+	transition: 0.4s;
+}
+
+#profile-status p i:hover{
+	color: black;
+}
+
+.updatebut button{
+	background-color: white;
+	color:  #48c774;
+	transition: 0.4s;
+}
+
+.cancelbut button{
+	background-color: white;
+	color: #de4040;
+	transition: 0.4s
+}
+
+#updatebut button:hover{
+	background-color: #48c774;
+	color:  white;
+	border-color: #48c774;
+}
+
+#cancelbutstat button:hover{
+	background-color: #de4040;
+	color: white;
+	border-color: #de4040;
+}
+
+#cancelbutdesc button:hover{
+	background-color: #de4040;
+	color: white;
+}
+
+#cancelbutlang button:hover{
+	background-color: #de4040;
+	color: white;
+}
+
+#cancelbutskill button:hover{
+	background-color: #de4040;
+	color: white;
+}
+
+#cancelbutedu button:hover{
+	background-color: #de4040;
+	color: white;
+}
+
+#profile-desc i:hover{
+	color: black;
+}
+
+#language-header p:hover{
+	text-decoration: underline;
+}
+
+.language-edit{
+	display: none;
+}
+
+.language-namelevel:hover .language-edit{
+	display: inline-block;
+	transition: 0.4s;
+}
+
+.language-edit i {
+	color: #b2b2b2;
+	transition: 0.4s;
+	font-size: 13px; 
+	margin-left: 5px;
+}
+
+.language-edit i:hover{
+	color: black;
+}
+
+#skill-header p:hover{
+	text-decoration: underline;
+}
+
+#education-header p:hover{
+	text-decoration: underline;
+}
+
+#education-desc p:hover{
+	text-decoration: none;
+}
+
+.skill-edit{
+	display: none;
+}
+
+.skill-namelevel:hover .skill-edit{
+	display: inline-block;
+	transition: 0.4s;
+}
+
+.skill-edit i {
+	color: #b2b2b2;
+	transition: 0.4s;
+	font-size: 13px; 
+	margin-left: 10px;
+}
+
+.skill-edit i:hover{
+	color: black;
+}
+
+.education-edit{
+	display: none;
+}
+
+.education-desc:hover .education-edit{
+	display: inline-block;
+	transition: 0.4s;
+}
+
+.education-edit i {
+	color: #b2b2b2;
+	transition: 0.4s;
+	font-size: 13px; 
+	margin-left: 5px;
+}
+
+.education-edit i:hover{
+	color: black;
 }

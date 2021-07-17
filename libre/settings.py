@@ -32,8 +32,13 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+
+    #MyApps
     'blog',
     'account',
+    'service',
+
+    #DjangoApps
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -72,6 +77,8 @@ TEMPLATES = [
 
 AUTH_USER_MODEL = 'account.Account'
 AUTH_BLOG_MODEL = 'blog.BlogPost'
+AUTH_CAT_MODEL = 'blog.Category'
+AUTH_SUBCAT_MODEL = 'blog.SubCategory'
 
 WSGI_APPLICATION = 'libre.wsgi.application'
 
