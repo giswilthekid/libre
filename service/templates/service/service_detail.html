@@ -1,0 +1,389 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Hello Bulma!</title>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.2/css/bulma.min.css">
+        <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
+        <link rel="preconnect" href="https://fonts.gstatic.com">
+        <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet"> 
+        <link rel="stylesheet" type="text/css" href="{% static 'css/main.css' %}">
+        <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+
+        {% if title %}
+            <title>Libre - {{ title }}</title>
+        {% else %}
+            <title>Libre</title>
+        {% endif %}
+    </head>
+
+    <body>
+    {% if request.user.is_authenticated %}
+        <nav class="navbar" role="navigation" aria-label="main navigation" id="buyernavbar">
+          <div class="navbar-start" id="buyernavbarstart">
+            <div class="navbar-brand mb-1">
+              <a class="navbar-item" href="{% url 'buyerpage' %}">
+                <img src="{% static 'images/librelogo.png' %}" width="112" height="28">
+              </a>
+
+              <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
+                <span aria-hidden="true"></span>
+                <span aria-hidden="true"></span>
+                <span aria-hidden="true"></span>
+              </a>
+            </div>
+            <div class="field has-addons" id="searchbar">
+              <p class="control">
+                <input class="input" type="text" placeholder="Find a post">
+              </p>
+              <p class="control">
+                <button class="button">
+                  Search
+                </button>
+              </p>
+            </div>
+          </div>
+          
+          <div class="navbar-end" id="buyernavbarend">
+              <a href="{% url 'buyerpage' %}" class="navbar-item"  style="color: #3F978D; font-weight: bold;">
+                Project Page
+              </a>
+              <div class="dropdown is-right" id="buyerpagedropdown">
+                <div class="dropdown-trigger">
+                  <span>
+                    <figure class="image" >
+                      <img style="width: 35px; height: 35px; border-radius: 50%;" src="{{account.image.url}}">
+                    </figure>
+                  </span>
+                </div>
+                <div class="dropdown-menu" id="dropdown-menu" role="menu">
+                  <div class="dropdown-content">
+                    <a style="font-weight: bold;" href="{% url 'profile' account.slug %}" class="dropdown-item">
+                      Profile
+                    </a>
+                    <a style="font-weight: bold;" href="{% url 'projectlist' %}" class="navbar-item">
+                      List
+                    </a>
+                    <a style="font-weight: bold;" class="navbar-item" href="{% url 'servicelist' %}">
+                      Orders
+                    </a>
+                    <hr class="dropdown-divider">
+                    <a href="{% url 'logout' %}" class="dropdown-item">
+                      Log Out
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="clearnavbar"></div>
+        </nav>
+
+        <div class="postdetail-container">
+
+          <div class="postdetail-content">
+            <div class="postdetail-header">
+              {% if service.author == request.user %}
+              <div class="header-detail" style="width: 550px; float: left; word-wrap: break-word;">
+                <p style="font-size: 2.3em; font-weight: bold; margin-bottom: 5px;">
+                {{service.title}}
+                </p>
+                <figure class="image" style="display: inline-block;">
+                  <img style="width: 35px; height: 35px; border-radius: 50%;" src="{{service.author.image.url}}">
+                </figure>
+                <a href="{% url 'profile' service.author.slug %}" style="color: black;">
+                  <p style="display: inline-block; font-weight: bold; position: relative; bottom: 12px; left: 5px;">
+                    {{service.author.username}}
+                  </p>
+                </a>
+                <p style="display: inline-block; position: relative; bottom: 13.5px; left: 8px; font-size: 15px; color: #62646a">|
+                </p>
+                <i class="fas fa-star" style="display: inline-block; position: relative; bottom: 12px; left: 10px; color: #ffb33e"></i>
+                <i class="fas fa-star" style="display: inline-block; position: relative; bottom: 12px; left: 10px; color: #ffb33e"></i>
+                <i class="fas fa-star" style="display: inline-block; position: relative; bottom: 12px; left: 10px; color: #ffb33e"></i>
+                <i class="fas fa-star" style="display: inline-block; position: relative; bottom: 12px; left: 10px; color: #ffb33e"></i>
+                <i class="fas fa-star" style="display: inline-block; position: relative; bottom: 12px; left: 10px; color: #ffb33e"></i>
+                <p style="display: inline-block; position: relative; bottom: 11px; left: 10px; color: #ffb33e; font-weight: bold;">4.9</p>
+                <p style="display: inline-block; position: relative; bottom: 11px; left: 10px; color: #62646a;">(120)</p>
+              </div>
+              <div class="postdetail-options" style="width: 130px; float: right; padding-top: 10px;">
+                <a href="{% url 'service:edit' service.slug %}">
+                  <button class="button is-outlined is-rounded is-warning">
+                    <span>
+                      <i class="fas fa-edit"></i>
+                    </span>
+                  </button>
+                </a>
+                <a href="{% url 'service:delete' service.slug %}">
+                  <button class="button is-outlined is-rounded is-danger">
+                    <span>
+                      <i class="far fa-trash-alt"></i>
+                    </span>
+                  </button>
+                </a> 
+              </div>
+              <div class="clear" style="clear: both;"></div>
+              {% else %}
+              <p style="font-size: 2.3em; font-weight: bold; margin-bottom: 5px;">
+                {{service.title}}
+              </p>
+              <figure class="image" style="display: inline-block;">
+                <img style="width: 35px; height: 35px; border-radius: 50%;" src="{{service.author.image.url}}">
+              </figure>
+              <a href="{% url 'profile' service.author.slug %}" style="color: black;">
+                <p style="display: inline-block; font-weight: bold; position: relative; bottom: 12px; left: 5px;">
+                  {{service.author.username}}
+                </p>
+              </a>
+              <p style="display: inline-block; position: relative; bottom: 13.5px; left: 8px; font-size: 15px; color: #62646a">|
+              </p>
+              <i class="fas fa-star" style="display: inline-block; position: relative; bottom: 12px; left: 10px; color: #ffb33e"></i>
+              <i class="fas fa-star" style="display: inline-block; position: relative; bottom: 12px; left: 10px; color: #ffb33e"></i>
+              <i class="fas fa-star" style="display: inline-block; position: relative; bottom: 12px; left: 10px; color: #ffb33e"></i>
+              <i class="fas fa-star" style="display: inline-block; position: relative; bottom: 12px; left: 10px; color: #ffb33e"></i>
+              <i class="fas fa-star" style="display: inline-block; position: relative; bottom: 12px; left: 10px; color: #ffb33e"></i>
+              <p style="display: inline-block; position: relative; bottom: 11px; left: 10px; color: #ffb33e; font-weight: bold;">4.9</p>
+              <p style="display: inline-block; position: relative; bottom: 11px; left: 10px; color: #62646a;">(120)</p> 
+              {% endif %}
+            </div>
+
+            <div class="postdetail-main">
+              <div class="cover" style="margin-top: 10px;">
+                <figure class="image">
+                  <img style="width: 450px; height: 450px; margin-left: auto; margin-right: auto;" src="{{service.image.url}}">
+                </figure>
+              </div>
+              <div class="detail" style="margin-top: 20px;">
+                <p style="font-size: 1.25em; font-weight: bold;">About this service</p>
+                <p style="margin-top: 5px;">{{service.description}}</p>
+              </div>
+
+              <div class="postdetail-category" style="margin-top: 20px; border-top:1px solid #dadbdd; padding-top: 20px;">
+                <p style="font-size: 1.25em; font-weight: bold; margin-bottom: 10px;">Category</p>
+                <span class="tag">{{service.category.name}}</span>
+                <span class="tag">{{service.subcategory.name}}</span>
+              </div>
+
+              <div class="postdetaill-sidebar" style="margin-top: 20px; border-top:1px solid #dadbdd; padding-top: 20px;">
+                <div class="sidebar-profile">
+                  <p style="font-size: 1.5em; font-weight: bold; margin-bottom: 20px;">About the seller</p>
+                  <div class="leftside-profile" style="float: left; border-right: 1px solid #dadbdd;">
+                    <figure class="image" style="display: inline-block;">
+                      <img style="width: 110px; height: 110px; border-radius: 50%;" src="{{service.author.image.url}}">
+                    </figure>
+                    <div class="figuretext" style="display: inline-block; position: relative; bottom: 30px; left: 10px;">
+                      <a href="{% url 'profile' service.author.slug %}" style="color: black;">
+                        <p style="font-weight: bold; font-size: 1.25em;">
+                          {{service.author.first_name}} {{service.author.last_name}}
+                        </p>
+                      </a>
+                      
+                      <p>{{service.author.status}}</p>
+                      <i class="fas fa-star" style="display: inline-block; color: #ffb33e; margin-top: 5px;"></i>
+                      <p style="display: inline-block; color: #ffb33e; font-weight: bold;">4.9</p>
+                      <p style="display: inline-block; color: #62646a;">(120)</p>
+                    </div>
+                  </div>
+                  {% if service.author.email != request.user.email %}
+                  <div class="rightside-profile" style="float: right; padding-top: 10px;">
+                    <button class="button is-outlined" style="display: block;">Contact Me</button>
+                    <div class="tooltip">
+                      <button class="button is-outlined" style="display: inline-block; margin-top: 5px;"><img style="width: 15px; height: 15px;" src="{% static 'images/finish.png' %}"></button>
+                      <span class="tooltiptext">Report</span>
+                    </div>
+                  </div>
+                  <div class="clear" style="clear: both;"></div>
+                  {% else %} 
+                  <div class="clear" style="clear: left;"></div>
+                  {% endif %}            
+                </div>
+                <div class="sidebar-desc">
+                  <div class="sidebar-desc-header">
+                    <div class="leftside-desc-header" style="width: 200px; float: left;">
+                      <p>
+                        From
+                      </p>
+                      <p style="font-weight: bold;">
+                        {{service.author.origin}}
+                      </p>
+                      <p style="margin-top: 20px;">
+                        Total Project Request
+                      </p>
+                      <p style="font-weight: bold;">
+                        {{project_count}}
+                      </p>
+                    </div>
+                    <div class="rightside-desc-header" style="width: 200px; float: right;">
+                      <p>
+                        Member Since
+                      </p>
+                      <p style="font-weight: bold;">
+                        {{service.author.date_joined}}
+                      </p>
+                      <p style="margin-top: 20px;">
+                        Total Services
+                      </p>
+                      <p style="font-weight: bold;">
+                        {{service_count}}
+                      </p>
+                    </div>
+                  </div>
+                  <div class="clear" style="clear: both;"></div>
+                  <p style="margin-top: 20px; border-top: 1px solid #dadbdd">{{service.author.description}}</p>
+                </div>
+              </div>
+              {% if service.author != request.user %}
+              <div class="postdetail-action" style="margin-top: 20px; border-top:1px solid #dadbdd; padding-top: 20px;">
+                <div class="apply-button" style="width: 182px; margin: auto;">
+                  {% if order_service %}
+                  <a href="{% url 'service:cancelled-service' service.slug %}">
+                    <button class="button is-outlined is-rounded is-danger">
+                      <span>
+                        <i class="fas fa-times"></i>
+                      </span>
+                      <span style="margin-left: 10px;">Cancel this service</span>
+                    </button>
+                  </a>
+                  {% else %}
+                  <a href="{% url 'service:add-to-servicelist' service.slug %}">
+                    <button class="button is-outlined is-rounded is-success">
+                      <span>
+                        <i class="far fa-plus"></i>
+                      </span>
+                      <span style="margin-left: 10px;">Apply this service</span>
+                    </button>
+                  </a>
+                  {% endif %}                  
+                </div>
+              </div>
+              {% endif %}
+            </div>
+
+          </div>
+
+          <div class="packet-sidebar">
+            <div class="packet-header">
+              <div class="packethead basic-header is-active" data-target="basic-packet">
+                <p>Basic</p>
+              </div>
+              <div class="packethead standard-header" data-target="standard-packet">
+                <p>Standard</p>
+              </div>
+              <div class="packethead premium-header" data-target="premium-packet">
+                <p>Premium</p>
+              </div>
+            </div>
+            <div class="packetsidebar-desc">
+              <div class="packet basic-packet" id="basic-packet">
+                <div class="sidebar-basic">
+                  <p style="float: left; font-weight: bold;">{{basic.basic_name}}</p>
+                  <p style="float: right;">Rp {{basic.basic_price}}</p>
+                  <div class="clear" style="clear: both;"></div>
+                  <p style="margin-top: 20px;">{{basic.basic_desc}}</p>
+                  <div class="delivery-revision" style="margin-top: 20px;">
+                    <span style="margin-right: 10px; font-weight: bold;">
+                      <i class="far fa-clock"></i> {{basic.basic_delivery}} Days Delivery
+                    </span>
+                    <span style="font-weight: bold;">
+                      <i class="far fa-sync-alt"></i> {{basic.basic_revision}} Revisions
+                    </span>
+                  </div>
+                </div>
+                <div class="button-packet" style="margin-top: 40px; margin-bottom: 20px; width: 100%; display: flex; justify-content: center;">
+                  <a href="{% url 'service:add-to-servicelist' service.slug %}">
+                    <button class="button is-success">Take Service</button>
+                  </a>
+                </div>
+              </div>
+              <div class="packet standard-packet is-hidden" id="standard-packet">
+                <div class="sidebar-basic">
+                  <p style="float: left; font-weight: bold;">{{standard.standard_name}}</p>
+                  <p style="float: right;">Rp {{standard.standard_price}}</p>
+                  <div class="clear" style="clear: both;"></div>
+                  <p style="margin-top: 20px;">{{standard.standard_desc}}</p>
+                  <div class="delivery-revision" style="margin-top: 20px;">
+                    <span style="margin-right: 10px; font-weight: bold;">
+                      <i class="far fa-clock"></i> {{standard.standard_delivery}} Days Delivery
+                    </span>
+                    <span style="font-weight: bold;">
+                      <i class="far fa-sync-alt"></i> {{standard.standard_revision}} Revisions
+                    </span>
+                  </div>
+                </div>
+                <div class="button-packet" style="margin-top: 40px; margin-bottom: 20px; width: 100%; display: flex; justify-content: center;">
+                  <a href="{% url 'service:add-to-servicelist' service.slug %}">
+                    <button class="button is-success">Take Service</button>
+                  </a>
+                </div>
+              </div>
+              <div class="packet premium-packet is-hidden" id="premium-packet">
+                <div class="sidebar-basic">
+                  <p style="float: left; font-weight: bold;">{{premium.premium_name}}</p>
+                  <p style="float: right;">Rp {{premium.premium_price}}</p>
+                  <div class="clear" style="clear: both;"></div>
+                  <p style="margin-top: 20px;">{{premium.premium_desc}}</p>
+                  <div class="delivery-revision" style="margin-top: 20px;">
+                    <span style="margin-right: 10px; font-weight: bold;">
+                      <i class="far fa-clock"></i> {{premium.premium_delivery}} Days Delivery
+                    </span>
+                    <span style="font-weight: bold;">
+                      <i class="far fa-sync-alt"></i> {{premium.premium_revision}} Revisions
+                    </span>
+                  </div>
+                </div>
+                <div class="button-packet" style="margin-top: 40px; margin-bottom: 20px; width: 100%; display: flex; justify-content: center;">
+                  <a href="{% url 'service:add-to-servicelist' service.slug %}">
+                    <button class="button is-success">Take Service</button>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="clear" style="clear: both;"></div>          
+
+          <div class="libre-footer" style="height: 80px; border-top: 2px solid #e4e5e7; margin-top: 30px;">
+            <div class="content-left">
+              <img style="width: 80px; height: 80px; display: inline-block; margin-bottom: -6px;" src="{% static 'images/libre.png' %}">
+              <p style="font-size: 12px; color: #b5b6ba; display: inline-block; position: relative; bottom: 30px;">&copy; Libre Semarang Pride Company Ltd. 2021</p>
+            </div>
+            
+          </div>
+        </div>
+
+
+    {% endif %}
+    <script type="text/javascript">
+
+    var dropdown = document.querySelector('.dropdown');
+
+      dropdown.addEventListener('click', function(event) {
+        event.stopPropagation();
+        dropdown.classList.toggle('is-active');
+      })
+
+    const tabs = document.querySelectorAll('.packethead');
+    const tabContentBoxes = document.querySelectorAll('.packetsidebar-desc > .packet');
+
+    tabs.forEach(tab => {
+      tab.addEventListener('click', () => {
+        tabs.forEach(item => item.classList.remove('is-active'));
+        tab.classList.add('is-active');
+
+        const target = tab.dataset.target;
+        // console.log(target);
+        tabContentBoxes.forEach(box => {
+          if (box.getAttribute('id') === target) {
+            box.classList.remove('is-hidden');
+          } else {
+            box.classList.add('is-hidden');
+          }
+        })
+      })
+    })
+
+    </script>
+    </body>
+</html>

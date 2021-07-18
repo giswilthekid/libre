@@ -15,10 +15,12 @@ from account.forms import(
 from account.models import(
 	Account, 
 	ProjectList,
+	ServiceList,
 	Language, 
 	Skill, 
 	Education,) 
 from blog.models import BlogPost
+from service.models import ServicePost
 
 def landing_view(request):
 	context = {}
@@ -87,6 +89,27 @@ def project_view(request):
 	
 
 	return render(request, 'account/listproject.html', context)
+
+@login_required
+def service_view(request):
+
+	context={}
+
+	user = request.user
+	service_pending = ServiceList.objects.filter(user=request.user, status='pending').all()
+	service_ongoing = ServiceList.objects.filter(user=request.user, status='ongoing').all()
+	service_done = ServiceList.objects.filter(user=request.user, status='done').all()
+	service_declined = ServiceList.objects.filter(user=request.user, status='cancelled').all()
+	account = Account.objects.filter(email=request.user.email).first()
+
+	context['service_pending'] = service_pending
+	context['service_ongoing'] = service_ongoing
+	context['service_done'] = service_done
+	context['service_declined'] = service_declined
+	context['account'] = account
+	
+
+	return render(request, 'account/listservice.html', context)
 
 @login_required
 def profile_view(request, slug):

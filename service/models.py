@@ -71,6 +71,6 @@ def submission_delete(sender, instance, **kwargs):
 
 def pre_save_service_post_receiver(sender, instance, *args, **kwargs):
 	if not instance.slug:
-		instance.slug = slugify(instance.author.username + "-" + instance.title + "-" + "service")
+		instance.slug = slugify(instance.author.username + "-" + instance.title)
 
 pre_save.connect(pre_save_service_post_receiver, sender=ServicePost)

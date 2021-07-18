@@ -93,6 +93,15 @@ class ProjectList(models.Model):
 	def __str__(self):
 		return self.status
 
+class ServiceList(models.Model):
+	status					= models.CharField(max_length=20, default='pending')
+	service					= models.ForeignKey(settings.AUTH_SERVICE_MODEL, on_delete=models.CASCADE)
+	user 					= models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+	timestamp	 			= models.DateTimeField(auto_now_add=True, verbose_name="timestamp")
+
+	def __str__(self):
+		return self.status
+
 class Language(models.Model):
     language_name 			= models.CharField(max_length=100, null=True, blank=True)
     language_level 			= models.CharField(max_length=100, null=True, blank=True)

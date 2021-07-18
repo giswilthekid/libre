@@ -5,6 +5,7 @@ from django.contrib.auth.decorators import login_required
 from blog.models import BlogPost, Category, SubCategory
 from blog.forms import CreateBlogPostForm, UpdateBlogPostForm
 from account.models import Account, ProjectList
+from service.models import ServicePost
 
 @login_required
 def buyerpage(request):
@@ -60,11 +61,14 @@ def detail_blog_view(request, slug):
 	blog_post = get_object_or_404(BlogPost, slug=slug)
 	order_project = ProjectList.objects.filter(project=blog_post, user=request.user)
 	project_count = BlogPost.objects.filter(author=blog_post.author).count()
+	service_count = ServicePost.objects.filter(author=blog_post.author).count()
+
 
 	context['blog_post'] = blog_post
 	context['account'] = account
 	context['order_project'] = order_project
 	context['project_count'] = project_count
+	context['service_count'] = service_count
 
 
 	return render(request, 'blog/post_detail.html', context)

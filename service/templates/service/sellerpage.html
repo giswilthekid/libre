@@ -50,12 +50,6 @@
           </div>
           
           <div class="navbar-end" id="buyernavbarend">
-              <a style="font-weight: bold;" href="{% url 'projectlist' %}" class="navbar-item">
-                List
-              </a>
-              <a style="font-weight: bold;" class="navbar-item">
-                Orders
-              </a>
               <a href="{% url 'buyerpage' %}" class="navbar-item"  style="color: #3F978D; font-weight: bold;">
                 Project Page
               </a>
@@ -69,8 +63,14 @@
                 </div>
                 <div class="dropdown-menu" id="dropdown-menu" role="menu">
                   <div class="dropdown-content">
-                    <a href="{% url 'profile' account.slug %}" class="dropdown-item">
+                    <a style="font-weight: bold;" href="{% url 'profile' account.slug %}" class="dropdown-item">
                       Profile
+                    </a>
+                    <a style="font-weight: bold;" href="{% url 'projectlist' %}" class="navbar-item">
+                      List
+                    </a>
+                    <a style="font-weight: bold;" class="navbar-item" href="{% url 'servicelist' %}">
+                      Orders
                     </a>
                     <hr class="dropdown-divider">
                     <a href="{% url 'logout' %}" class="dropdown-item">
@@ -97,7 +97,7 @@
             <div class="box" id="box-poster" style="background-image: url('{% static 'images/flower.jpg' %}'); background-size: cover; background-position: 0 -200px;">
               <div class="textt" style="width: 40%; height: 100%; float: left;">
                 <p style="font-size: 25px; margin-top: 17%; color: white;">
-                  {{account.first_name}}, Here's what you probably need for your project
+                  {{account.first_name}}, Take some services from our freelancers
                 </p>
               </div>
               <div class="category" style="width: 60%; height: 100%; float: right; overflow: hidden;">
@@ -145,40 +145,40 @@
 
           <div class="main-body">
             
-          <!-- {% for post in blog_posts %}
+          {% for sv in service %}
             <div class="card" id="postcard">
               <div class="card-image">
                 <figure class="image is-4by3">
-                  <img src="{{post.image.url}}" alt="Placeholder image">
+                  <img src="{{sv.image.url}}" alt="Placeholder image">
                 </figure>
               </div>
               <div class="card-content">
                 <div class="media">
                   <div class="media-left">
                     <figure class="image is-square is-48x48">
-                      <img class="is-rounded" src="{{post.author.image.url}}" alt="Placeholder image">
+                      <img class="is-rounded" src="{{sv.author.image.url}}" alt="Placeholder image">
                     </figure>
                   </div>
                   <div class="media-content">
-                    <a href="{% url 'blog:detail' post.slug %}">
-                      <p class="title is-4" id="post-title">{{post.title}}</p>
+                    <a href="{% url 'service:detail-service' sv.slug %}">
+                      <p class="title is-4" id="post-title">{{sv.title}}</p>
                     </a>
-                    <a href="{% url 'profile' post.author.slug %}">
-                      <p class="subtitle is-6">@{{post.author.username}}</p>
+                    <a href="{% url 'profile' sv.author.slug %}">
+                      <p class="subtitle is-6">@{{sv.author.username}}</p>
                     </a>
                   </div>
                 </div>
 
                 <div class="content" id="post-body">
-                  {{post.body|safe}}
+                  {{sv.description|safe}}
                 </div>
 
                 <footer class="card-footer"> 
-                  <time datetime="2016-1-1">{{post.date_published}}</time>
+                  <time datetime="2016-1-1">{{sv.date_published}}</time>
                 </footer>
               </div>
             </div>
-          {% endfor %} -->
+          {% endfor %}
           </div>     
         </div>
 

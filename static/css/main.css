@@ -671,3 +671,82 @@ h2:after {
 	border:1px solid #dadbdd;
 	float: left;
 }
+
+/*DETAIL SERVICE PAGE*/
+
+.packet-sidebar{
+	width: 450px;
+	margin-top: 20px;
+	float: right;
+	position: fixed;
+	left: 850px;
+}
+
+.packet-header{
+	display: flex;
+}
+
+.basic-header{
+	width: 150px;
+	height: 70px;
+	border:1px solid #dadbdd;
+	border-bottom: none;
+	border-right: none;
+	font-weight: bold;
+	color: #7a7d85;
+	background-color: #fafafa;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.standard-header{
+	width: 150px;
+	height: 70px;
+	border:1px solid #dadbdd;
+	border-bottom: none;
+	border-right: none;
+	font-weight: bold;
+	color: #7a7d85;
+	background-color: #fafafa;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.premium-header{
+	width: 150px;
+	height: 70px;
+	border:1px solid #dadbdd;
+	border-bottom: none;
+	font-weight: bold;
+	color: #7a7d85;
+	background-color: #fafafa;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.packetsidebar-desc{
+	border:1px solid #dadbdd;
+	padding: 10px;
+}
+
+
+.basic-header:hover {
+	cursor: pointer;
+}
+
+.standard-header:hover {
+	cursor: pointer;
+}
+
+.premium-header:hover {
+	cursor: pointer;
+}
+
+.is-active{
+	background-color: white;
+	color: #1dbf73;
+	border-bottom: 3px solid #1dbf73;
+}

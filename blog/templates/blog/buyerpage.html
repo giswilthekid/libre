@@ -50,12 +50,6 @@
           </div>
           
           <div class="navbar-end" id="buyernavbarend">
-              <a style="font-weight: bold;" href="{% url 'projectlist' %}" class="navbar-item">
-                List
-              </a>
-              <a style="font-weight: bold;" class="navbar-item">
-                Orders
-              </a>
               <a href="{% url 'service:sellerpage' %}" class="navbar-item"  style="color: #3F978D; font-weight: bold;">
                 Service Page
               </a>
@@ -69,8 +63,14 @@
                 </div>
                 <div class="dropdown-menu" id="dropdown-menu" role="menu">
                   <div class="dropdown-content">
-                    <a href="{% url 'profile' account.slug %}" class="dropdown-item">
+                    <a style="font-weight: bold;" href="{% url 'profile' account.slug %}" class="dropdown-item">
                       Profile
+                    </a>
+                    <a style="font-weight: bold;" href="{% url 'projectlist' %}" class="navbar-item">
+                      List
+                    </a>
+                    <a style="font-weight: bold;" class="navbar-item" href="{% url 'servicelist' %}">
+                      Orders
                     </a>
                     <hr class="dropdown-divider">
                     <a href="{% url 'logout' %}" class="dropdown-item">

@@ -79,6 +79,7 @@ AUTH_USER_MODEL = 'account.Account'
 AUTH_BLOG_MODEL = 'blog.BlogPost'
 AUTH_CAT_MODEL = 'blog.Category'
 AUTH_SUBCAT_MODEL = 'blog.SubCategory'
+AUTH_SERVICE_MODEL = 'service.ServicePost'
 
 WSGI_APPLICATION = 'libre.wsgi.application'
 

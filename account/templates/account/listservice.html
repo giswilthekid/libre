@@ -77,7 +77,7 @@
         </nav>
           <div class="container" style="margin-top: 80px;">
 
-          <h1 style="text-align: left; position: relative; margin: 0px; font-size: 40px; margin-bottom: 10px;">Manage Projects</h1>
+          <h1 style="text-align: left; position: relative; margin: 0px; font-size: 40px; margin-bottom: 10px;">Manage Services</h1>
 
           <div class="tabs is-boxed">
             <ul>
@@ -123,28 +123,22 @@
                 </tr>
               </thead>
               <tbody>
-                {% for prj in project_pending %}
+                {% for prj in service_pending %}
                 <tr>
                   <th>{{ forloop.counter }}</th>
                   <td>
-                    <a href="{% url 'blog:detail' prj.project.slug %}">
-                      {{ prj.project.title }}
+                    <a href="{% url 'service:detail-service' prj.service.slug %}">
+                      {{ prj.service.title }}
                     </a>
                   </td>
                   <td>
-                    <a href="{% url 'profile' prj.project.author.slug %}">
-                      {{ prj.project.author.username }}
+                    <a href="{% url 'profile' prj.service.author.slug %}">
+                      {{ prj.service.author.username }}
                     </a>
                   </td>
-                  <td>
-                      {{ prj.project.category }}
-                  </td>
-                  <td>
-                      {{ prj.project.deadline }} Days
-                  </td>
-                  <td>
-                      Rp {{ prj.project.budget }}
-                  </td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
                   <td>
                     <span class="tag is-warning is-light">Pending</span>
                   </td>
@@ -166,28 +160,22 @@
                 </tr>
               </thead>
               <tbody>
-                {% for prj in project_ongoing %}
+                {% for prj in service_ongoing %}
                 <tr>
                   <th>{{ forloop.counter }}</th>
                   <td>
-                    <a href="{% url 'blog:detail' prj.project.slug %}">
-                      {{ prj.project.title }}
+                    <a href="{% url 'service:detail-service' prj.service.slug %}">
+                      {{ prj.service.title }}
                     </a>
                   </td>
                   <td>
-                    <a href="{% url 'profile' prj.project.author.slug %}">
-                      {{ prj.project.author.username }}
+                    <a href="{% url 'profile' prj.service.author.slug %}">
+                      {{ prj.service.author.username }}
                     </a>
                   </td>
-                  <td>
-                      {{ prj.project.category }}
-                  </td>
-                  <td>
-                      {{ prj.project.deadline }} Days
-                  </td>
-                  <td>
-                      Rp {{ prj.project.budget }}
-                  </td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
                   <td>
                     <span class="tag is-info is-light">On Going</span>
                   </td>
@@ -209,28 +197,22 @@
                 </tr>
               </thead>
               <tbody>
-                {% for prj in project_done %}
+                {% for prj in service_done %}
                 <tr>
                   <th>{{ forloop.counter }}</th>
                   <td>
-                    <a href="{% url 'blog:detail' prj.project.slug %}">
-                      {{ prj.project.title }}
+                    <a href="{% url 'service:detail-service' prj.service.slug %}">
+                      {{ prj.service.title }}
                     </a>
                   </td>
                   <td>
-                    <a href="{% url 'profile' prj.project.author.slug %}">
-                      {{ prj.project.author.username }}
+                    <a href="{% url 'profile' prj.service.author.slug %}">
+                      {{ prj.service.author.username }}
                     </a>
                   </td>
-                  <td>
-                      {{ prj.project.category }}
-                  </td>
-                  <td>
-                      {{ prj.project.deadline }} Days
-                  </td>
-                  <td>
-                      Rp {{ prj.project.budget }}
-                  </td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
                   <td>
                     <span class="tag is-primary is-light">Done</span>
                   </td>
@@ -252,28 +234,22 @@
                 </tr>
               </thead>
               <tbody>
-                {% for prj in project_declined %}
+                {% for prj in service_declined %}
                 <tr>
                   <th>{{ forloop.counter }}</th>
                   <td>
-                    <a href="{% url 'blog:detail' prj.project.slug %}">
-                      {{ prj.project.title }}
+                    <a href="{% url 'service:detail-service' prj.service.slug %}">
+                      {{ prj.service.title }}
                     </a>
                   </td>
                   <td>
-                    <a href="{% url 'profile' prj.project.author.slug %}">
-                      {{ prj.project.author.username }}
+                    <a href="{% url 'profile' prj.service.author.slug %}">
+                      {{ prj.service.author.username }}
                     </a>
                   </td>
-                  <td>
-                      {{ prj.project.category }}
-                  </td>
-                  <td>
-                      {{ prj.project.deadline }} Days
-                  </td>
-                  <td>
-                      Rp {{ prj.project.budget }}
-                  </td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
                   <td>
                     <span class="tag is-danger is-light">Declined</span>
                   </td>
