@@ -47,35 +47,40 @@
           </div>
           
           <div class="navbar-end" id="buyernavbarend">
-              <a href="{% url 'service:sellerpage' %}" class="navbar-item"  style="color: #3F978D; font-weight: bold;">
+            <div class="header-tab">
+              <a href="{% url 'buyerpage' %}" class="navbar-item">
+                Project Page
+              </a>
+              <a href="{% url 'service:sellerpage' %}" class="navbar-item">
                 Service Page
               </a>
-              <div class="dropdown is-right" id="buyerpagedropdown">
-                <div class="dropdown-trigger">
-                  <span>
-                    <figure class="image" >
-                      <img style="width: 35px; height: 35px; border-radius: 50%;" src="{{account.image.url}}">
-                    </figure>
-                  </span>
-                </div>
-                <div class="dropdown-menu" id="dropdown-menu" role="menu">
-                  <div class="dropdown-content">
-                    <a style="font-weight: bold;" href="{% url 'profile' account.slug %}" class="dropdown-item">
-                      Profile
-                    </a>
-                    <a style="font-weight: bold;" href="{% url 'projectlist' %}" class="navbar-item">
-                      List
-                    </a>
-                    <a style="font-weight: bold;" class="navbar-item" href="{% url 'servicelist' %}">
-                      Orders
-                    </a>
-                    <hr class="dropdown-divider">
-                    <a href="{% url 'logout' %}" class="dropdown-item">
-                      Log Out
-                    </a>
-                  </div>
+            </div>
+            <div class="dropdown is-right" id="buyerpagedropdown">
+              <div class="dropdown-trigger">
+                <span>
+                  <figure class="image" >
+                    <img style="width: 35px; height: 35px; border-radius: 50%;" src="{{account.image.url}}">
+                  </figure>
+                </span>
+              </div>
+              <div class="dropdown-menu" id="dropdown-menu" role="menu" style="border:1px solid #e4e5e7; margin-top: 5px;">
+                <div class="dropdown-content">
+                  <a style="font-weight: bold;" href="{% url 'profile' account.slug %}" class="dropdown-item">
+                    Profile
+                  </a>
+                  <a style="font-weight: bold;" href="{% url 'projectlist' %}" class="dropdown-item">
+                    List
+                  </a>
+                  <a style="font-weight: bold;" href="{% url 'servicelist' %}" class="dropdown-item">
+                    Order
+                  </a>
+                  <hr class="dropdown-divider">
+                  <a href="{% url 'logout' %}" class="dropdown-item">
+                    Log Out
+                  </a>
                 </div>
               </div>
+            </div>
             </div>
 
             <div class="clearnavbar"></div>

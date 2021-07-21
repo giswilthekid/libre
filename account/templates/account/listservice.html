@@ -42,35 +42,40 @@
           </div>
           
           <div class="navbar-end" id="buyernavbarend">
-              <a href="{% url 'buyerpage' %}" class="navbar-item"  style="color: #3F978D; font-weight: bold;">
+            <div class="header-tab">
+              <a href="{% url 'buyerpage' %}" class="navbar-item">
                 Project Page
               </a>
-              <div class="dropdown is-right" id="buyerpagedropdown">
-                <div class="dropdown-trigger">
-                  <span>
-                    <figure class="image" >
-                      <img style="width: 35px; height: 35px; border-radius: 50%;" src="{{account.image.url}}">
-                    </figure>
-                  </span>
-                </div>
-                <div class="dropdown-menu" id="dropdown-menu" role="menu">
-                  <div class="dropdown-content">
-                    <a style="font-weight: bold;" href="{% url 'profile' account.slug %}" class="dropdown-item">
-                      Profile
-                    </a>
-                    <a style="font-weight: bold;" href="{% url 'projectlist' %}" class="navbar-item">
-                      List
-                    </a>
-                    <a style="font-weight: bold;" class="navbar-item" href="{% url 'servicelist' %}">
-                      Orders
-                    </a>
-                    <hr class="dropdown-divider">
-                    <a href="{% url 'logout' %}" class="dropdown-item">
-                      Log Out
-                    </a>
-                  </div>
+              <a href="{% url 'service:sellerpage' %}" class="navbar-item">
+                Service Page
+              </a>
+            </div>
+            <div class="dropdown is-right" id="buyerpagedropdown">
+              <div class="dropdown-trigger">
+                <span>
+                  <figure class="image" >
+                    <img style="width: 35px; height: 35px; border-radius: 50%;" src="{{account.image.url}}">
+                  </figure>
+                </span>
+              </div>
+              <div class="dropdown-menu" id="dropdown-menu" role="menu" style="border:1px solid #e4e5e7; margin-top: 5px;">
+                <div class="dropdown-content">
+                  <a style="font-weight: bold;" href="{% url 'profile' account.slug %}" class="dropdown-item">
+                    Profile
+                  </a>
+                  <a style="font-weight: bold;" href="{% url 'projectlist' %}" class="dropdown-item">
+                    List
+                  </a>
+                  <a style="font-weight: bold;" href="{% url 'servicelist' %}" class="dropdown-item">
+                    Order
+                  </a>
+                  <hr class="dropdown-divider">
+                  <a href="{% url 'logout' %}" class="dropdown-item">
+                    Log Out
+                  </a>
                 </div>
               </div>
+            </div>
             </div>
 
             <div class="clearnavbar"></div>
@@ -79,29 +84,29 @@
 
           <h1 style="text-align: left; position: relative; margin: 0px; font-size: 40px; margin-bottom: 10px;">Manage Services</h1>
 
-          <div class="tabs is-boxed">
+          <div class="tabs is-boxed" id="tabproject">
             <ul>
               <li class="is-active" data-target="prj-pending">
-                <a style="color: #3F978D">
+                <a>
                   <span class="icon is-small"><i class="fas fa-spinner" aria-hidden="true"></i></span>
                   <span>Pending</span>
                 </a>
               </li>
               <li data-target="prj-ongoing">
-                <a style="color: #3F978D">
-                  <span class="icon is-small"><i class="fas fa-music" aria-hidden="true"></i></span>
+                <a>
+                  <span class="icon is-small"><i class="fas fa-hourglass-half"></i></span>
                   <span>On Going</span>
                 </a>
               </li>
               <li data-target="prj-done">
-                <a style="color: #3F978D">
-                  <span class="icon is-small"><i class="fas fa-film" aria-hidden="true"></i></span>
+                <a>
+                  <span class="icon is-small"><i class="fas fa-check"></i></span>
                   <span>Done</span>
                 </a>
               </li>
               <li data-target="prj-declined">
-                <a style="color: #3F978D">
-                  <span class="icon is-small"><i class="far fa-file-alt" aria-hidden="true"></i></span>
+                <a>
+                  <span class="icon is-small"><i class="fas fa-times"></i></span>
                   <span>Decline</span>
                 </a>
               </li>
@@ -115,10 +120,11 @@
                 <tr>
                   <th>No.</th>
                   <th>Title</th>
-                  <th>Author</th>
-                  <th>Category</th>
-                  <th>Deadline</th>
-                  <th>Budget</th>
+                  <th>Freelancer</th>
+                  <th>Packet</th>
+                  <th>Delivery Time</th>
+                  <th>Revision</th>
+                  <th>Price</th>
                   <th>Status</th>
                 </tr>
               </thead>
@@ -136,9 +142,10 @@
                       {{ prj.service.author.username }}
                     </a>
                   </td>
-                  <td></td>
-                  <td></td>
-                  <td></td>
+                  <td>{{ prj.basic_packet.basic_name }}{{ prj.standard_packet.standard_name }}{{ prj.premium_packet.premium_name }}</td>
+                  <td>{{ prj.basic_packet.basic_delivery }}{{ prj.standard_packet.standard_delivery }}{{ prj.premium_packet.premium_delivery }}</td>
+                  <td>{{ prj.basic_packet.basic_revision }}{{ prj.standard_packet.standard_revision }}{{ prj.premium_packet.premium_revision }}</td>
+                  <td>{{ prj.basic_packet.basic_price }}{{ prj.standard_packet.standard_price }}{{ prj.premium_packet.premium_price }}</td>
                   <td>
                     <span class="tag is-warning is-light">Pending</span>
                   </td>
@@ -152,10 +159,11 @@
                 <tr>
                   <th>No.</th>
                   <th>Title</th>
-                  <th>Author</th>
-                  <th>Category</th>
-                  <th>Deadline</th>
-                  <th>Budget</th>
+                  <th>Freelancer</th>
+                  <th>Packet</th>
+                  <th>Delivery Time</th>
+                  <th>Revision</th>
+                  <th>Price</th>
                   <th>Status</th>
                 </tr>
               </thead>
@@ -176,6 +184,7 @@
                   <td></td>
                   <td></td>
                   <td></td>
+                  <td></td>
                   <td>
                     <span class="tag is-info is-light">On Going</span>
                   </td>
@@ -189,10 +198,11 @@
                 <tr>
                   <th>No.</th>
                   <th>Title</th>
-                  <th>Author</th>
-                  <th>Category</th>
-                  <th>Deadline</th>
-                  <th>Budget</th>
+                  <th>Freelancer</th>
+                  <th>Packet</th>
+                  <th>Delivery Time</th>
+                  <th>Revision</th>
+                  <th>Price</th>
                   <th>Status</th>
                 </tr>
               </thead>
@@ -213,6 +223,7 @@
                   <td></td>
                   <td></td>
                   <td></td>
+                  <td></td>
                   <td>
                     <span class="tag is-primary is-light">Done</span>
                   </td>
@@ -226,10 +237,11 @@
                 <tr>
                   <th>No.</th>
                   <th>Title</th>
-                  <th>Author</th>
-                  <th>Category</th>
-                  <th>Deadline</th>
-                  <th>Budget</th>
+                  <th>Freelancer</th>
+                  <th>Packet</th>
+                  <th>Delivery Time</th>
+                  <th>Revision</th>
+                  <th>Price</th>
                   <th>Status</th>
                 </tr>
               </thead>
@@ -247,6 +259,7 @@
                       {{ prj.service.author.username }}
                     </a>
                   </td>
+                  <td></td>
                   <td></td>
                   <td></td>
                   <td></td>

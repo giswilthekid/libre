@@ -14,6 +14,8 @@ from account.views import(
     delete_language,
     delete_skill,
     delete_education,
+    dashboard_view,
+    status_change,
 )
 
 from blog.views import(
@@ -35,6 +37,8 @@ urlpatterns = [
     path('language/delete/<id>/', delete_language, name='delete-language'),
     path('skill/delete/<id>/', delete_skill, name='delete-skill'),
     path('education/delete/<id>/', delete_education, name='delete-education'),
+    path('dashboard/<slug>/', dashboard_view, name='dashboard'),
+    path('status-change/<project_id>/', status_change, name='status-change'),
 ]
 
 if settings.DEBUG:

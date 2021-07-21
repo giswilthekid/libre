@@ -85,6 +85,7 @@ def pre_save_account_receiver(sender, instance, *args, **kwargs):
 pre_save.connect(pre_save_account_receiver, sender=Account)
 
 class ProjectList(models.Model):
+	pl_id					= models.IntegerField(primary_key=True)
 	status					= models.CharField(max_length=20, default='pending')
 	project					= models.ForeignKey(settings.AUTH_BLOG_MODEL, on_delete=models.CASCADE)
 	user 					= models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
@@ -94,9 +95,13 @@ class ProjectList(models.Model):
 		return self.status
 
 class ServiceList(models.Model):
+	sl_id					= models.IntegerField(primary_key=True)
 	status					= models.CharField(max_length=20, default='pending')
 	service					= models.ForeignKey(settings.AUTH_SERVICE_MODEL, on_delete=models.CASCADE)
 	user 					= models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+	basic_packet			= models.ForeignKey(settings.AUTH_BASIC_MODEL, on_delete=models.CASCADE, blank=True, null=True)
+	standard_packet			= models.ForeignKey(settings.AUTH_STANDARD_MODEL, on_delete=models.CASCADE, blank=True, null=True)
+	premium_packet			= models.ForeignKey(settings.AUTH_PREMIUM_MODEL, on_delete=models.CASCADE, blank=True, null=True)
 	timestamp	 			= models.DateTimeField(auto_now_add=True, verbose_name="timestamp")
 
 	def __str__(self):

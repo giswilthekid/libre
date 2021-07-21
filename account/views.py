@@ -11,16 +11,18 @@ from account.forms import(
 	UpdateLanguageForm, 
 	UpdateSkillForm, 
 	UpdateEducationForm,
-	) 
+	)
+
 from account.models import(
 	Account, 
 	ProjectList,
 	ServiceList,
 	Language, 
 	Skill, 
-	Education,) 
+	Education,)
+
 from blog.models import BlogPost
-from service.models import ServicePost
+from service.models import ServicePost, BasicPacket, StandardPacket, PremiumPacket
 
 def landing_view(request):
 	context = {}
@@ -183,6 +185,7 @@ def profile_view(request, slug):
 
 	return render(request, 'account/profile.html', context)
 
+@login_required
 def delete_language(request, id):
 	
 	language = get_object_or_404(Language, id=id)
@@ -193,6 +196,7 @@ def delete_language(request, id):
 
 	return redirect("profile", slug=slug)
 
+@login_required
 def delete_skill(request, id):
 	
 	skill = get_object_or_404(Skill, id=id)
@@ -203,6 +207,7 @@ def delete_skill(request, id):
 
 	return redirect("profile", slug=slug)
 
+@login_required
 def delete_education(request, id):
 	
 	education = get_object_or_404(Education, id=id)
@@ -212,3 +217,63 @@ def delete_education(request, id):
 	slug = user.slug
 
 	return redirect("profile", slug=slug)
+
+@login_required
+def dashboard_view(request, slug):
+	
+	context={}
+
+	user = request.user
+
+	project = BlogPost.objects.filter(author=user).all()
+	projectreqpending = ProjectList.objects.filter(project__in=project, status='pending')
+	projectreqongoing = ProjectList.objects.filter(project__in=project, status='ongoing')
+
+	service = ServicePost.objects.filter(author=user).all()
+	servicereq = ServiceList.objects.filter(service__in=service)
+
+	
+	account = get_object_or_404(Account, slug=slug)
+
+	pl_id = request.POST.get('project_id')
+	project = ProjectList.objects.filter(pl_id=pl_id).first()
+	user = request.user
+	print(project)
+	
+	if (request.POST.get('statusoption') == 'accept'):
+		project.status = 'ongoing'
+		project.save()
+		return redirect("dashboard", slug=user.slug)
+	elif (request.POST.get('statusoption') == 'decline'):
+		project.status = 'cancelled'
+		project.save()
+		return redirect("dashboard", slug=user.slug)
+	else:
+		print('nothing')
+
+
+	context['user'] = user
+	context['account'] = account
+	context['projectreqpending'] = projectreqpending
+	context['projectreqongoing'] = projectreqongoing
+	context['servicereq'] = servicereq
+
+	return render(request, 'account/dashboard.html', context)
+
+@login_required
+def status_change(request):
+
+	project_id = request.POST.get('project_id')
+	project = ProjectList.objects.filter(id=project_id)
+	user = request.user
+	print(project_id)
+	
+	if request.POST:
+		if (request.POST.get('statusoption') == 'accept'):
+			project.status = 'ongoing'
+			return redirect("buyerpage")
+		elif (request.POST.get('statusoption') == 'decline'):
+			project.status = 'cancelled'
+			return redirect("buyerpage")
+		else:
+			print('nothing')

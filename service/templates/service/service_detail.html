@@ -47,35 +47,40 @@
           </div>
           
           <div class="navbar-end" id="buyernavbarend">
-              <a href="{% url 'buyerpage' %}" class="navbar-item"  style="color: #3F978D; font-weight: bold;">
+            <div class="header-tab">
+              <a href="{% url 'buyerpage' %}" class="navbar-item">
                 Project Page
               </a>
-              <div class="dropdown is-right" id="buyerpagedropdown">
-                <div class="dropdown-trigger">
-                  <span>
-                    <figure class="image" >
-                      <img style="width: 35px; height: 35px; border-radius: 50%;" src="{{account.image.url}}">
-                    </figure>
-                  </span>
-                </div>
-                <div class="dropdown-menu" id="dropdown-menu" role="menu">
-                  <div class="dropdown-content">
-                    <a style="font-weight: bold;" href="{% url 'profile' account.slug %}" class="dropdown-item">
-                      Profile
-                    </a>
-                    <a style="font-weight: bold;" href="{% url 'projectlist' %}" class="navbar-item">
-                      List
-                    </a>
-                    <a style="font-weight: bold;" class="navbar-item" href="{% url 'servicelist' %}">
-                      Orders
-                    </a>
-                    <hr class="dropdown-divider">
-                    <a href="{% url 'logout' %}" class="dropdown-item">
-                      Log Out
-                    </a>
-                  </div>
+              <a href="{% url 'service:sellerpage' %}" class="navbar-item">
+                Service Page
+              </a>
+            </div>
+            <div class="dropdown is-right" id="buyerpagedropdown">
+              <div class="dropdown-trigger">
+                <span>
+                  <figure class="image" >
+                    <img style="width: 35px; height: 35px; border-radius: 50%;" src="{{account.image.url}}">
+                  </figure>
+                </span>
+              </div>
+              <div class="dropdown-menu" id="dropdown-menu" role="menu" style="border:1px solid #e4e5e7; margin-top: 5px;">
+                <div class="dropdown-content">
+                  <a style="font-weight: bold;" href="{% url 'profile' account.slug %}" class="dropdown-item">
+                    Profile
+                  </a>
+                  <a style="font-weight: bold;" href="{% url 'projectlist' %}" class="dropdown-item">
+                    List
+                  </a>
+                  <a style="font-weight: bold;" href="{% url 'servicelist' %}" class="dropdown-item">
+                    Order
+                  </a>
+                  <hr class="dropdown-divider">
+                  <a href="{% url 'logout' %}" class="dropdown-item">
+                    Log Out
+                  </a>
                 </div>
               </div>
+            </div>
             </div>
 
             <div class="clearnavbar"></div>
@@ -234,31 +239,6 @@
                   <p style="margin-top: 20px; border-top: 1px solid #dadbdd">{{service.author.description}}</p>
                 </div>
               </div>
-              {% if service.author != request.user %}
-              <div class="postdetail-action" style="margin-top: 20px; border-top:1px solid #dadbdd; padding-top: 20px;">
-                <div class="apply-button" style="width: 182px; margin: auto;">
-                  {% if order_service %}
-                  <a href="{% url 'service:cancelled-service' service.slug %}">
-                    <button class="button is-outlined is-rounded is-danger">
-                      <span>
-                        <i class="fas fa-times"></i>
-                      </span>
-                      <span style="margin-left: 10px;">Cancel this service</span>
-                    </button>
-                  </a>
-                  {% else %}
-                  <a href="{% url 'service:add-to-servicelist' service.slug %}">
-                    <button class="button is-outlined is-rounded is-success">
-                      <span>
-                        <i class="far fa-plus"></i>
-                      </span>
-                      <span style="margin-left: 10px;">Apply this service</span>
-                    </button>
-                  </a>
-                  {% endif %}                  
-                </div>
-              </div>
-              {% endif %}
             </div>
 
           </div>
@@ -291,11 +271,13 @@
                     </span>
                   </div>
                 </div>
+                {% if service.author != request.user %}
                 <div class="button-packet" style="margin-top: 40px; margin-bottom: 20px; width: 100%; display: flex; justify-content: center;">
-                  <a href="{% url 'service:add-to-servicelist' service.slug %}">
-                    <button class="button is-success">Take Service</button>
+                  <a href="{% url 'service:add-to-servicelist' service.slug basic.basic_id basic.tipe_packet %}">
+                    <button class="button is-success">Take Basic Packet</button>
                   </a>
                 </div>
+                {% endif %}
               </div>
               <div class="packet standard-packet is-hidden" id="standard-packet">
                 <div class="sidebar-basic">
@@ -312,11 +294,13 @@
                     </span>
                   </div>
                 </div>
+                {% if service.author != request.user %}
                 <div class="button-packet" style="margin-top: 40px; margin-bottom: 20px; width: 100%; display: flex; justify-content: center;">
-                  <a href="{% url 'service:add-to-servicelist' service.slug %}">
-                    <button class="button is-success">Take Service</button>
+                  <a href="{% url 'service:add-to-servicelist' service.slug standard.standard_id standard.tipe_packet %}">
+                    <button class="button is-success">Take Standard Packet</button>
                   </a>
                 </div>
+                {% endif %}
               </div>
               <div class="packet premium-packet is-hidden" id="premium-packet">
                 <div class="sidebar-basic">
@@ -333,11 +317,13 @@
                     </span>
                   </div>
                 </div>
+                {% if service.author != request.user %}
                 <div class="button-packet" style="margin-top: 40px; margin-bottom: 20px; width: 100%; display: flex; justify-content: center;">
-                  <a href="{% url 'service:add-to-servicelist' service.slug %}">
-                    <button class="button is-success">Take Service</button>
+                  <a href="{% url 'service:add-to-servicelist' service.slug premium.premium_id premium.tipe_packet %}">
+                    <button class="button is-success">Take Premium Packet</button>
                   </a>
                 </div>
+                {% endif %}
               </div>
             </div>
           </div>

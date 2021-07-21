@@ -104,6 +104,18 @@ h2:after {
 	left: 47%;
 }
 
+.header-tab a{
+	color: #7a7d85;
+	font-weight: bold;
+	display: inline-block;
+	margin-top: 10px;
+	transition: 0.2s;
+}
+
+.header-tab a:hover{
+	background-color: white;
+	color: #3F978D;
+}
 
 
 /*BUYERPAGE*/
@@ -745,8 +757,242 @@ h2:after {
 	cursor: pointer;
 }
 
-.is-active{
+.packet-header .is-active{
 	background-color: white;
 	color: #1dbf73;
 	border-bottom: 3px solid #1dbf73;
 }
+
+.button-packet button{
+	width: 430px;
+}
+
+/*DETAIL SERVICE PAGE*/
+
+#tabservice	li{
+	background-color: #fafafa;
+	color: #7a7d85;
+	width: 120px;
+	height: 35px;
+	border-bottom: none;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	border-right: none;
+	font-weight: bold;
+}
+
+#tabservice .is-active{
+	border: 1px solid #dadbdd;
+	border-top-right-radius: 10%;
+	border-top-left-radius: 10%;
+	background-color: white;
+	color: #1dbf73;
+	border-bottom: none;
+}
+
+#tabproject .is-active a{
+	background-color: white;
+	color: #1dbf73;
+}
+
+#tabproject a{
+	color: #7a7d85;
+}
+
+.dashboard-container{
+	width: 1300px;
+	padding-top: 80px;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+.dashboard-left{
+	width: 325px;
+	height: 500px;
+	float: left;
+	padding: 5px;
+	margin-right: 10px;
+}
+
+.dashboard-right{
+	width: 965px;	
+	float: right;
+	padding: 5px;
+}
+
+.dashboard-status{
+	width: 100%;
+	margin-bottom: 20px;
+	padding: 10px;
+	border: 1px solid #dadbdd;
+}
+
+.dashboard-inbox{
+	width: 100%;
+	padding: 10px;
+	border: 1px solid #dadbdd;
+}
+
+.status-header{
+	width: 100%;
+	display: flex;
+	align-items: center;
+	word-wrap: break-word;
+	border-bottom: 1px solid #dadbdd;
+	padding-bottom: 20px;
+}
+
+.status-body{
+	padding-top: 20px;
+	padding-bottom: 10px;
+	border-bottom: 1px solid #dadbdd;
+}
+
+.status-earned{
+	padding-top: 20px;
+	padding-bottom: 10px;
+}
+
+.inbox-header{
+	display: flex;
+	justify-content: space-between;
+	height: 50px;
+	align-items: center;
+	border-bottom: 2px solid #dadbdd;
+}
+
+.inbox-card{
+	display: flex;
+	align-content: center;
+}
+
+.card-text p{
+	overflow: hidden;
+	text-overflow: ellipsis;
+	display: -webkit-box;
+	-webkit-line-clamp: 1; /* number of lines to show */
+	-webkit-box-orient: vertical;
+}
+
+.card-notif p{
+	overflow: hidden;
+	text-overflow: ellipsis;
+	display: -webkit-box;
+	-webkit-line-clamp: 1; /* number of lines to show */
+	-webkit-box-orient: vertical;
+}
+
+.request-header{
+	width: 100%;
+	height: 70px;
+	border: 1px solid #dadbdd;
+	box-shadow: 0px 1px #eeeeee;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	padding-right: 10px;
+	padding-left: 10px;
+}
+
+.status-tab{
+	margin-top: 20px;
+}
+
+.status-tab a{
+	color: #7a7d85;
+}
+
+#status .is-active{
+	color: #00d1b2;
+}
+
+.tabs li.is-active a{
+	color: #00d1b2;
+}
+
+.request-project-body{
+	width: 100%;
+	margin-top: 20px;
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: space-between;
+}
+
+.request-service-body{
+	width: 100%;
+	margin-top: 20px;
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: space-between;
+}
+
+.project-card{
+	display: flex;
+	height: 100px;
+	margin-bottom: 30px;
+}
+
+.card-title-tag{
+	margin-left: 10px;
+	width: 230px;
+	border-right: 1px solid #dadbdd;
+	height: 100%;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.card-service-tag{
+	padding-left: 10px;
+	padding-right: 10px;
+	width: 400px;
+	border-right: 1px solid #dadbdd;
+	height: 100%;
+	display: flex;
+	justify-content: space-between;
+}
+
+.service-tag-left{
+	width: 50%;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	align-content: flex-end;
+}
+
+.service-tag-right{
+	width: 50%;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.card-service-tag p{
+	font-size: 0.9em;
+}
+
+.card-action{
+	margin-left: 10px;
+	height: 100%;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.card-tag p{
+	overflow: hidden;
+	text-overflow: ellipsis;
+	display: -webkit-box;
+	-webkit-line-clamp: 1; /* number of lines to show */
+	-webkit-box-orient: vertical;
+}
+
+.reqby p{
+	overflow: hidden;
+	text-overflow: ellipsis;
+	display: -webkit-box;
+	-webkit-line-clamp: 1; /* number of lines to show */
+	-webkit-box-orient: vertical;
+}
+

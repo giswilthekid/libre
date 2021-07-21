@@ -80,6 +80,9 @@ AUTH_BLOG_MODEL = 'blog.BlogPost'
 AUTH_CAT_MODEL = 'blog.Category'
 AUTH_SUBCAT_MODEL = 'blog.SubCategory'
 AUTH_SERVICE_MODEL = 'service.ServicePost'
+AUTH_BASIC_MODEL = 'service.BasicPacket'
+AUTH_STANDARD_MODEL = 'service.StandardPacket'
+AUTH_PREMIUM_MODEL = 'service.PremiumPacket'
 
 WSGI_APPLICATION = 'libre.wsgi.application'
 

@@ -108,20 +108,51 @@ def detail_service_view(request, slug):
 
 	return render(request, 'service/service_detail.html', context)
 
-def add_to_servicelist(request, slug):
+def add_to_servicelist(request, slug, packet_id, tipe_packet):
 
 	service = get_object_or_404(ServicePost, slug=slug)
 
-	order_service = ServiceList.objects.filter(service=service, user=request.user)
-	if order_service.exists():
-		print('Project Sudah Ada')
-	else:
-		order_service = ServiceList.objects.create(
-		service=service,
-		user=request.user,
-		status='pending'
-		)
-		return redirect("servicelist")
+	if tipe_packet == 'basic':
+		basic_packet = BasicPacket.objects.filter(basic_id=packet_id)
+		order_service = ServiceList.objects.filter(service=service, user=request.user, basic_packet=basic_packet[0])
+		if order_service.exists():
+			print('Project Sudah Ada')
+		else:
+			order_service = ServiceList.objects.create(
+			service=service,
+			user=request.user,
+			status='pending',
+			basic_packet=basic_packet[0]
+			)
+			return redirect("servicelist")
+
+	if tipe_packet == 'standard':
+		standard_packet = StandardPacket.objects.filter(standard_id=packet_id)
+		order_service = ServiceList.objects.filter(service=service, user=request.user, standard_packet=standard_packet[0])
+		if order_service.exists():
+			print('Project Sudah Ada')
+		else:
+			order_service = ServiceList.objects.create(
+			service=service,
+			user=request.user,
+			status='pending',
+			standard_packet=standard_packet[0]
+			)
+			return redirect("servicelist")
+
+	if tipe_packet == 'premium':
+		premium_packet = PremiumPacket.objects.filter(premium_id=packet_id)
+		order_service = ServiceList.objects.filter(service=service, user=request.user, premium_packet=premium_packet[0])
+		if order_service.exists():
+			print('Project Sudah Ada')
+		else:
+			order_service = ServiceList.objects.create(
+			service=service,
+			user=request.user,
+			status='pending',
+			premium_packet=premium_packet[0]
+			)
+			return redirect("servicelist")
 
 	return redirect('sellerpage')
 
