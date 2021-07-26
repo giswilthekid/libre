@@ -996,3 +996,178 @@ h2:after {
 	-webkit-box-orient: vertical;
 }
 
+.rating-star{
+	width: 350px;
+	background-color: #666;
+	border: 1px solid #444;
+	border-radius: 1%;
+	padding: 20px;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+
+.rating-star .star-widget input{
+  display: none;
+}
+
+.rating-feedback{
+	width: 100%;
+	text-align: center;
+}
+
+.rating-feedback p{
+	font-size: 30px;
+	font-family: 'Marck Script', cursive;
+	font-weight: bold;
+	color: #fd4;
+}
+
+.star-widget label{
+  font-size: 25px;
+  color: #444;
+  padding: 12px;
+  float: right;
+  transition: all 0.2s ease;
+}
+
+input:not(:checked) ~ label:hover,
+input:not(:checked) ~ label:hover ~ label{
+  color: #fd4;
+}
+
+input:checked ~ label{
+  color: #fd4;
+}
+
+input#rate-5:checked ~ label{
+  color: #fe7;
+  text-shadow: 0 0 20px #952;
+}
+
+#rate-1:checked ~ .rating-caption p:before{
+  content: "I just hate it \1F620";
+  font-family: 'Reenie Beanie', cursive;
+  font-weight: bold;
+}
+
+#rate-2:checked ~ .rating-caption p:before{
+  content: "I don't like it \1F615";
+  font-family: 'Reenie Beanie', cursive;
+  font-weight: bold;
+}
+
+#rate-3:checked ~ .rating-caption p:before{
+  content: "It is awesome \1F60F";
+  font-family: 'Reenie Beanie', cursive;
+  font-weight: bold;
+}
+
+#rate-4:checked ~ .rating-caption p:before{
+  content: "I just like it \1F60A";
+  font-family: 'Reenie Beanie', cursive;
+  font-weight: bold;
+}
+
+#rate-5:checked ~ .rating-caption p:before{
+  content: "I just love it \1F60D";
+  font-family: 'Reenie Beanie', cursive;
+  font-weight: bold;
+}
+
+.rating-star .rating-caption{
+  display: none;
+}
+
+input:checked ~ .rating-caption{
+  display: block;
+}
+
+.rating-caption{
+	width: 100%;
+	text-align: center;
+	padding: 10px;
+	font-size: 20px;
+	color: white;
+	font-weight: 500;
+}
+
+.feedback{
+  height: 100px;
+  width: 100%;
+  overflow: hidden;
+  margin-top: 15px;
+}
+
+.feedback textarea{
+  height: 100%;
+  width: 100%;
+  outline: none;
+  color: #eee;
+  border: 1px solid #333;
+  background: #222;
+  padding: 10px;
+  font-size: 14px;
+  resize: none;
+}
+
+.feedback textarea:focus{
+  border-color: #444;
+}
+
+.btn{
+  height: 45px;
+  width: 100%;
+  margin: 15px 0;
+}
+
+.btn button{
+  height: 100%;
+  width: 100%;
+  border: 1px solid #444;
+  outline: none;
+  background: #222;
+  color: #999;
+  font-size: 17px;
+  font-weight: 500;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.btn button:hover{
+  background: #1b1b1b;
+}
+
+#modal-content-rating{
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.modal .modal-content{
+	width: 355px;
+}
+
+
+#finish-but-project span{
+	background-color: white;
+	border: 1px solid #ebfffc;
+	transition: 0.3s;
+}
+
+#finish-but-project span:hover{
+	background-color: #ebfffc;
+	border: 1px solid white;
+}
+
+#cancel-but-project span{
+	background-color: white;
+	border: 1px solid #feecf0;
+	transition: 0.3s;
+}
+
+#cancel-but-project span:hover{
+	background-color: #feecf0;
+	border: 1px solid white;
+}

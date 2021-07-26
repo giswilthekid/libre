@@ -63,11 +63,14 @@
                   <a style="font-weight: bold;" href="{% url 'profile' account.slug %}" class="dropdown-item">
                     Profile
                   </a>
+                  <a style="font-weight: bold; color: #3F978D;" href="{% url 'dashboard' account.slug %}" class="dropdown-item">
+                    Dashboard
+                  </a>
                   <a style="font-weight: bold;" href="{% url 'projectlist' %}" class="dropdown-item">
-                    List
+                    Project Orders
                   </a>
                   <a style="font-weight: bold;" href="{% url 'servicelist' %}" class="dropdown-item">
-                    Order
+                    Service Orders
                   </a>
                   <hr class="dropdown-divider">
                   <a href="{% url 'logout' %}" class="dropdown-item">
@@ -95,19 +98,13 @@
               <li data-target="prj-ongoing">
                 <a>
                   <span class="icon is-small"><i class="fas fa-hourglass-half"></i></span>
-                  <span>On Going</span>
-                </a>
-              </li>
-              <li data-target="prj-done">
-                <a>
-                  <span class="icon is-small"><i class="fas fa-check"></i></span>
-                  <span>Done</span>
+                  <span>Working</span>
                 </a>
               </li>
               <li data-target="prj-declined">
                 <a>
-                  <span class="icon is-small"><i class="fas fa-times"></i></span>
-                  <span>Decline</span>
+                  <span class="icon is-small"><i class="fas fa-clipboard-list"></i></span>
+                  <span>History</span>
                 </a>
               </li>
             </ul>
@@ -151,7 +148,7 @@
                       Rp {{ prj.project.budget }}
                   </td>
                   <td>
-                    <span class="tag is-warning is-light">Pending</span>
+                    <span class="tag is-info">Pending</span>
                   </td>
                 </tr>
                 {% endfor %}
@@ -168,10 +165,11 @@
                   <th>Deadline</th>
                   <th>Budget</th>
                   <th>Status</th>
+                  <th>Actions</th>
                 </tr>
               </thead>
               <tbody>
-                {% for prj in project_ongoing %}
+                {% for prj in project_working %}
                 <tr>
                   <th>{{ forloop.counter }}</th>
                   <td>
@@ -194,27 +192,19 @@
                       Rp {{ prj.project.budget }}
                   </td>
                   <td>
-                    <span class="tag is-info is-light">On Going</span>
+                    <span class="tag is-info">Working</span>
+                  </td>
+                  <td>
+                    <a href="{% url 'finish-project' prj.pl_id %}" id="finish-but-project">
+                      <span class="tag is-primary is-light">Finish</span>
+                    </a>
+                    <a href="{% url 'cancel-project' prj.pl_id %}" id="cancel-but-project">
+                      <span class="tag is-danger is-light">Cancel</span>
+                    </a>
                   </td>
                 </tr>
                 {% endfor %}
-              </tbody>
-            </table>
-
-            <table style="width: 1155px;" class="table is-hidden" id="prj-done">
-              <thead>
-                <tr>
-                  <th>No.</th>
-                  <th>Title</th>
-                  <th>Author</th>
-                  <th>Category</th>
-                  <th>Deadline</th>
-                  <th>Budget</th>
-                  <th>Status</th>
-                </tr>
-              </thead>
-              <tbody>
-                {% for prj in project_done %}
+                {% for prj in project_waiting %}
                 <tr>
                   <th>{{ forloop.counter }}</th>
                   <td>
@@ -237,7 +227,42 @@
                       Rp {{ prj.project.budget }}
                   </td>
                   <td>
-                    <span class="tag is-primary is-light">Done</span>
+                    <span class="tag is-link">Waiting</span>
+                  </td>
+                </tr>
+                {% endfor %}
+                {% for prj in project_revision %}
+                <tr>
+                  <th>{{ forloop.counter }}</th>
+                  <td>
+                    <a href="{% url 'blog:detail' prj.project.slug %}">
+                      {{ prj.project.title }}
+                    </a>
+                  </td>
+                  <td>
+                    <a href="{% url 'profile' prj.project.author.slug %}">
+                      {{ prj.project.author.username }}
+                    </a>
+                  </td>
+                  <td>
+                      {{ prj.project.category }}
+                  </td>
+                  <td>
+                      {{ prj.project.deadline }} Days
+                  </td>
+                  <td>
+                      Rp {{ prj.project.budget }}
+                  </td>
+                  <td>
+                    <span class="tag is-warning">Revision</span>
+                  </td>
+                  <td>
+                    <a href="{% url 'finish-project' prj.pl_id %}" id="finish-but-project">
+                      <span class="tag is-primary is-light">Finish</span>
+                    </a>
+                    <a href="{% url 'cancel-project' prj.pl_id %}" id="cancel-but-project">
+                      <span class="tag is-danger is-light">Cancel</span>
+                    </a>
                   </td>
                 </tr>
                 {% endfor %}
@@ -257,7 +282,7 @@
                 </tr>
               </thead>
               <tbody>
-                {% for prj in project_declined %}
+                {% for prj in project_rejected %}
                 <tr>
                   <th>{{ forloop.counter }}</th>
                   <td>
@@ -280,7 +305,77 @@
                       Rp {{ prj.project.budget }}
                   </td>
                   <td>
-                    <span class="tag is-danger is-light">Declined</span>
+                    <span class="tag is-link">Rejected</span>
+                  </td>
+                </tr>
+                {% endfor %}
+                {% for prj in project_canceled %}
+                <tr>
+                  <th>{{ forloop.counter }}</th>
+                  <td>
+                    <a href="{% url 'blog:detail' prj.project.slug %}">
+                      {{ prj.project.title }}
+                    </a>
+                  </td>
+                  <td>
+                    <a href="{% url 'profile' prj.project.author.slug %}">
+                      {{ prj.project.author.username }}
+                    </a>
+                  </td>
+                  <td>
+                      {{ prj.project.category }}
+                  </td>
+                  <td>
+                      {{ prj.project.deadline }} Days
+                  </td>
+                  <td>
+                      Rp {{ prj.project.budget }}
+                  </td>
+                  <td>
+                    <span class="tag is-danger">Canceled</span>
+                  </td>
+                </tr>
+                {% endfor %}
+                {% for prj in project_finished %}
+                <tr>
+                  <th>{{ forloop.counter }}</th>
+                  <td>
+                    <a href="{% url 'blog:detail' prj.project.slug %}">
+                      {{ prj.project.title }}
+                    </a>
+                  </td>
+                  <td>
+                    <a href="{% url 'profile' prj.project.author.slug %}">
+                      {{ prj.project.author.username }}
+                    </a>
+                  </td>
+                  <td>
+                      {{ prj.project.category }}
+                  </td>
+                  <td>
+                      {{ prj.project.deadline }} Days
+                  </td>
+                  <td>
+                      Rp {{ prj.project.budget }}
+                  </td>
+                  <td>
+                    <span class="tag is-success">Finished</span>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+
+                  </td>
+                  <td colspan="3">
+                    <p><b>Feedback:</b> {{prj.feedback}}</p>
+                  </td>
+                  <td colspan="2">
+                    <p><b>Rating:</b> {{prj.rating}} / 5 <i class="fas fa-star" style="color: #ffc100; margin-left: 5px;"></i><b></p>
+                  </td>
+                  <td>
+                    <a href="" id="cancel-but-project">
+                      <span class="tag is-danger is-light">Report</span>
+                    </a>
                   </td>
                 </tr>
                 {% endfor %}

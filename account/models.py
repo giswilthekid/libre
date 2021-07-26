@@ -6,6 +6,7 @@ from django.db.models.signals import pre_save
 from django.db.models.signals import post_delete
 from django.dispatch import receiver
 from django.shortcuts import reverse
+from django.core.validators import MaxValueValidator, MinValueValidator
 
 def upload_location(instance, filename):
 	file_path = 'account/profilepict/{filename}'.format(filename=filename)
@@ -89,10 +90,12 @@ class ProjectList(models.Model):
 	status					= models.CharField(max_length=20, default='pending')
 	project					= models.ForeignKey(settings.AUTH_BLOG_MODEL, on_delete=models.CASCADE)
 	user 					= models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+	rating 					= models.IntegerField(validators=[MaxValueValidator(5), MinValueValidator(0)], null=True)
+	feedback				= models.CharField(max_length=2000, null=True)
 	timestamp	 			= models.DateTimeField(auto_now_add=True, verbose_name="timestamp")
 
 	def __str__(self):
-		return self.status
+		return self.project.title
 
 class ServiceList(models.Model):
 	sl_id					= models.IntegerField(primary_key=True)
@@ -102,10 +105,12 @@ class ServiceList(models.Model):
 	basic_packet			= models.ForeignKey(settings.AUTH_BASIC_MODEL, on_delete=models.CASCADE, blank=True, null=True)
 	standard_packet			= models.ForeignKey(settings.AUTH_STANDARD_MODEL, on_delete=models.CASCADE, blank=True, null=True)
 	premium_packet			= models.ForeignKey(settings.AUTH_PREMIUM_MODEL, on_delete=models.CASCADE, blank=True, null=True)
+	rating 					= models.IntegerField(validators=[MaxValueValidator(5), MinValueValidator(0)], null=True)
+	feedback				= models.CharField(max_length=2000, null=True)
 	timestamp	 			= models.DateTimeField(auto_now_add=True, verbose_name="timestamp")
 
 	def __str__(self):
-		return self.status
+		return self.service.title
 
 class Language(models.Model):
     language_name 			= models.CharField(max_length=100, null=True, blank=True)

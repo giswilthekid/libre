@@ -78,15 +78,21 @@ def project_view(request):
 
 	user = request.user
 	project_pending = ProjectList.objects.filter(user=request.user, status='pending').all()
-	project_ongoing = ProjectList.objects.filter(user=request.user, status='ongoing').all()
-	project_done = ProjectList.objects.filter(user=request.user, status='done').all()
-	project_declined = ProjectList.objects.filter(user=request.user, status='cancelled').all()
+	project_working = ProjectList.objects.filter(user=request.user, status='working').all()
+	project_rejected = ProjectList.objects.filter(user=request.user, status='rejected').all()
+	project_waiting = ProjectList.objects.filter(user=request.user, status='waiting').all()
+	project_revision = ProjectList.objects.filter(user=request.user, status='revision').all()
+	project_canceled = ProjectList.objects.filter(user=request.user, status='canceled').all()
+	project_finished = ProjectList.objects.filter(user=request.user, status='finished').all()
 	account = Account.objects.filter(email=request.user.email).first()
 
 	context['project_pending'] = project_pending
-	context['project_ongoing'] = project_ongoing
-	context['project_done'] = project_done
-	context['project_declined'] = project_declined
+	context['project_working'] = project_working
+	context['project_rejected'] = project_rejected
+	context['project_waiting'] = project_waiting
+	context['project_revision'] = project_revision
+	context['project_canceled'] = project_canceled
+	context['project_finished'] = project_finished
 	context['account'] = account
 	
 
@@ -99,13 +105,13 @@ def service_view(request):
 
 	user = request.user
 	service_pending = ServiceList.objects.filter(user=request.user, status='pending').all()
-	service_ongoing = ServiceList.objects.filter(user=request.user, status='ongoing').all()
+	service_working = ServiceList.objects.filter(user=request.user, status='working').all()
 	service_done = ServiceList.objects.filter(user=request.user, status='done').all()
 	service_declined = ServiceList.objects.filter(user=request.user, status='cancelled').all()
 	account = Account.objects.filter(email=request.user.email).first()
 
 	context['service_pending'] = service_pending
-	context['service_ongoing'] = service_ongoing
+	context['service_working'] = service_working
 	context['service_done'] = service_done
 	context['service_declined'] = service_declined
 	context['account'] = account
@@ -224,56 +230,148 @@ def dashboard_view(request, slug):
 	context={}
 
 	user = request.user
-
-	project = BlogPost.objects.filter(author=user).all()
-	projectreqpending = ProjectList.objects.filter(project__in=project, status='pending')
-	projectreqongoing = ProjectList.objects.filter(project__in=project, status='ongoing')
-
-	service = ServicePost.objects.filter(author=user).all()
-	servicereq = ServiceList.objects.filter(service__in=service)
-
-	
 	account = get_object_or_404(Account, slug=slug)
 
-	pl_id = request.POST.get('project_id')
-	project = ProjectList.objects.filter(pl_id=pl_id).first()
-	user = request.user
-	print(project)
+	projectlist = BlogPost.objects.filter(author=user).all()
+	projectreqpending = ProjectList.objects.filter(project__in=projectlist, status='pending')
+	projectreqworking = ProjectList.objects.filter(project__in=projectlist, status='working')
+	projectreqwaiting = ProjectList.objects.filter(project__in=projectlist, status='waiting')
+	projectreqrevision = ProjectList.objects.filter(project__in=projectlist, status='revision')
+	projectreqcanceled = ProjectList.objects.filter(project__in=projectlist, status='canceled')
+	projectreqfinished = ProjectList.objects.filter(project__in=projectlist, status='finished')
+
+	servicelist = ServicePost.objects.filter(author=user).all()
+	servicereqpending = ServiceList.objects.filter(service__in=servicelist, status='pending')
+	servicereqworking = ServiceList.objects.filter(service__in=servicelist, status='working')
+	servicereqdone = ServiceList.objects.filter(service__in=servicelist, status='done')
 	
-	if (request.POST.get('statusoption') == 'accept'):
-		project.status = 'ongoing'
+	if request.POST.get('projectoption'):
+
+		pl_id = request.POST.get('project_id')
+		project = ProjectList.objects.filter(pl_id=pl_id).first()
+
+		if (request.POST.get('projectoption') == 'accept'):
+			project.status = 'working'
+			project.save()
+			return redirect("dashboard", slug=user.slug)
+		elif (request.POST.get('projectoption') == 'decline'):
+			project.status = 'rejected'
+			project.save()
+			return redirect("dashboard", slug=user.slug)
+
+	if request.POST.get('revision'):
+
+		pl_id = request.POST.get('revision')
+		project = ProjectList.objects.filter(pl_id=pl_id).first()
+		project.status = 'revision'
 		project.save()
 		return redirect("dashboard", slug=user.slug)
-	elif (request.POST.get('statusoption') == 'decline'):
-		project.status = 'cancelled'
+
+	if request.POST.get('cancel'):
+
+		pl_id = request.POST.get('cancel')
+		project = ProjectList.objects.filter(pl_id=pl_id).first()
+		project.status = 'canceled'
 		project.save()
 		return redirect("dashboard", slug=user.slug)
-	else:
-		print('nothing')
+
+	if request.POST.get('serviceoption'):
+
+		sl_id = request.POST.get('service_id')
+		service = ServiceList.objects.filter(sl_id=sl_id).first()
+
+		if (request.POST.get('serviceoption') == 'accept'):
+			service.status = 'working'
+			service.save()
+			return redirect("dashboard", slug=user.slug)
+		elif (request.POST.get('serviceoption') == 'decline'):
+			service.status = 'cancelled'
+			service.save()
+			return redirect("dashboard", slug=user.slug)
+		elif (request.POST.get('serviceoption') == 'done'):
+			service.status = 'done'
+			service.save()
+			return redirect("dashboard", slug=user.slug)
+
+
+	context['user'] = user
+	context['account'] = account
+
+	context['projectreqpending'] = projectreqpending
+	context['projectreqworking'] = projectreqworking
+	context['projectreqwaiting'] = projectreqwaiting
+	context['projectreqrevision'] = projectreqrevision
+	context['projectreqcanceled'] = projectreqcanceled
+	context['projectreqfinished'] = projectreqfinished
+
+	context['servicereqpending'] = servicereqpending
+	context['servicereqworking'] = servicereqworking
+	context['servicereqdone'] = servicereqdone
+
+	return render(request, 'account/dashboard.html', context)
+
+@login_required
+def feedback_view(request, project_id):
+	
+	context={}
+
+	user = request.user
+	account = get_object_or_404(Account, slug=user.slug)
+
+	projectlist = BlogPost.objects.filter(author=user).all()
+	projectreqpending = ProjectList.objects.filter(project__in=projectlist, status='pending')
+	projectreqworking = ProjectList.objects.filter(project__in=projectlist, status='working')
+	projectreqdone = ProjectList.objects.filter(project__in=projectlist, status='done')
+
+	servicelist = ServicePost.objects.filter(author=user).all()
+	servicereqpending = ServiceList.objects.filter(service__in=servicelist, status='pending')
+	servicereqworking = ServiceList.objects.filter(service__in=servicelist, status='working')
+	servicereqdone = ServiceList.objects.filter(service__in=servicelist, status='done')
+	
+	if request.POST.get('rate') and request.POST.get('feedback') :
+		project_req = ProjectList.objects.filter(project=project_id).first()
+		rating = request.POST.get('rate')
+		feedback = request.POST.get('feedback')
+		project_req.rating = rating
+		project_req.feedback = feedback
+		project_req.status = 'finished'
+		project_req.save()
+		return redirect("dashboard", slug=user.slug)
 
 
 	context['user'] = user
 	context['account'] = account
 	context['projectreqpending'] = projectreqpending
-	context['projectreqongoing'] = projectreqongoing
-	context['servicereq'] = servicereq
+	context['projectreqworking'] = projectreqworking
+	context['projectreqdone'] = projectreqdone
+	context['servicereqpending'] = servicereqpending
+	context['servicereqworking'] = servicereqworking
+	context['servicereqdone'] = servicereqdone
 
-	return render(request, 'account/dashboard.html', context)
+	return render(request, 'account/feedback-rating.html', context)
 
 @login_required
-def status_change(request):
-
-	project_id = request.POST.get('project_id')
-	project = ProjectList.objects.filter(id=project_id)
-	user = request.user
-	print(project_id)
+def finish_project(request, project_id):
 	
-	if request.POST:
-		if (request.POST.get('statusoption') == 'accept'):
-			project.status = 'ongoing'
-			return redirect("buyerpage")
-		elif (request.POST.get('statusoption') == 'decline'):
-			project.status = 'cancelled'
-			return redirect("buyerpage")
-		else:
-			print('nothing')
+	context={}
+	user = request.user
+
+	project = ProjectList.objects.filter(pl_id=project_id).first()
+
+	project.status = 'waiting'
+	project.save()
+
+	return redirect('projectlist')
+
+@login_required
+def cancel_project(request, project_id):
+	
+	context={}
+	user = request.user
+
+	project = ProjectList.objects.filter(pl_id=project_id).first()
+
+	project.status = 'canceled'
+	project.save()
+
+	return redirect('projectlist')

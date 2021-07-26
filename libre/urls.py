@@ -15,7 +15,9 @@ from account.views import(
     delete_skill,
     delete_education,
     dashboard_view,
-    status_change,
+    feedback_view,
+    finish_project,
+    cancel_project,
 )
 
 from blog.views import(
@@ -38,7 +40,9 @@ urlpatterns = [
     path('skill/delete/<id>/', delete_skill, name='delete-skill'),
     path('education/delete/<id>/', delete_education, name='delete-education'),
     path('dashboard/<slug>/', dashboard_view, name='dashboard'),
-    path('status-change/<project_id>/', status_change, name='status-change'),
+    path('feedback/<project_id>/', feedback_view, name='feedback'),
+    path('finishproject/<project_id>/', finish_project, name='finish-project'),
+    path('cancelproject/<project_id>/', cancel_project, name='cancel-project'),
 ]
 
 if settings.DEBUG:

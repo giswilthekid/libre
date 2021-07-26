@@ -9,6 +9,8 @@
       <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
       <link rel="preconnect" href="https://fonts.gstatic.com">
       <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet"> 
+      <link href="https://fonts.googleapis.com/css2?family=Marck+Script&family=Reenie+Beanie&display=swap" rel="stylesheet">
+      <link href="https://fonts.googleapis.com/css2?family=Cedarville+Cursive&display=swap" rel="stylesheet">
       <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
       <script>
         $(document).ready(function(){
@@ -19,6 +21,8 @@
             $("#servicereqtit").toggle();
             $("#projectreqbut").toggle();
             $("#projectreqtit").toggle();
+            $("#servicestatustab").toggle();
+            $("#projectstatustab").toggle();
           });
 
           $("#projectreqbut").click(function(){
@@ -28,6 +32,8 @@
             $("#servicereqtit").toggle();
             $("#projectreqbut").toggle();
             $("#projectreqtit").toggle();
+            $("#servicestatustab").toggle();
+            $("#projectstatustab").toggle();
           });
         });
 
@@ -87,22 +93,25 @@
               </span>
             </div>
             <div class="dropdown-menu" id="dropdown-menu" role="menu" style="border:1px solid #e4e5e7; margin-top: 5px;">
-              <div class="dropdown-content">
-                <a style="font-weight: bold;" href="{% url 'profile' account.slug %}" class="dropdown-item">
-                  Profile
-                </a>
-                <a style="font-weight: bold;" href="{% url 'projectlist' %}" class="dropdown-item">
-                  List
-                </a>
-                <a style="font-weight: bold;" href="{% url 'servicelist' %}" class="dropdown-item">
-                  Order
-                </a>
-                <hr class="dropdown-divider">
-                <a href="{% url 'logout' %}" class="dropdown-item">
-                  Log Out
-                </a>
+                <div class="dropdown-content">
+                  <a style="font-weight: bold;" href="{% url 'profile' account.slug %}" class="dropdown-item">
+                    Profile
+                  </a>
+                  <a style="font-weight: bold; color: #3F978D;" href="{% url 'dashboard' account.slug %}" class="dropdown-item">
+                    Dashboard
+                  </a>
+                  <a style="font-weight: bold;" href="{% url 'projectlist' %}" class="dropdown-item">
+                    Project Orders
+                  </a>
+                  <a style="font-weight: bold;" href="{% url 'servicelist' %}" class="dropdown-item">
+                    Service Orders
+                  </a>
+                  <hr class="dropdown-divider">
+                  <a href="{% url 'logout' %}" class="dropdown-item">
+                    Log Out
+                  </a>
+                </div>
               </div>
-            </div>
           </div>
           </div>
 
@@ -231,7 +240,7 @@
         </div>
 
 
-        <div class="status-tab">
+        <div class="status-tab" id="projectstatustab">
           <div class="tabs is-boxed">
             <ul id="status">
               <li class="is-active" data-target="pending-project" id="pendingtab">
@@ -242,8 +251,20 @@
               </li>
               <li class="" data-target="working-project" id="workingtab">
                 <a class="tablinks" id="status" onclick="statusTab(event, 'working-project')">
-                  <span class="icon is-small"><i class="fas fa-pencil-ruler"></i></span>
+                  <span class="icon is-small"><i class="fas fa-hourglass-half"></i></span>
                   <span style="font-weight: bold;">Working</span>
+                </a>
+              </li>
+              <li class="" data-target="finish-project" id="workingtab">
+                <a class="tablinks" id="status" onclick="statusTab(event, 'finish-project')">
+                  <span class="icon is-small"><i class="fad fa-check"></i></span>
+                  <span style="font-weight: bold;">Confirm</span>
+                </a>
+              </li>
+              <li class="" data-target="history-project" id="workingtab">
+                <a class="tablinks" id="status" onclick="statusTab(event, 'history-project')">
+                  <span class="icon is-small"><i class="fas fa-clipboard-list"></i></span>
+                  <span style="font-weight: bold;">History</span>
                 </a>
               </li>
             </ul>
@@ -272,7 +293,7 @@
                   <form method="post" enctype="multipart/form-data">{% csrf_token %}
                     <div class="card-action">
                       <div class="select is-primary">
-                        <select style="width: 100px;" name="statusoption">
+                        <select style="width: 100px;" name="projectoption">
                           <option disabled selected>Options</option>
                           <option value="accept">Accept</option>
                           <option value="decline">Decline</option>
@@ -290,12 +311,12 @@
 
         <div class="tabcontent" style="display: none;" id="working-project">
           <div class="request-project-body" id="request-project-body">
-            {% for prj in projectreqongoing %}
+            {% for prj in projectreqworking %}
                 <div class="project-card">
                   <div class="card-image">
-                    <img style="width: 120px; height: 100%; border-radius: 5%;" src="{{ prj.project.image.url }}">
+                    <img style="width: 180px; height: 100%; border-radius: 5%;" src="{{ prj.project.image.url }}">
                   </div>
-                  <div class="card-title-tag">
+                  <div class="card-title-tag" style="border: none; width: 100%">
                     <div class="card-tag">
                       <a href="{% url 'blog:detail' prj.project.slug %}" style="text-decoration: none; color: #4a4a4a;">
                         <p style="font-weight: bold; font-size: 1.2em;">{{ prj.project.title }}</p>
@@ -307,72 +328,285 @@
                       <p style="font-size: 0.9em;">Requested by: <a style="text-decoration: none; color: #4a4a4a;" href="{% url 'profile' prj.user.slug %}"><b>{{ prj.user.username }}</b></a> </p>
                     </div>
                   </div>
-                  <div class="card-action">
-                    <div class="select is-primary">
-                      <select style="width: 100px;">
-                        <option disabled selected>Options</option>
-                        <option>Accept</option>
-                        <option>Decline</option>
-                      </select>
+                </div>
+            {% endfor %}
+            {% for prj in projectreqrevision %}
+                <div class="project-card">
+                  <div class="card-image">
+                    <img style="width: 180px; height: 100%; border-radius: 5%;" src="{{ prj.project.image.url }}">
+                  </div>
+                  <div class="card-title-tag" style="border: none; width: 100%">
+                    <div class="card-tag">
+                      <a href="{% url 'blog:detail' prj.project.slug %}" style="text-decoration: none; color: #4a4a4a;">
+                        <p style="font-weight: bold; font-size: 1.2em;">{{ prj.project.title }}</p>
+                      </a>
+                      <span class="tag is-primary is-light">{{ prj.project.category }}</span>
+                      <span class="tag is-primary is-light">{{ prj.project.subcategory }}</span>
                     </div>
-                    <button class="button is-primary">Confirm</button>
+                    <div class="reqby">
+                      <p style="font-size: 0.9em;">Requested by: <a style="text-decoration: none; color: #4a4a4a;" href="{% url 'profile' prj.user.slug %}"><b>{{ prj.user.username }}</b></a> </p>
+                    </div>
                   </div>
                 </div>
             {% endfor %}
           </div>
         </div>
 
-        <div class="request-service-body" style="display: none;" id="request-service-body">
-          {% for srv in servicereq %}
-          <div class="project-card">
-            <div class="card-image">
-              <img style="width: 120px; height: 100%; border-radius: 5%;" src="{{srv.service.image.url}}">
-            </div>
-            <div class="card-title-tag">
-              <div class="card-tag">
-                <a href="{% url 'service:detail-service' srv.service.slug %}" style="text-decoration: none; color: #4a4a4a;">
-                  <p style="font-weight: bold; font-size: 1.2em;">{{ srv.service.title }}</p>
-                </a>
-                <span class="tag is-primary is-light">{{ srv.service.category }}</span>
-                <span class="tag is-primary is-light">{{ srv.service.subcategory }}</span>
-              </div>
-              <div class="reqby">
-                <p style="font-size: 0.9em;">Requested by: <a style="text-decoration: none; color: #4a4a4a;" href="{% url 'profile' srv.user.slug %}"><b>{{ srv.user.username }}</b></a> </p>
-              </div>
-            </div>
-            <div class="card-service-tag">
-              <div class="service-tag-left">
-                <div class="service-packett">
-                  <p>Packet:</p>
-                  <p><b>{{ srv.basic_packet.basic_name }}{{ srv.standard_packet.standard_name }}{{ srv.premium_packet.premium_name }}</b></p>
+        <div class="tabcontent" style="display: none;" id="finish-project">
+          <div class="request-project-body"  id="request-project-body">
+            {% for prj in projectreqwaiting %}
+              <div class="project-card" style="height: 150px;">
+                <div class="card-image">
+                  <img style="width: 120px; height: 100%; border-radius: 5%;" src="{{ prj.project.image.url }}">
                 </div>
-                <div class="service-deltime">
-                  <p>Delvery Time:</p>
-                  <p><b>{{ srv.basic_packet.basic_delivery }}{{ srv.standard_packet.standard_delivery }}{{ srv.premium_packet.premium_delivery }} Days</b></p>
-                </div>                  
-              </div>
-              <div class="service-tag-right">
-                <div class="service-rev">
-                  <p>Revision:</p>
-                  <p><b>{{ srv.basic_packet.basic_revision }}{{ srv.standard_packet.standard_revision }}{{ srv.premium_packet.premium_revision }}</b></p>
+                <div class="card-title-tag">
+                  <div class="card-tag">
+                    <a href="{% url 'blog:detail' prj.project.slug %}" style="text-decoration: none; color: #4a4a4a;">
+                      <p style="font-weight: bold; font-size: 1.2em;">{{ prj.project.title }}</p>
+                    </a>
+                    <span class="tag is-primary is-light">{{ prj.project.category }}</span>
+                    <span class="tag is-primary is-light">{{ prj.project.subcategory }}</span>
+                  </div>
+                  <div class="reqby">
+                    <p style="font-size: 0.9em;">Requested by: <a style="text-decoration: none; color: #4a4a4a;" href="{% url 'profile' prj.user.slug %}"><b>{{ prj.user.username }}</b></a> </p>
+                  </div>
                 </div>
-                <div class="service-price">
-                  <p>Price:</p>
-                  <p><b>Rp{{ srv.basic_packet.basic_price }}{{ srv.standard_packet.standard_price }}{{ srv.premium_packet.premium_price }}</b></p>
+                <div class="card-action" style="display: flex; flex-direction: column; width: 100px;">
+                  <a href="{% url 'feedback' prj.pl_id  %}">
+                    <button style="width: 100%" class="button is-primary is-outlined" id="modalbtn">Finish</button>
+                  </a>
+                  <form method="post" enctype="multipart/form-data">{% csrf_token %}
+                    <input class="input is-hidden" type="text" placeholder="Title..." value="{{prj.pl_id}}" name="revision" id="id_title">
+                    <button style="width: 100%;" type="submit" class="button is-warning is-outlined" name="cancelledbutton">Revision</button>
+                  </form>
+                  <form method="post" enctype="multipart/form-data">{% csrf_token %}
+                    <input class="input is-hidden" type="text" placeholder="Title..." value="{{prj.pl_id}}" name="cancel" id="id_title">
+                    <button style="width: 100%; " type="submit" class="button is-danger is-outlined" name="cancelledbutton">Cancel</button>
+                  </form>
                 </div>
               </div>
-            </div>
-            <div class="card-action">
-              <div class="select is-primary">
-                <select style="width: 100px;">
-                  <option disabled selected>Options</option>
-                  <option>With options</option>
-                </select>
-              </div>
-              <button class="button is-primary">Confirm</button>
-            </div>
+            {% endfor %}
           </div>
-          {% endfor %}
+        </div>
+
+        <div class="tabcontent" style="display: none;" id="history-project">
+          <div class="request-project-body" id="request-project-body">
+            {% for prj in projectreqfinished %}
+                <div class="project-card">
+                  <div class="card-image">
+                    <img style="width: 120px; height: 100%; border-radius: 5%;" src="{{ prj.project.image.url }}">
+                  </div>
+                  <div class="card-title-tag" style="border: none; width: 320px;">
+                    <div class="card-tag">
+                      <div class="title-rate" style="display: flex; align-items: center;">
+                        <a href="{% url 'blog:detail' prj.project.slug %}" style="text-decoration: none; color: #4a4a4a;">
+                          <p style="font-weight: bold; font-size: 1.2em;">{{ prj.project.title }}</p>
+                        </a>
+                        <p style="margin-left: 10px;">
+                          <i class="fas fa-star" style="color: #ffc100; margin-right: 5px;"></i><b>{{prj.rating}}</b>
+                        </p>
+                      </div>
+                      <span class="tag is-primary is-light">{{ prj.project.category }}</span>
+                      <span class="tag is-primary is-light">{{ prj.project.subcategory }}</span>
+                    </div>
+                    <div class="reqby">
+                      <p style="font-size: 0.9em;">Requested by: <a style="text-decoration: none; color: #4a4a4a;" href="{% url 'profile' prj.user.slug %}"><b>{{ prj.user.username }}</b></a> </p>
+                    </div>
+                  </div>
+                </div>
+            {% endfor %}
+          </div>
+        </div>
+
+        <div class="status-tab" id="servicestatustab" style="display: none;">
+          <div class="tabs is-boxed">
+            <ul id="status">
+              <li class="is-active" data-target="pending-service" id="pendingtab">
+                <a class="servicetablinks" id="status" onclick="servicestatusTab(event, 'pending-service')">  
+                  <span class="icon is-small"><i class="fal fa-spinner"></i></span>
+                  <span style="font-weight: bold;">Pending</span>
+                </a>
+              </li>
+              <li class="" data-target="working-service" id="workingtab">
+                <a class="servicetablinks" id="status" onclick="servicestatusTab(event, 'working-service')">
+                  <span class="icon is-small"><i class="fas fa-pencil-ruler"></i></span>
+                  <span style="font-weight: bold;">Working</span>
+                </a>
+              </li>
+              <li class="" data-target="working-service" id="workingtab">
+                <a class="servicetablinks" id="status" onclick="servicestatusTab(event, 'done-service')">
+                  <span class="icon is-small"><i class="fad fa-check"></i></span>
+                  <span style="font-weight: bold;">Finish</span>
+                </a>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="servicetabcontent" id="pending-service">
+          <div class="request-service-body" style="display: none;" id="request-service-body">
+            {% for srv in servicereqpending %}
+            <div class="project-card">
+              <div class="card-image">
+                <img style="width: 120px; height: 100%; border-radius: 5%;" src="{{srv.service.image.url}}">
+              </div>
+              <div class="card-title-tag">
+                <div class="card-tag">
+                  <a href="{% url 'service:detail-service' srv.service.slug %}" style="text-decoration: none; color: #4a4a4a;">
+                    <p style="font-weight: bold; font-size: 1.2em;">{{ srv.service.title }}</p>
+                  </a>
+                  <span class="tag is-primary is-light">{{ srv.service.category }}</span>
+                  <span class="tag is-primary is-light">{{ srv.service.subcategory }}</span>
+                </div>
+                <div class="reqby">
+                  <p style="font-size: 0.9em;">Requested by: <a style="text-decoration: none; color: #4a4a4a;" href="{% url 'profile' srv.user.slug %}"><b>{{ srv.user.username }}</b></a> </p>
+                </div>
+              </div>
+              <div class="card-service-tag">
+                <div class="service-tag-left">
+                  <div class="service-packett">
+                    <p>Packet:</p>
+                    <p><b>{{ srv.basic_packet.basic_name }}{{ srv.standard_packet.standard_name }}{{ srv.premium_packet.premium_name }}</b></p>
+                  </div>
+                  <div class="service-deltime">
+                    <p>Delvery Time:</p>
+                    <p><b>{{ srv.basic_packet.basic_delivery }}{{ srv.standard_packet.standard_delivery }}{{ srv.premium_packet.premium_delivery }} Days</b></p>
+                  </div>                  
+                </div>
+                <div class="service-tag-right">
+                  <div class="service-rev">
+                    <p>Revision:</p>
+                    <p><b>{{ srv.basic_packet.basic_revision }}{{ srv.standard_packet.standard_revision }}{{ srv.premium_packet.premium_revision }}</b></p>
+                  </div>
+                  <div class="service-price">
+                    <p>Price:</p>
+                    <p><b>Rp{{ srv.basic_packet.basic_price }}{{ srv.standard_packet.standard_price }}{{ srv.premium_packet.premium_price }}</b></p>
+                  </div>
+                </div>
+              </div>
+              <form method="post" enctype="multipart/form-data">{% csrf_token %}
+                <div class="card-action">
+                  <div class="select is-primary">
+                    <select style="width: 100px;" name="serviceoption">
+                      <option disabled selected>Options</option>
+                      <option value="accept">Accept</option>
+                      <option value="decline">Decline</option>
+                    </select>
+                  </div>
+                  <input class="input is-hidden" type="text" placeholder="Title..." value="{{srv.sl_id}}" name="service_id" id="id_title">
+                  
+                  <button style="width: 100%" type="submit" class="button is-primary">Confirm</button>
+                </div>
+              </form>
+            </div>
+            {% endfor %}
+          </div>
+        </div>
+
+        <div class="servicetabcontent" id="working-service" style="display: none;">
+          <div class="request-service-body" style="display: none;" id="request-service-body">
+            {% for srv in servicereqworking %}
+            <div class="project-card">
+              <div class="card-image">
+                <img style="width: 120px; height: 100%; border-radius: 5%;" src="{{srv.service.image.url}}">
+              </div>
+              <div class="card-title-tag">
+                <div class="card-tag">
+                  <a href="{% url 'service:detail-service' srv.service.slug %}" style="text-decoration: none; color: #4a4a4a;">
+                    <p style="font-weight: bold; font-size: 1.2em;">{{ srv.service.title }}</p>
+                  </a>
+                  <span class="tag is-primary is-light">{{ srv.service.category }}</span>
+                  <span class="tag is-primary is-light">{{ srv.service.subcategory }}</span>
+                </div>
+                <div class="reqby">
+                  <p style="font-size: 0.9em;">Requested by: <a style="text-decoration: none; color: #4a4a4a;" href="{% url 'profile' srv.user.slug %}"><b>{{ srv.user.username }}</b></a> </p>
+                </div>
+              </div>
+              <div class="card-service-tag">
+                <div class="service-tag-left">
+                  <div class="service-packett">
+                    <p>Packet:</p>
+                    <p><b>{{ srv.basic_packet.basic_name }}{{ srv.standard_packet.standard_name }}{{ srv.premium_packet.premium_name }}</b></p>
+                  </div>
+                  <div class="service-deltime">
+                    <p>Delvery Time:</p>
+                    <p><b>{{ srv.basic_packet.basic_delivery }}{{ srv.standard_packet.standard_delivery }}{{ srv.premium_packet.premium_delivery }} Days</b></p>
+                  </div>                  
+                </div>
+                <div class="service-tag-right">
+                  <div class="service-rev">
+                    <p>Revision:</p>
+                    <p><b>{{ srv.basic_packet.basic_revision }}{{ srv.standard_packet.standard_revision }}{{ srv.premium_packet.premium_revision }}</b></p>
+                  </div>
+                  <div class="service-price">
+                    <p>Price:</p>
+                    <p><b>Rp{{ srv.basic_packet.basic_price }}{{ srv.standard_packet.standard_price }}{{ srv.premium_packet.premium_price }}</b></p>
+                  </div>
+                </div>
+              </div>
+              <form method="post" enctype="multipart/form-data">{% csrf_token %}
+                <div class="card-action">
+                  <div class="select is-primary">
+                    <select style="width: 100px;" name="serviceoption">
+                      <option disabled selected>Options</option>
+                      <option value="done">Done</option>
+                      <option value="decline">Cancelled</option>
+                    </select>
+                  </div>
+                  <input class="input is-hidden" type="text" placeholder="Title..." value="{{srv.sl_id}}" name="service_id" id="id_title">
+                  
+                  <button style="width: 100%" type="submit" class="button is-primary">Confirm</button>
+                </div>
+              </form>
+            </div>
+            {% endfor %}
+          </div>
+        </div>
+
+        <div class="servicetabcontent" id="done-service" style="display: none;">
+          <div class="request-service-body" style="display: none;" id="request-service-body">
+            {% for srv in servicereqdone %}
+            <div class="project-card">
+              <div class="card-image">
+                <img style="width: 120px; height: 100%; border-radius: 5%;" src="{{srv.service.image.url}}">
+              </div>
+              <div class="card-title-tag">
+                <div class="card-tag">
+                  <a href="{% url 'service:detail-service' srv.service.slug %}" style="text-decoration: none; color: #4a4a4a;">
+                    <p style="font-weight: bold; font-size: 1.2em;">{{ srv.service.title }}</p>
+                  </a>
+                  <span class="tag is-primary is-light">{{ srv.service.category }}</span>
+                  <span class="tag is-primary is-light">{{ srv.service.subcategory }}</span>
+                </div>
+                <div class="reqby">
+                  <p style="font-size: 0.9em;">Requested by: <a style="text-decoration: none; color: #4a4a4a;" href="{% url 'profile' srv.user.slug %}"><b>{{ srv.user.username }}</b></a> </p>
+                </div>
+              </div>
+              <div class="card-service-tag">
+                <div class="service-tag-left">
+                  <div class="service-packett">
+                    <p>Packet:</p>
+                    <p><b>{{ srv.basic_packet.basic_name }}{{ srv.standard_packet.standard_name }}{{ srv.premium_packet.premium_name }}</b></p>
+                  </div>
+                  <div class="service-deltime">
+                    <p>Delvery Time:</p>
+                    <p><b>{{ srv.basic_packet.basic_delivery }}{{ srv.standard_packet.standard_delivery }}{{ srv.premium_packet.premium_delivery }} Days</b></p>
+                  </div>                  
+                </div>
+                <div class="service-tag-right">
+                  <div class="service-rev">
+                    <p>Revision:</p>
+                    <p><b>{{ srv.basic_packet.basic_revision }}{{ srv.standard_packet.standard_revision }}{{ srv.premium_packet.premium_revision }}</b></p>
+                  </div>
+                  <div class="service-price">
+                    <p>Price:</p>
+                    <p><b>Rp{{ srv.basic_packet.basic_price }}{{ srv.standard_packet.standard_price }}{{ srv.premium_packet.premium_price }}</b></p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            {% endfor %}
+          </div>
         </div>
 
       </div>
@@ -387,25 +621,23 @@
         </div>
       </div>
 
+    </div>
+
+
       <script type="text/javascript">
+
 
         $('.tabs ul').on('click','li', function(){
            $(this).addClass('is-active').siblings().removeClass('is-active');
         });
-        
+
         var dropdown = document.querySelector('.dropdown');
 
         dropdown.addEventListener('click', function(event) {
           event.stopPropagation();
           dropdown.classList.toggle('is-active');
-        })
-
-        var dropdownn = document.querySelector('#dropdownreqhead');
-
-        dropdownn.addEventListener('click', function(event) {
-          event.stopPropagation();
-          dropdownn.classList.toggle('is-active');
-        })
+        })        
+       
 
         function statusTab(evt, statusName) {
           var i, tabcontent, tablinks;
@@ -414,6 +646,20 @@
             tabcontent[i].style.display = "none";
           }
           tablinks = document.getElementsByClassName("tablinks");
+          for (i = 0; i < tablinks.length; i++) {
+            tablinks[i].className = tablinks[i].className.replace(" is-active", "");
+          }
+          document.getElementById(statusName).style.display = "block";
+          evt.currentTarget.className += " is-active";
+        }
+
+        function servicestatusTab(evt, statusName) {
+          var i, tabcontent, tablinks;
+          tabcontent = document.getElementsByClassName("servicetabcontent");
+          for (i = 0; i < tabcontent.length; i++) {
+            tabcontent[i].style.display = "none";
+          }
+          tablinks = document.getElementsByClassName("servicetablinks");
           for (i = 0; i < tablinks.length; i++) {
             tablinks[i].className = tablinks[i].className.replace(" is-active", "");
           }

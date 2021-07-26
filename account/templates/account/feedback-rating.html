@@ -1,0 +1,327 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+    <head>
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <title>Hello Bulma!</title>
+      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.2/css/bulma.min.css">
+      <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
+      <link rel="preconnect" href="https://fonts.gstatic.com">
+      <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet"> 
+      <link href="https://fonts.googleapis.com/css2?family=Marck+Script&family=Reenie+Beanie&display=swap" rel="stylesheet">
+      <link href="https://fonts.googleapis.com/css2?family=Cedarville+Cursive&display=swap" rel="stylesheet">
+      <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+      <script>
+        $(document).ready(function(){
+          $("#servicereqbut").click(function(){
+            $(".request-project-body").toggle();
+            $(".request-service-body").toggle();
+            $("#servicereqbut").toggle();
+            $("#servicereqtit").toggle();
+            $("#projectreqbut").toggle();
+            $("#projectreqtit").toggle();
+            $("#servicestatustab").toggle();
+            $("#projectstatustab").toggle();
+          });
+
+          $("#projectreqbut").click(function(){
+            $(".request-project-body").toggle();
+            $(".request-service-body").toggle();
+            $("#servicereqbut").toggle();
+            $("#servicereqtit").toggle();
+            $("#projectreqbut").toggle();
+            $("#projectreqtit").toggle();
+            $("#servicestatustab").toggle();
+            $("#projectstatustab").toggle();
+          });
+        });
+
+      </script>
+      <link rel="stylesheet" type="text/css" href="{% static 'css/main.css' %}">
+
+      {% if title %}
+          <title>Libre - {{ title }}</title>
+      {% else %}
+          <title>Libre</title>
+      {% endif %}
+    </head>
+
+    <body>
+
+      {% if request.user.is_authenticated %}
+      <nav class="navbar" role="navigation" aria-label="main navigation" id="buyernavbar">
+        <div class="navbar-start" id="buyernavbarstart">
+          <div class="navbar-brand mb-1">
+            <a class="navbar-item" href="{% url 'buyerpage' %}">
+              <img src="{% static 'images/librelogo.png' %}" width="112" height="28">
+            </a>
+
+            <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
+              <span aria-hidden="true"></span>
+              <span aria-hidden="true"></span>
+              <span aria-hidden="true"></span>
+            </a>
+          </div>
+          <div class="field has-addons" id="searchbar">
+            <p class="control">
+              <input class="input" type="text" placeholder="Find a post">
+            </p>
+            <p class="control">
+              <button class="button">
+                Search
+              </button>
+            </p>
+          </div>
+        </div>
+        
+        <div class="navbar-end" id="buyernavbarend">
+          <div class="header-tab">
+            <a href="{% url 'buyerpage' %}" class="navbar-item">
+              Project Page
+            </a>
+            <a href="{% url 'service:sellerpage' %}" class="navbar-item">
+              Service Page
+            </a>
+          </div>
+          <div class="dropdown is-right" id="buyerpagedropdown">
+            <div class="dropdown-trigger">
+              <span>
+                <figure class="image" >
+                  <img style="width: 35px; height: 35px; border-radius: 50%;" src="{{account.image.url}}">
+                </figure>
+              </span>
+            </div>
+            <div class="dropdown-menu" id="dropdown-menu" role="menu" style="border:1px solid #e4e5e7; margin-top: 5px;">
+              <div class="dropdown-content">
+                <a style="font-weight: bold;" href="{% url 'profile' account.slug %}" class="dropdown-item">
+                  Profile
+                </a>
+                <a style="font-weight: bold;" href="{% url 'projectlist' %}" class="dropdown-item">
+                  List
+                </a>
+                <a style="font-weight: bold;" href="{% url 'servicelist' %}" class="dropdown-item">
+                  Order
+                </a>
+                <hr class="dropdown-divider">
+                <a href="{% url 'logout' %}" class="dropdown-item">
+                  Log Out
+                </a>
+              </div>
+            </div>
+          </div>
+          </div>
+
+          <div class="clearnavbar"></div>
+      </nav>
+
+      <div class="dashboard-container">
+
+        <div class="dashboard-left">
+          
+          <div class="dashboard-status">
+            <div class="status-header">
+              <img style="width: 60px; height: 60px; border-radius: 50%; margin-right: 10px;" src="{{account.image.url}}" style="flex-grow: 1;">
+              <p style="font-weight: bold; flex-grow: 2;">{{account.first_name}} {{account.last_name}}</p>
+              <span style="display: flex; flex-grow: 1; align-items: center;">
+                <i class="fas fa-star" style="color: #ffc100; margin-right: 5px;"></i>
+                <p>N/A</p>
+              </span>
+            </div>
+            <div class="status-body">
+              <div class="status-title" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+                <p style="width: 165px;">Message response rate</p>
+                <span>
+                  <progress style="width: 60px; height: 10px;" class="progress is-success" value="60" max="100">60%</progress>
+                </span>
+                <span style="width: 40px; display: flex; justify-content: flex-end;">60%</span>
+              </div>
+              <div class="status-title" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+                <p style="width: 165px;">Order response rate</p>
+                <span>
+                  <progress style="width: 60px; height: 10px;" class="progress is-success" value="80" max="100">60%</progress>
+                </span>
+                <span style="width: 40px;display: flex; justify-content: flex-end;">80%</span>
+              </div>
+              <div class="status-title" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+                <p style="width: 165px;">Delivered on time</p>
+                <span>
+                  <progress style="width: 60px; height: 10px;" class="progress is-success" value="100" max="100">60%</progress>
+                </span>
+                <span style="width: 40px; display: flex; justify-content: flex-end;">100%</span>
+              </div>
+              <div class="status-title" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+                <p style="width: 165px;">Order completion</p>
+                <span>
+                  <progress style="width: 60px; height: 10px;" class="progress is-success" value="60" max="100">60%</progress>
+                </span>
+                <span style="width: 40px; display: flex; justify-content: flex-end;">60%</span>
+              </div>
+            </div> 
+            <div class="status-earned" style="display: flex; justify-content: space-between;">
+              <p>Total earned</p>
+              <p style="font-weight: bold;">Rp100.000</p>
+            </div>           
+          </div>
+
+          <div class="dashboard-inbox">
+            <div class="inbox-header">
+              <p>Inbox (18 Messages)</p>
+              <p style="color: #3F978D;">View All</p>
+            </div>
+            <div class="inbox-body" style="height: 62px; overflow: auto; padding-top: 5px;">
+              <div class="inbox-card" style="padding: 5px;">
+                <img style="width: 50px; height: 50px; border-radius: 50%; margin-right: 10px;" src="{{account.image.url}}">
+                <div class="card-text" style="width: 170px;">
+                  <p style="font-size: 0.95em; font-weight: bold;">{{ account.username }}</p>
+                  <p style="font-size: 0.95em;">so close no matter how farrrrrrr</p>
+                </div>
+                <div class="card-notif" style="width: 60px;">
+                  <p style="font-size: 0.90em; margin-bottom: 5px;color: #b5b6ba">1 Week</p>
+                  <div class="green-notif-messages" style="display: flex;">
+                    <div class="green-notif" style="width: 20px; height: 15px; background-color: #1dbf73; border-radius: 35%; display: flex; justify-content: center; align-items: center; margin-right: 10px;">
+                      <p style=" font-size: 0.90em; color: white;">1</p>
+                    </div>
+                    <i class="far fa-envelope" style="color: #b5b6ba;"></i>
+                  </div>        
+                </div>
+              </div>
+              <div class="inbox-card" style="padding: 5px;">
+                <img style="width: 50px; height: 50px; border-radius: 50%; margin-right: 10px;" src="{{account.image.url}}">
+                <div class="card-text" style="width: 170px;">
+                  <p style="font-size: 0.95em; font-weight: bold;">{{ account.username }}</p>
+                  <p style="font-size: 0.95em;">so close no matter how farrrrrrr</p>
+                </div>
+                <div class="card-notif" style="width: 60px;">
+                  <p style="font-size: 0.90em; margin-bottom: 5px;color: #b5b6ba">1 Week</p>
+                  <div class="green-notif-messages" style="display: flex;">
+                    <div class="green-notif" style="width: 20px; height: 15px; background-color: #1dbf73; border-radius: 35%; display: flex; justify-content: center; align-items: center; margin-right: 10px;">
+                      <p style=" font-size: 0.90em; color: white;">1</p>
+                    </div>
+                    <i class="far fa-envelope" style="color: #b5b6ba;"></i>
+                  </div>        
+                </div>
+              </div>
+              <div class="inbox-card" style="padding: 5px;">
+                <img style="width: 50px; height: 50px; border-radius: 50%; margin-right: 10px;" src="{{account.image.url}}">
+                <div class="card-text" style="width: 170px;">
+                  <p style="font-size: 0.95em; font-weight: bold;">{{ account.username }}</p>
+                  <p style="font-size: 0.95em;">so close no matter how farrrrrrr</p>
+                </div>
+                <div class="card-notif" style="width: 60px;">
+                  <p style="font-size: 0.90em; margin-bottom: 5px;color: #b5b6ba">1 Week</p>
+                  <div class="green-notif-messages" style="display: flex;">
+                    <div class="green-notif" style="width: 20px; height: 15px; background-color: #1dbf73; border-radius: 35%; display: flex; justify-content: center; align-items: center; margin-right: 10px;">
+                      <p style=" font-size: 0.90em; color: white;">1</p>
+                    </div>
+                    <i class="far fa-envelope" style="color: #b5b6ba;"></i>
+                  </div>        
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <div class="dashboard-right">
+
+          <div class="request-header">
+            <p class="reqtitle" id="projectreqtit" style="font-size: 1.5em; font-weight: bold;">Project Requests</p>
+            <p class="reqtitle" id="servicereqtit" style="font-size: 1.5em; font-weight: bold; display: none;">Service Requests</p>
+            <button class="button is-primary is-rounded" id="servicereqbut">Service Requests
+              <i class="fad fa-chevron-double-right" style="margin-left: 10px;"></i>
+            </button>
+            <button class="button is-primary is-rounded" style="display: none;" id="projectreqbut">Project Requests
+              <i class="fad fa-chevron-double-right" style="margin-left: 10px;"></i>
+            </button>
+        </div>
+
+
+        <div class="status-tab" id="projectstatustab">
+          <div class="tabs is-boxed">
+            <ul id="status">
+              <li class="is-active" data-target="pending-project" id="pendingtab">
+                <a class="tablinks" id="status" onclick="statusTab(event, 'pending-project')">  
+                  <span class="icon is-small"><i class="fal fa-spinner"></i></span>
+                  <span style="font-weight: bold;">Pending</span>
+                </a>
+              </li>
+              <li class="" data-target="working-project" id="workingtab">
+                <a class="tablinks" id="status" onclick="statusTab(event, 'working-project')">
+                  <span class="icon is-small"><i class="fas fa-pencil-ruler"></i></span>
+                  <span style="font-weight: bold;">Working</span>
+                </a>
+              </li>
+              <li class="" data-target="working-project" id="workingtab">
+                <a class="tablinks" id="status" onclick="statusTab(event, 'done-project')">
+                  <span class="icon is-small"><i class="fad fa-check"></i></span>
+                  <span style="font-weight: bold;">Finish</span>
+                </a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="clear" style="clear: both;"></div>
+
+
+      <div class="libre-footer" style="height: 80px; border-top: 2px solid #e4e5e7">
+        <div class="content-left">
+          <img style="width: 80px; height: 80px; display: inline-block; margin-bottom: -6px;" src="{% static 'images/libre.png' %}">
+          <p style="font-size: 12px; color: #b5b6ba; display: inline-block; position: relative; bottom: 30px;">&copy; Libre Semarang Pride Company Ltd. 2021</p>
+        </div>
+      </div>
+
+    </div>
+
+
+
+      <!-- RATING FEEDBACK MODAL -->
+
+      <div class="modal is-active" id="myModal">
+        <div class="modal-background" id="modalbg"></div>
+        <div class="modal-content" id="modal-content-rating">
+          <div class="rating-star">
+            <div class="rating-feedback">
+              <p>Rating & Feedback</p>
+            </div>
+            <form method="post" enctype="multipart/form-data">{% csrf_token %}
+              <div class="star-widget">
+                <input type="radio" name="rate" id="rate-5" value="5">
+                <label for="rate-5" class="fas fa-star"></label>
+                <input type="radio" name="rate" id="rate-4" value="4">
+                <label for="rate-4" class="fas fa-star"></label>
+                <input type="radio" name="rate" id="rate-3" value="3">
+                <label for="rate-3" class="fas fa-star"></label>
+                <input type="radio" name="rate" id="rate-2" value="2">
+                <label for="rate-2" class="fas fa-star"></label>
+                <input type="radio" name="rate" id="rate-1" value="1">
+                <label for="rate-1" class="fas fa-star"></label>
+                <div class="clear" style="clear: right;"></div>
+                <div class="rating-caption">
+                  <p>
+                  </p>
+                </div>
+              </div>
+              <div class="feedback">
+                <textarea cols="30" name="feedback" placeholder="Describe your experience.."></textarea>
+              </div>
+              <div class="btn">
+                <button type="submit" class="button">Post</button>
+              </div>
+            </form>
+          </div>
+        </div>
+        <a href="{% url 'dashboard' request.user.slug  %}">
+          <p class="modal-close is-large" aria-label="close" id="closebtn"></p>
+        </a>
+      </div>      
+
+      <script type="text/javascript">
+
+      </script>
+      {% endif %}
+
+  </body>
+</html>
