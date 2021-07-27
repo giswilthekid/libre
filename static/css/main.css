@@ -1170,4 +1170,38 @@ input:checked ~ .rating-caption{
 #cancel-but-project span:hover{
 	background-color: #feecf0;
 	border: 1px solid white;
+	cursor: pointer;
+}
+
+#revision-but-project span{
+	background-color: white;
+	border: 1px solid #fffaeb;
+	transition: 0.3s;
+}
+
+#revision-but-project span:hover{
+	background-color: #fffaeb;
+	border: 1px solid white;
+}
+
+#cancel-but-project button{
+	background-color: white;
+	border: 1px solid #fffaeb;
+	transition: 0.3s;
+	height: 25px;
+}
+
+#cancel-but-project button:hover{
+	background-color: #fffaeb;
+	border: 1px solid white;
+	height: 25px;
+}
+
+
+#topup1 button{
+	transition: 0.3s
+}
+
+#topup2 button{
+	transition: 0.3s
 }

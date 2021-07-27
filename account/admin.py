@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
-from account.models import Account, ProjectList, Language, Skill, Education, ServiceList
+from account.models import Account, ProjectList, Language, Skill, Education, ServiceList, Report
 
 
 class AccountAdmin(UserAdmin):
@@ -18,3 +18,4 @@ admin.site.register(Language)
 admin.site.register(Skill)
 admin.site.register(Education)
 admin.site.register(ServiceList)
+admin.site.register(Report)

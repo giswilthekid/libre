@@ -97,20 +97,20 @@
               </li>
               <li data-target="prj-ongoing">
                 <a>
-                  <span class="icon is-small"><i class="fas fa-hourglass-half"></i></span>
-                  <span>On Going</span>
+                  <span class="icon is-small"><i class="fas fa-pencil-ruler"></i></span>
+                  <span>Working</span>
                 </a>
               </li>
               <li data-target="prj-done">
                 <a>
-                  <span class="icon is-small"><i class="fas fa-check"></i></span>
-                  <span>Done</span>
+                  <span class="icon is-small"><i class="fad fa-check"></i></span>
+                  <span>Confirm</span>
                 </a>
               </li>
               <li data-target="prj-declined">
                 <a>
-                  <span class="icon is-small"><i class="fas fa-times"></i></span>
-                  <span>Decline</span>
+                  <span class="icon is-small"><i class="fas fa-clipboard-list"></i></span>
+                  <span>History</span>
                 </a>
               </li>
             </ul>
@@ -150,7 +150,7 @@
                   <td>{{ prj.basic_packet.basic_revision }}{{ prj.standard_packet.standard_revision }}{{ prj.premium_packet.premium_revision }}</td>
                   <td>{{ prj.basic_packet.basic_price }}{{ prj.standard_packet.standard_price }}{{ prj.premium_packet.premium_price }}</td>
                   <td>
-                    <span class="tag is-warning is-light">Pending</span>
+                    <span class="tag is-info">Pending</span>
                   </td>
                 </tr>
                 {% endfor %}
@@ -171,7 +171,7 @@
                 </tr>
               </thead>
               <tbody>
-                {% for prj in service_ongoing %}
+                {% for prj in service_working %}
                 <tr>
                   <th>{{ forloop.counter }}</th>
                   <td>
@@ -184,12 +184,34 @@
                       {{ prj.service.author.username }}
                     </a>
                   </td>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                  <td></td>
+                  <td>{{ prj.basic_packet.basic_name }}{{ prj.standard_packet.standard_name }}{{ prj.premium_packet.premium_name }}</td>
+                  <td>{{ prj.basic_packet.basic_delivery }}{{ prj.standard_packet.standard_delivery }}{{ prj.premium_packet.premium_delivery }}</td>
+                  <td>{{ prj.basic_packet.basic_revision }}{{ prj.standard_packet.standard_revision }}{{ prj.premium_packet.premium_revision }}</td>
+                  <td>{{ prj.basic_packet.basic_price }}{{ prj.standard_packet.standard_price }}{{ prj.premium_packet.premium_price }}</td>
                   <td>
-                    <span class="tag is-info is-light">On Going</span>
+                    <span class="tag is-info">Working</span>
+                  </td>
+                </tr>
+                {% endfor %}
+                {% for prj in service_revision %}
+                <tr>
+                  <th>{{ forloop.counter }}</th>
+                  <td>
+                    <a href="{% url 'service:detail-service' prj.service.slug %}">
+                      {{ prj.service.title }}
+                    </a>
+                  </td>
+                  <td>
+                    <a href="{% url 'profile' prj.service.author.slug %}">
+                      {{ prj.service.author.username }}
+                    </a>
+                  </td>
+                  <td>{{ prj.basic_packet.basic_name }}{{ prj.standard_packet.standard_name }}{{ prj.premium_packet.premium_name }}</td>
+                  <td>{{ prj.basic_packet.basic_delivery }}{{ prj.standard_packet.standard_delivery }}{{ prj.premium_packet.premium_delivery }}</td>
+                  <td>{{ prj.basic_packet.basic_revision }}{{ prj.standard_packet.standard_revision }}{{ prj.premium_packet.premium_revision }}</td>
+                  <td>{{ prj.basic_packet.basic_price }}{{ prj.standard_packet.standard_price }}{{ prj.premium_packet.premium_price }}</td>
+                  <td>
+                    <span class="tag is-warning">Revision</span>
                   </td>
                 </tr>
                 {% endfor %}
@@ -206,11 +228,11 @@
                   <th>Delivery Time</th>
                   <th>Revision</th>
                   <th>Price</th>
-                  <th>Status</th>
+                  <th>Actions</th>
                 </tr>
               </thead>
               <tbody>
-                {% for prj in service_done %}
+                {% for prj in service_waiting %}
                 <tr>
                   <th>{{ forloop.counter }}</th>
                   <td>
@@ -223,12 +245,20 @@
                       {{ prj.service.author.username }}
                     </a>
                   </td>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                  <td></td>
+                  <td>{{ prj.basic_packet.basic_name }}{{ prj.standard_packet.standard_name }}{{ prj.premium_packet.premium_name }}</td>
+                  <td>{{ prj.basic_packet.basic_delivery }}{{ prj.standard_packet.standard_delivery }}{{ prj.premium_packet.premium_delivery }}</td>
+                  <td>{{ prj.basic_packet.basic_revision }}{{ prj.standard_packet.standard_revision }}{{ prj.premium_packet.premium_revision }}</td>
+                  <td>{{ prj.basic_packet.basic_price }}{{ prj.standard_packet.standard_price }}{{ prj.premium_packet.premium_price }}</td>
                   <td>
-                    <span class="tag is-primary is-light">Done</span>
+                    <a href="{% url 'feedback-service' prj.sl_id %}" id="finish-but-project">
+                      <span class="tag is-primary is-light">Finish</span>
+                    </a>
+                    <a href="{% url 'revision-service' prj.sl_id %}" id="revision-but-project">
+                      <span class="tag is-warning is-light">Revision</span>
+                    </a>
+                    <a href="{% url 'cancel-service' prj.sl_id %}" id="cancel-but-project">
+                      <span class="tag is-danger is-light">Cancel</span>
+                    </a>
                   </td>
                 </tr>
                 {% endfor %}
@@ -249,7 +279,7 @@
                 </tr>
               </thead>
               <tbody>
-                {% for prj in service_declined %}
+                {% for prj in service_finished %}
                 <tr>
                   <th>{{ forloop.counter }}</th>
                   <td>
@@ -262,12 +292,56 @@
                       {{ prj.service.author.username }}
                     </a>
                   </td>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                  <td></td>
+                  <td>{{ prj.basic_packet.basic_name }}{{ prj.standard_packet.standard_name }}{{ prj.premium_packet.premium_name }}</td>
+                  <td>{{ prj.basic_packet.basic_delivery }}{{ prj.standard_packet.standard_delivery }}{{ prj.premium_packet.premium_delivery }}</td>
+                  <td>{{ prj.basic_packet.basic_revision }}{{ prj.standard_packet.standard_revision }}{{ prj.premium_packet.premium_revision }}</td>
+                  <td>{{ prj.basic_packet.basic_price }}{{ prj.standard_packet.standard_price }}{{ prj.premium_packet.premium_price }}</td>
                   <td>
-                    <span class="tag is-danger is-light">Declined</span>
+                    <span class="tag is-success">Finished</span>
+                  </td>
+                </tr>
+                {% endfor %}
+                {% for prj in service_rejected %}
+                <tr>
+                  <th>{{ forloop.counter }}</th>
+                  <td>
+                    <a href="{% url 'service:detail-service' prj.service.slug %}">
+                      {{ prj.service.title }}
+                    </a>
+                  </td>
+                  <td>
+                    <a href="{% url 'profile' prj.service.author.slug %}">
+                      {{ prj.service.author.username }}
+                    </a>
+                  </td>
+                  <td>{{ prj.basic_packet.basic_name }}{{ prj.standard_packet.standard_name }}{{ prj.premium_packet.premium_name }}</td>
+                  <td>{{ prj.basic_packet.basic_delivery }}{{ prj.standard_packet.standard_delivery }}{{ prj.premium_packet.premium_delivery }}</td>
+                  <td>{{ prj.basic_packet.basic_revision }}{{ prj.standard_packet.standard_revision }}{{ prj.premium_packet.premium_revision }}</td>
+                  <td>{{ prj.basic_packet.basic_price }}{{ prj.standard_packet.standard_price }}{{ prj.premium_packet.premium_price }}</td>
+                  <td>
+                    <span class="tag is-warning">Rejected</span>
+                  </td>
+                </tr>
+                {% endfor %}
+                {% for prj in service_canceled %}
+                <tr>
+                  <th>{{ forloop.counter }}</th>
+                  <td>
+                    <a href="{% url 'service:detail-service' prj.service.slug %}">
+                      {{ prj.service.title }}
+                    </a>
+                  </td>
+                  <td>
+                    <a href="{% url 'profile' prj.service.author.slug %}">
+                      {{ prj.service.author.username }}
+                    </a>
+                  </td>
+                  <td>{{ prj.basic_packet.basic_name }}{{ prj.standard_packet.standard_name }}{{ prj.premium_packet.premium_name }}</td>
+                  <td>{{ prj.basic_packet.basic_delivery }}{{ prj.standard_packet.standard_delivery }}{{ prj.premium_packet.premium_delivery }}</td>
+                  <td>{{ prj.basic_packet.basic_revision }}{{ prj.standard_packet.standard_revision }}{{ prj.premium_packet.premium_revision }}</td>
+                  <td>{{ prj.basic_packet.basic_price }}{{ prj.standard_packet.standard_price }}{{ prj.premium_packet.premium_price }}</td>
+                  <td>
+                    <span class="tag is-danger">Canceled</span>
                   </td>
                 </tr>
                 {% endfor %}

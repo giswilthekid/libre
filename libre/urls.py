@@ -18,6 +18,10 @@ from account.views import(
     feedback_view,
     finish_project,
     cancel_project,
+    finish_service,
+    cancel_service,
+    revision_service,
+    feedback_service_view,
 )
 
 from blog.views import(
@@ -43,6 +47,9 @@ urlpatterns = [
     path('feedback/<project_id>/', feedback_view, name='feedback'),
     path('finishproject/<project_id>/', finish_project, name='finish-project'),
     path('cancelproject/<project_id>/', cancel_project, name='cancel-project'),
+    path('feedbackservice/<service_id>/', feedback_service_view, name='feedback-service'),
+    path('cancelservice/<service_id>/', cancel_service, name='cancel-service'),
+    path('revisionservice/<service_id>/', revision_service, name='revision-service'),
 ]
 
 if settings.DEBUG:

@@ -184,7 +184,7 @@
                               </span>
                               <span>Services</span>
                             </td>
-                            <td class="has-text-right">15</td>
+                            <td class="has-text-right">{{service_count}}</td>
                           </tr>
                           <tr>
                             <td class="has-text-left">
@@ -193,7 +193,7 @@
                               </span>
                               <span>Projects</span>
                             </td>
-                            <td class="has-text-right">18</td>
+                            <td class="has-text-right">{{project_count}}</td>
                           </tr>
                         </table>
                       </div>
@@ -728,82 +728,42 @@
 
                 </div>
 
-                {% if account.email != request.user.email %}
                 <div class="column" style="margin-top: 10px;">
+
                   <span style="font-size: 1.5em; font-weight: 750; margin-right: 5px;">Reviews as Freelancer</span>
                   <span class="icon" style="margin-right: 5px;">
                     <i class="fas fa-star" style="color: #ffc100; font-size: 1.5em;"></i>
                   </span>
                   <span style="font-size: 1.5em; margin-right: 5px;">5</span>
-                  <span style="font-size: 1.5em; color: #b2b2b2">(120)</span>
+                  <span style="font-size: 1.5em; color: #b2b2b2">({{service_feedback_count}})</span>
 
                   <hr style="border-top: 1px solid; border-color: #000000">
 
+                  {% for srv in service_feedback %}
                   <div class="columns">
                     <div class="column is-1" style="margin-right: -10px;">
-                      <figure class="image is-16x24">
-                        <img src="https://bulma.io/images/placeholders/128x128.png" style="border-radius: 50%; width: 40px;">
+                      <figure class="image">
+                        <img src="{{srv.user.image.url}}" style="border-radius: 50%; width: 40px; height: 40px;">
                       </figure>
                     </div>
                     <div class="column">
-                      <p style="font-size: 1em; font-weight: 750">
-                        Elpriska
-                      </p>
+                      <a href="{% url 'profile' srv.user.slug %}">
+                        <p style="font-size: 1em; font-weight: 750; color: #4a4a4a;">
+                          {{srv.user.first_name}}
+                        </p>
+                      </a>
                       <i class="fas fa-star" style="color: #ffc100; font-size: 1em;"></i>
-                      <span>5</span>
+                      <span>{{srv.rating}}</span>
                       <p style="margin-top: 5px;">
-                        Lorem ipsum leo risus, porta ac consectetur ac, vestibulum at eros. Donec id elit non mi porta gravida at eget metus. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Cras mattis consectetur purus sit amet fermentum.
+                        {{srv.feedback}}
                       </p>
                     </div>
-
-                  </div>
-
-                  <hr style="border-top: 1px solid; border-color: #b5b6ba"> 
-
-                  <div class="columns">
-                    <div class="column is-1" style="margin-right: -10px;">
-                      <figure class="image is-16x24">
-                        <img src="https://bulma.io/images/placeholders/128x128.png" style="border-radius: 50%; width: 40px;">
-                      </figure>
-                    </div>
-                    <div class="column">
-                      <p style="font-size: 1em; font-weight: 750">
-                        Elpriska
-                      </p>
-                      <i class="fas fa-star" style="color: #ffc100; font-size: 1em;"></i>
-                      <span>5</span>
-                      <p style="margin-top: 5px;">
-                        Lorem ipsum leo risus, porta ac consectetur ac, vestibulum at eros. Donec id elit non mi porta gravida at eget metus. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Cras mattis consectetur purus sit amet fermentum.
-                      </p>
-                    </div>
-
                   </div>
 
                   <hr style="border-top: 1px solid; border-color: #b5b6ba">
-
-                  <div class="columns">
-                    <div class="column is-1" style="margin-right: -10px;">
-                      <figure class="image is-16x24">
-                        <img src="https://bulma.io/images/placeholders/128x128.png" style="border-radius: 50%; width: 40px;">
-                      </figure>
-                    </div>
-                    <div class="column">
-                      <p style="font-size: 1em; font-weight: 750">
-                        Elpriska
-                      </p>
-                      <i class="fas fa-star" style="color: #ffc100; font-size: 1em;"></i>
-                      <span>5</span>
-                      <p style="margin-top: 5px;">
-                        Lorem ipsum leo risus, porta ac consectetur ac, vestibulum at eros. Donec id elit non mi porta gravida at eget metus. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Cras mattis consectetur purus sit amet fermentum.
-                      </p>
-                    </div>
-
-                  </div>
-
-                  <hr style="border-top: 1px solid; border-color: #b5b6ba">                 
+                  {% endfor %}
 
                 </div>
-                {% endif %}
 
               </div>
             </div>

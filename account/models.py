@@ -138,3 +138,13 @@ class Education(models.Model):
 
     def __str__(self):
         return self.collage
+
+class Report(models.Model):
+	report_from				= models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+	report_text				= models.CharField(max_length=2000, null=True, blank=True)
+	project					= models.ForeignKey(ProjectList, on_delete=models.CASCADE, null=True, blank=True)
+	service					= models.ForeignKey(ServiceList, on_delete=models.CASCADE, null=True, blank=True)
+	timestamp	 			= models.DateTimeField(auto_now_add=True, verbose_name="timestamp")
+
+	def __str__(self):
+		return self.report_text
