@@ -381,36 +381,38 @@
         <div class="tabcontent" style="display: none;" id="finish-project">
           <div class="request-project-body"  id="request-project-body">
             {% for prj in projectreqwaiting %}
-              <div class="project-card" style="height: 150px;">
-                <div class="card-image">
-                  <img style="width: 120px; height: 100%; border-radius: 5%;" src="{{ prj.project.image.url }}">
-                </div>
-                <div class="card-title-tag">
-                  <div class="card-tag">
-                    <a href="{% url 'blog:detail' prj.project.slug %}" style="text-decoration: none; color: #4a4a4a;">
-                      <p style="font-weight: bold; font-size: 1.2em;">{{ prj.project.title }}</p>
-                    </a>
-                    <span class="tag is-primary is-light">{{ prj.project.category }}</span>
-                    <span class="tag is-primary is-light">{{ prj.project.subcategory }}</span>
+              <div class="project-card">
+                  <div class="card-image">
+                    <img style="width: 120px; height: 100%; border-radius: 5%;" src="{{ prj.project.image.url }}">
                   </div>
-                  <div class="reqby">
-                    <p style="font-size: 0.9em;">Requested by: <a style="text-decoration: none; color: #4a4a4a;" href="{% url 'profile' prj.user.slug %}"><b>{{ prj.user.username }}</b></a> </p>
+                  <div class="card-title-tag">
+                    <div class="card-tag">
+                      <a href="{% url 'blog:detail' prj.project.slug %}" style="text-decoration: none; color: #4a4a4a;">
+                        <p style="font-weight: bold; font-size: 1.2em;">{{ prj.project.title }}</p>
+                      </a>
+                      <span class="tag is-primary is-light">{{ prj.project.category }}</span>
+                      <span class="tag is-primary is-light">{{ prj.project.subcategory }}</span>
+                    </div>
+                    <div class="reqby">
+                      <p style="font-size: 0.9em;">Requested by: <a style="text-decoration: none; color: #4a4a4a;" href="{% url 'profile' prj.user.slug %}"><b>{{ prj.user.username }}</b></a> </p>
+                    </div>
                   </div>
-                </div>
-                <div class="card-action" style="display: flex; flex-direction: column; width: 100px;">
-                  <a href="{% url 'feedback' prj.pl_id  %}">
-                    <button style="width: 100%" class="button is-primary is-outlined" id="modalbtn">Finish</button>
-                  </a>
                   <form method="post" enctype="multipart/form-data">{% csrf_token %}
-                    <input class="input is-hidden" type="text" placeholder="Title..." value="{{prj.pl_id}}" name="revision" id="id_title">
-                    <button style="width: 100%;" type="submit" class="button is-warning is-outlined" name="cancelledbutton">Revision</button>
-                  </form>
-                  <form method="post" enctype="multipart/form-data">{% csrf_token %}
-                    <input class="input is-hidden" type="text" placeholder="Title..." value="{{prj.pl_id}}" name="cancel" id="id_title">
-                    <button style="width: 100%; " type="submit" class="button is-danger is-outlined" name="cancelledbutton">Cancel</button>
+                    <div class="card-action">
+                      <div class="select is-primary">
+                        <select style="width: 100px;" name="projectoption">
+                          <option disabled selected>Options</option>
+                          <option value="finish">Finish</option>
+                          <option value="revision">Revision</option>
+                          <option value="cancel">Cancel</option>
+                        </select>
+                      </div>
+                      <input class="input is-hidden" type="text" placeholder="Title..." value="{{prj.pl_id}}" name="project_id" id="id_title">
+                      
+                      <button style="width: 100%" type="submit" class="button is-primary">Confirm</button>
+                    </div>
                   </form>
                 </div>
-              </div>
             {% endfor %}
           </div>
         </div>

@@ -38,6 +38,7 @@ class BlogPost(models.Model):
 	subcategory 			= models.ForeignKey(SubCategory, on_delete=models.CASCADE, null=False)
 	deadline 				= models.PositiveIntegerField(blank=False, null=False)
 	budget 					= models.BigIntegerField(blank=False, null=False)
+	status					= models.CharField(max_length=50, null=False, blank=False, default='avail')
 	slug 					= models.SlugField()
 
 	def __str__(self):

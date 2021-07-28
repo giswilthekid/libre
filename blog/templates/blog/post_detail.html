@@ -91,17 +91,17 @@
 
           <div class="postdetail-content">
             <div class="postdetail-header">
-              {% if blog_post.author == request.user %}
+              {% if avail_post.author == request.user %}
               <div class="header-detail" style="width: 550px; float: left; word-wrap: break-word;">
                 <p style="font-size: 2.3em; font-weight: bold; margin-bottom: 5px;">
-                {{blog_post.title}}
+                {{avail_post.title}}
                 </p>
                 <figure class="image" style="display: inline-block;">
-                  <img style="width: 35px; height: 35px; border-radius: 50%;" src="{{blog_post.author.image.url}}">
+                  <img style="width: 35px; height: 35px; border-radius: 50%;" src="{{avail_post.author.image.url}}">
                 </figure>
-                <a href="{% url 'profile' blog_post.author.slug %}" style="color: black;">
+                <a href="{% url 'profile' avail_post.author.slug %}" style="color: black;">
                   <p style="display: inline-block; font-weight: bold; position: relative; bottom: 12px; left: 5px;">
-                    {{blog_post.author.username}}
+                    {{avail_post.author.username}}
                   </p>
                 </a>
                 <p style="display: inline-block; position: relative; bottom: 13.5px; left: 8px; font-size: 15px; color: #62646a">|
@@ -115,14 +115,14 @@
                 <p style="display: inline-block; position: relative; bottom: 11px; left: 10px; color: #62646a;">(120)</p>
               </div>
               <div class="postdetail-options" style="width: 130px; float: right; padding-top: 10px;">
-                <a href="{% url 'blog:edit' blog_post.slug %}">
+                <a href="{% url 'blog:edit' avail_post.slug %}">
                   <button class="button is-outlined is-rounded is-warning">
                     <span>
                       <i class="fas fa-edit"></i>
                     </span>
                   </button>
                 </a>
-                <a href="{% url 'blog:delete' blog_post.slug %}">
+                <a href="{% url 'blog:delete' avail_post.slug %}">
                   <button class="button is-outlined is-rounded is-danger">
                     <span>
                       <i class="far fa-trash-alt"></i>
@@ -133,14 +133,14 @@
               <div class="clear" style="clear: both;"></div>
               {% else %}
               <p style="font-size: 2.3em; font-weight: bold; margin-bottom: 5px;">
-                {{blog_post.title}}
+                {{avail_post.title}}
               </p>
               <figure class="image" style="display: inline-block;">
-                <img style="width: 35px; height: 35px; border-radius: 50%;" src="{{blog_post.author.image.url}}">
+                <img style="width: 35px; height: 35px; border-radius: 50%;" src="{{avail_post.author.image.url}}">
               </figure>
-              <a href="{% url 'profile' blog_post.author.slug %}" style="color: black;">
+              <a href="{% url 'profile' avail_post.author.slug %}" style="color: black;">
                 <p style="display: inline-block; font-weight: bold; position: relative; bottom: 12px; left: 5px;">
-                  {{blog_post.author.username}}
+                  {{avail_post.author.username}}
                 </p>
               </a>
               <p style="display: inline-block; position: relative; bottom: 13.5px; left: 8px; font-size: 15px; color: #62646a">|
@@ -158,12 +158,12 @@
             <div class="postdetail-main">
               <div class="cover" style="margin-top: 10px;">
                 <figure class="image">
-                  <img style="width: 450px; height: 450px; margin-left: auto; margin-right: auto;" src="{{blog_post.image.url}}">
+                  <img style="width: 450px; height: 450px; margin-left: auto; margin-right: auto;" src="{{avail_post.image.url}}">
                 </figure>
               </div>
               <div class="detail" style="margin-top: 20px;">
                 <p style="font-size: 1.25em; font-weight: bold;">About this project</p>
-                <p style="margin-top: 5px;">{{blog_post.body}}</p>
+                <p style="margin-top: 5px;">{{avail_post.body}}</p>
               </div>
               <div class="deadlinebudget" style="margin-top: 20px; padding-top: 20px; border-top:1px solid #dadbdd;">
                 <p style="font-size: 1.25em; font-weight: bold; margin-bottom: 10px;">Budget & Deadline</p>
@@ -173,7 +173,7 @@
                       <img style="width: 40px; height: 40px;" src="{% static 'images/hourglass.png' %}">
                     </figure>
                     <p style="display: inline-block; font-size: 20px; margin: auto; position: relative; bottom: 10px;">
-                      {{blog_post.deadline}} Days
+                      {{avail_post.deadline}} Days
                     </p>
                   </div>
                 </div>
@@ -183,7 +183,7 @@
                       <img style="width: 40px; height: 40px;" src="{% static 'images/salary.png' %}">
                     </figure>
                     <p style="display: inline-block; font-size: 20px; position: relative; bottom: 10px; left: 20px; margin-left: 10px;">
-                      Rp {{blog_post.budget}}
+                      Rp {{avail_post.budget}}
                     </p>                    
                   </div>
                 </div>
@@ -192,8 +192,8 @@
 
               <div class="postdetail-category" style="margin-top: 20px; border-top:1px solid #dadbdd; padding-top: 20px;">
                 <p style="font-size: 1.25em; font-weight: bold; margin-bottom: 10px;">Tag</p>
-                <span class="tag">{{blog_post.category.name}}</span>
-                <span class="tag">{{blog_post.subcategory.name}}</span>
+                <span class="tag">{{avail_post.category.name}}</span>
+                <span class="tag">{{avail_post.subcategory.name}}</span>
                 <span class="tag">Three</span>
                 <span class="tag">Four</span>
                 <span class="tag">Five</span>
@@ -203,11 +203,11 @@
                 <span class="tag">Nine</span>
                 <span class="tag">Ten</span>
               </div>
-              {% if blog_post.author != request.user %}
+              {% if avail_post.author != request.user %}
               <div class="postdetail-action" style="margin-top: 20px; border-top:1px solid #dadbdd; padding-top: 20px;">
                 <div class="apply-button" style="width: 182px; margin: auto;">
-                  {% if order_project %}
-                  <a href="{% url 'blog:cancelled-project' blog_post.slug %}">
+                  {% if applied_post %}
+                  <a href="{% url 'blog:cancelled-project' avail_post.slug %}">
                     <button class="button is-outlined is-rounded is-danger">
                       <span>
                         <i class="fas fa-times"></i>
@@ -216,7 +216,7 @@
                     </button>
                   </a>
                   {% else %}
-                  <a href="{% url 'blog:add-to-projectlist' blog_post.slug %}">
+                  <a href="{% url 'blog:add-to-projectlist' avail_post.slug %}">
                     <button class="button is-outlined is-rounded is-success">
                       <span>
                         <i class="far fa-plus"></i>
@@ -237,22 +237,22 @@
               <p style="font-size: 1.5em; font-weight: bold; margin-bottom: 20px;">About the seller</p>
               <div class="leftside-profile" style="float: left; border-right: 1px solid #dadbdd;">
                 <figure class="image" style="display: inline-block;">
-                  <img style="width: 110px; height: 110px; border-radius: 50%;" src="{{blog_post.author.image.url}}">
+                  <img style="width: 110px; height: 110px; border-radius: 50%;" src="{{avail_post.author.image.url}}">
                 </figure>
                 <div class="figuretext" style="display: inline-block; position: relative; bottom: 30px; left: 10px;">
-                  <a href="{% url 'profile' blog_post.author.slug %}" style="color: black;">
+                  <a href="{% url 'profile' avail_post.author.slug %}" style="color: black;">
                     <p style="font-weight: bold; font-size: 1.25em;">
-                      {{blog_post.author.first_name}} {{blog_post.author.last_name}}
+                      {{avail_post.author.first_name}} {{avail_post.author.last_name}}
                     </p>
                   </a>
                   
-                  <p>{{blog_post.author.status}}</p>
+                  <p>{{avail_post.author.status}}</p>
                   <i class="fas fa-star" style="display: inline-block; color: #ffb33e; margin-top: 5px;"></i>
                   <p style="display: inline-block; color: #ffb33e; font-weight: bold;">4.9</p>
                   <p style="display: inline-block; color: #62646a;">(120)</p>
                 </div>
               </div>
-              {% if blog_post.author.email != request.user.email %}
+              {% if avail_post.author.email != request.user.email %}
               <div class="rightside-profile" style="float: right; padding-top: 10px;">
                 <button class="button is-outlined" style="display: block;">Contact Me</button>
                 <div class="tooltip">
@@ -272,7 +272,7 @@
                     From
                   </p>
                   <p style="font-weight: bold;">
-                    {{blog_post.author.origin}}
+                    {{avail_post.author.origin}}
                   </p>
                   <p style="margin-top: 20px;">
                     Total Project Request
@@ -286,7 +286,7 @@
                     Member Since
                   </p>
                   <p style="font-weight: bold;">
-                    {{blog_post.author.date_joined}}
+                    {{avail_post.author.date_joined}}
                   </p>
                   <p style="margin-top: 20px;">
                     Total Services
@@ -297,7 +297,7 @@
                 </div>
               </div>
               <div class="clear" style="clear: both;"></div>
-              <p style="margin-top: 20px; border-top: 1px solid #dadbdd">{{blog_post.author.description}}</p>
+              <p style="margin-top: 20px; border-top: 1px solid #dadbdd">{{avail_post.author.description}}</p>
             </div>
           </div>
 

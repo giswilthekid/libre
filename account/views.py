@@ -291,28 +291,23 @@ def dashboard_view(request, slug):
 			return redirect("dashboard", slug=user.slug)
 		elif (request.POST.get('projectoption') == 'decline'):
 			project.status = 'rejected'
+			blog_post = project.project
+			blog_post.status = 'avail'
+			blog_post.save()
 			project.save()
 			return redirect("dashboard", slug=user.slug)
 		elif (request.POST.get('projectoption') == 'cancel'):
 			project.status = 'canceled'
 			project.save()
 			return redirect("dashboard", slug=user.slug)
+		elif (request.POST.get('projectoption') == 'revision'):
+			project.status = 'revision'
+			project.save()
+			return redirect("dashboard", slug=user.slug)
+		elif (request.POST.get('projectoption') == 'finish'):
+			pl_id = request.POST.get('project_id')
+			return redirect("feedback", project_id=pl_id)
 
-	if request.POST.get('revision'):
-
-		pl_id = request.POST.get('revision')
-		project = ProjectList.objects.filter(pl_id=pl_id).first()
-		project.status = 'revision'
-		project.save()
-		return redirect("dashboard", slug=user.slug)
-
-	if request.POST.get('cancel'):
-
-		pl_id = request.POST.get('cancel')
-		project = ProjectList.objects.filter(pl_id=pl_id).first()
-		project.status = 'canceled'
-		project.save()
-		return redirect("dashboard", slug=user.slug)
 
 	if request.POST.get('serviceoption'):
 
@@ -389,14 +384,17 @@ def feedback_view(request, project_id):
 	servicereqdone = ServiceList.objects.filter(service__in=servicelist, status='done')
 	
 	if request.POST.get('rate') and request.POST.get('feedback') :
-		project_req = ProjectList.objects.filter(project=project_id).first()
+		project_req = ProjectList.objects.filter(pl_id=project_id).first()
 		rating = request.POST.get('rate')
 		feedback = request.POST.get('feedback')
 		project_req.rating = rating
 		project_req.feedback = feedback
 		project_req.status = 'finished'
+		user = project_req.user
+		user.wallet += project_req.project.budget
+		user.save()
 		project_req.save()
-		return redirect("dashboard", slug=user.slug)
+		return redirect("dashboard", slug=request.user.slug)
 
 
 	context['user'] = user

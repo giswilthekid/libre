@@ -57,6 +57,7 @@ class Account (AbstractBaseUser):
 	origin					= models.CharField(max_length=50, null=True, blank=True)
 	status					= models.CharField(max_length=50, null=True, blank=True)
 	description				= models.TextField(max_length=2000, null=True, blank=True)
+	wallet					= models.BigIntegerField(default=0)
 	slug 					= models.SlugField()
 
 	USERNAME_FIELD = 'email'
