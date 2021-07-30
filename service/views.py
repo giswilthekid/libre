@@ -26,6 +26,12 @@ def sellerpage(request):
 	account = Account.objects.filter(email=request.user.email).first()
 	service = ServicePost.objects.all()
 
+	if request.POST.get('topup'):
+		topup = request.POST.get('topup')
+		user.wallet += int(topup)
+		user.save()
+		return redirect('service:sellerpage')
+
 	context['account'] = account
 	context['service'] = service
 
@@ -87,6 +93,7 @@ def detail_service_view(request, slug):
 	
 	context = {}
 
+	user = request.user
 	account = Account.objects.filter(email=request.user.email).first()
 	service = get_object_or_404(ServicePost, slug=slug)
 	order_service = ServiceList.objects.filter(service=service, user=request.user)
@@ -95,6 +102,13 @@ def detail_service_view(request, slug):
 	basic = get_object_or_404(BasicPacket, packet_service=service)
 	standard = get_object_or_404(StandardPacket, packet_service=service)
 	premium = get_object_or_404(PremiumPacket, packet_service=service)
+	order_queue = ServiceList.objects.filter(service=service, status='pending').count()
+
+	if request.POST.get('topup'):
+		topup = request.POST.get('topup')
+		user.wallet += int(topup)
+		user.save()
+		return redirect('service:detail-service', slug=slug)
 
 	context['service'] = service
 	context['account'] = account
@@ -104,6 +118,7 @@ def detail_service_view(request, slug):
 	context['basic'] = basic
 	context['standard'] = standard
 	context['premium'] = premium
+	context['order_queue'] = order_queue
 
 
 	return render(request, 'service/service_detail.html', context)
@@ -115,46 +130,60 @@ def add_to_servicelist(request, slug, packet_id, tipe_packet):
 	if tipe_packet == 'basic':
 		basic_packet = BasicPacket.objects.filter(basic_id=packet_id)
 		order_service = ServiceList.objects.filter(service=service, user=request.user, basic_packet=basic_packet[0])
-		if order_service.exists():
-			print('Project Sudah Ada')
+
+		user = request.user
+		basicprice = basic_packet[0].basic_price
+		if (user.wallet < int(basicprice)):
+			print('uang tidak cukup')
 		else:
+			print('basic:' ,basic_packet)
 			order_service = ServiceList.objects.create(
-			service=service,
-			user=request.user,
-			status='pending',
-			basic_packet=basic_packet[0]
+				service=service,
+				user=request.user,
+				status='pending',
+				basic_packet=basic_packet[0]
 			)
+			user.wallet -= int(basicprice)
+			user.save()
 			return redirect("servicelist")
 
 	if tipe_packet == 'standard':
 		standard_packet = StandardPacket.objects.filter(standard_id=packet_id)
 		order_service = ServiceList.objects.filter(service=service, user=request.user, standard_packet=standard_packet[0])
-		if order_service.exists():
-			print('Project Sudah Ada')
+
+		user = request.user
+		standardprice = standard_packet[0].standard_price
+		if (user.wallet < int(standardprice)):
+			print('uang tidak cukup')
 		else:
 			order_service = ServiceList.objects.create(
-			service=service,
-			user=request.user,
-			status='pending',
-			standard_packet=standard_packet[0]
+				service=service,
+				user=request.user,
+				status='pending',
+				standard_packet=standard_packet[0]
 			)
+			user.wallet -= int(standardprice)
+			user.save()
 			return redirect("servicelist")
 
 	if tipe_packet == 'premium':
 		premium_packet = PremiumPacket.objects.filter(premium_id=packet_id)
 		order_service = ServiceList.objects.filter(service=service, user=request.user, premium_packet=premium_packet[0])
-		if order_service.exists():
-			print('Project Sudah Ada')
+
+		user = request.user
+		premiumprice = premium_packet[0].premium_price
+		if (user.wallet < int(premiumprice)):
+			print('uang tidak cukup')
 		else:
 			order_service = ServiceList.objects.create(
-			service=service,
-			user=request.user,
-			status='pending',
-			premium_packet=premium_packet[0]
+				service=service,
+				user=request.user,
+				status='pending',
+				premium_packet=premium_packet[0]
 			)
+			user.wallet -= int(premiumprice)
+			user.save()
 			return redirect("servicelist")
-
-	return redirect('sellerpage')
 
 def cancelled_service(request, slug):
 
@@ -259,7 +288,26 @@ def edit_service_view(request, slug):
 def delete_service_view(request, slug):
 	
 	context = {}
-	blog_post = get_object_or_404(BlogPost, slug=slug)
-	blog_post.delete()
 
-	return redirect("buyerpage")
+	service = get_object_or_404(ServicePost, slug=slug)
+	service_order = ServiceList.objects.filter(service=service).first()
+	user_order = service_order.user
+	
+	if (service_order.basic_packet is not None):
+		basic_order = service_order.basic_packet
+		user_order.wallet += int(basic_order.basic_price)
+		user_order.save()
+		service.delete()
+		return redirect("buyerpage")
+	elif (service_order.standard_packet is not None):
+		standard_order = service_order.standard_packet
+		user_order.wallet += int(standard_order.standard_price)
+		service.delete()
+		service.delete()
+		return redirect("buyerpage")
+	elif (service_order.premium_packet is not None):
+		premium_order = service_order.premium_packet
+		user_order.wallet += int(premium_order.premium_price)
+		user_order.save()
+		service.delete()
+		return redirect("buyerpage")

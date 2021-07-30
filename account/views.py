@@ -90,11 +90,8 @@ def project_view(request):
 
 	if request.POST.get('report'):
 		project_id = request.POST.get('project_id')
-		print('ini project id:', project_id)
 		text = request.POST.get('report')
-		print('ini text:', text)
 		project = ProjectList.objects.filter(project=project_id).first()
-		print('ini project:', project)
 		Report.objects.create(
 			report_from = request.user,
 			report_text = text,
@@ -318,10 +315,29 @@ def dashboard_view(request, slug):
 			service.status = 'working'
 			service.save()
 			return redirect("dashboard", slug=user.slug)
+
 		elif (request.POST.get('serviceoption') == 'decline'):
 			service.status = 'rejected'
 			service.save()
-			return redirect("dashboard", slug=user.slug)
+			if (service.basic_packet is not None ):
+				basicpacket_price = service.basic_packet.basic_price
+				user_order = service.user
+				user_order.wallet += basicpacket_price
+				user_order.save()
+				return redirect("dashboard", slug=user.slug)
+			elif (service.standard_packet is not None):
+				standardpacket_price = service.standard_packet.standard_price
+				user_order = service.user
+				user_order.wallet += standardpacket_price
+				user_order.save()
+				return redirect("dashboard", slug=user.slug)
+			elif (service.premium_packet is not None):
+				premiumpacket_price = service.premium_packet.premium_price
+				user_order = service.user
+				user_order.wallet += premiumpacket_price
+				user_order.save()
+				return redirect("dashboard", slug=user.slug)
+
 		elif (request.POST.get('serviceoption') == 'finish'):
 			service.status = 'waiting'
 			service.save()
@@ -329,12 +345,29 @@ def dashboard_view(request, slug):
 		elif (request.POST.get('serviceoption') == 'cancel'):
 			service.status = 'canceled'
 			service.save()
-			return redirect("dashboard", slug=user.slug)
+			if (service.basic_packet is not None ):
+				basicpacket_price = service.basic_packet.basic_price
+				user_order = service.user
+				user_order.wallet += basicpacket_price
+				user_order.save()
+				return redirect("dashboard", slug=user.slug)
+			elif (service.standard_packet is not None):
+				standardpacket_price = service.standard_packet.standard_price
+				user_order = service.user
+				user_order.wallet += standardpacket_price
+				user_order.save()
+				return redirect("dashboard", slug=user.slug)
+			elif (service.premium_packet is not None):
+				premiumpacket_price = service.premium_packet.premium_price
+				user_order = service.user
+				user_order.wallet += premiumpacket_price
+				user_order.save()
+				return redirect("dashboard", slug=user.slug)
 
 	if request.POST.get('report'):
 		service_id = request.POST.get('service_id')
 		text = request.POST.get('report')
-		service = ServiceList.objects.filter(service=service_id).first()
+		service = ServiceList.objects.filter(sl_id=service_id).first()
 		Report.objects.create(
 			report_from = request.user,
 			report_text = text,
@@ -424,14 +457,34 @@ def feedback_service_view(request, service_id):
 	account = Account.objects.filter(email=request.user.email).first()
 
 	if request.POST.get('rate') and request.POST.get('feedback') :
-		service_req = ServiceList.objects.filter(service=service_id).first()
+		service = ServiceList.objects.filter(sl_id=service_id).first()
 		rating = request.POST.get('rate')
 		feedback = request.POST.get('feedback')
-		service_req.rating = rating
-		service_req.feedback = feedback
-		service_req.status = 'finished'
-		service_req.save()
-		return redirect("servicelist")
+		service.rating = rating
+		service.feedback = feedback
+		service.status = 'finished'
+		service.save()
+		basicpacket_price = None
+		standardpacket_price = None
+		premiumpacket_price = None
+		if (service.basic_packet is not None):
+			basicpacket_price = service.basic_packet.basic_price
+			user_create = service.service.author
+			user_create.wallet += int(basicpacket_price)
+			user_create.save()
+			return redirect("servicelist")
+		elif (service.standard_packet is not None):
+			standardpacket_price = service.standard_packet.standard_price
+			user_create = service.service.author
+			user_create.wallet += int(standardpacket_price)
+			user_create.save()
+			return redirect("servicelist")
+		elif (service.premium_packet is not None):
+			premiumpacket_price = service.premium_packet.premium_price
+			user_create = service.service.author
+			user_create.wallet += int(premiumpacket_price)
+			user_create.save()
+			return redirect("servicelist")
 
 	context['service_pending'] = service_pending
 	context['service_working'] = service_working
@@ -490,11 +543,27 @@ def cancel_service(request, service_id):
 	user = request.user
 
 	service = ServiceList.objects.filter(sl_id=service_id).first()
-
 	service.status = 'canceled'
 	service.save()
 
-	return redirect('servicelist')
+	if (service.basic_packet is not None ):
+		basicpacket_price = service.basic_packet.basic_price
+		user_order = service.user
+		user_order.wallet += basicpacket_price
+		user_order.save()
+		return redirect('servicelist')
+	elif (service.standard_packet is not None):
+		standardpacket_price = service.standard_packet.standard_price
+		user_order = service.user
+		user_order.wallet += standardpacket_price
+		user_order.save()
+		return redirect('servicelist')
+	elif (service.premium_packet is not None):
+		premiumpacket_price = service.premium_packet.premium_price
+		user_order = service.user
+		user_order.wallet += premiumpacket_price
+		user_order.save()
+		return redirect('servicelist')
 
 @login_required
 def revision_service(request, service_id):

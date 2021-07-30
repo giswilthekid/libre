@@ -47,21 +47,48 @@
           </div>
           
           <div class="navbar-end" id="buyernavbarend">
-              <a href="{% url 'buyerpage' %}" class="navbar-item"  style="color: #3F978D; font-weight: bold;">
+            <div class="header-tab" style="display: flex; align-items: center;">
+              <div class="toggle1" id="toggle1">
+                <div class="topup" id="topup1" style="width: 250px; height: 35px; padding: 5px; display: flex; align-items: center;">
+                  <img style="width: 35px; height: 35px; margin-right: 10px; margin-bottom: 5px;" src="{% static 'images/wallet.png' %}">
+                  <p style="font-weight: bold; margin-right: 10px; margin-top: 2px;" id="money">Rp{{request.user.wallet}}</p>
+                  <button style="width: 25px; height: 25px;" class="button is-success is-outlined" id="topupbut">
+                    <i class="fal fa-plus"></i>
+                  </button>
+                </div>
+              </div>
+              <div class="toggle2" id="toggle2" style="display: none;">
+                
+                  <div class="topup" id="topup2" style="width: 250px; height: 35px; padding: 5px; display: flex; align-items: center;">
+                    <button id="canceltopupbut" style="width: 25px; height: 25px; margin-right: 10px;" class="button is-danger is-outlined">
+                      <i class="fal fa-times"></i>
+                    </button>
+                    <form class="create-form" method="post" enctype="multipart/form-data">{% csrf_token %}
+                      <div style="display: flex;">
+                        <input style="height: 25px; width: 150px; margin-right: 10px;" class="input" type="number" placeholder="Top Up" name="topup">
+                        <button style="width: 25px; height: 25px;" class="button is-success is-outlined">
+                          <i class="fal fa-plus"></i>
+                        </button>
+                      </div>
+                    </form>
+                  </div>
+              </div>
+              <a href="{% url 'buyerpage' %}" class="navbar-item" style="margin-top: 0px;">
                 Project Page
               </a>
-              <a href="{% url 'service:sellerpage' %}" class="navbar-item"  style="color: #3F978D; font-weight: bold;">
+              <a href="{% url 'service:sellerpage' %}" class="navbar-item" style="margin-top: 0px;">
                 Service Page
               </a>
-              <div class="dropdown is-right" id="buyerpagedropdown">
-                <div class="dropdown-trigger">
-                  <span>
-                    <figure class="image" >
-                      <img style="width: 35px; height: 35px; border-radius: 50%;" src="{{account.image.url}}">
-                    </figure>
-                  </span>
-                </div>
-                <div class="dropdown-menu" id="dropdown-menu" role="menu" style="border:1px solid #e4e5e7; margin-top: 5px;">
+            </div>
+            <div class="dropdown is-right" id="buyerpagedropdown">
+              <div class="dropdown-trigger">
+                <span>
+                  <figure class="image" >
+                    <img style="width: 35px; height: 35px; border-radius: 50%;" src="{{account.image.url}}">
+                  </figure>
+                </span>
+              </div>
+              <div class="dropdown-menu" id="dropdown-menu" role="menu" style="border:1px solid #e4e5e7; margin-top: 5px;">
                 <div class="dropdown-content">
                   <a style="font-weight: bold;" href="{% url 'profile' account.slug %}" class="dropdown-item">
                     Profile
@@ -81,7 +108,7 @@
                   </a>
                 </div>
               </div>
-              </div>
+            </div>
             </div>
 
             <div class="clearnavbar"></div>
@@ -315,6 +342,16 @@
 
     {% endif %}
     <script type="text/javascript">
+
+    $("#topupbut").click(function(){
+      $("#toggle1").toggle();
+      $("#toggle2").toggle();
+    });
+
+    $("#canceltopupbut").click(function(){
+      $("#toggle1").toggle();
+      $("#toggle2").toggle();
+    });
 
     var dropdown = document.querySelector('.dropdown');
 

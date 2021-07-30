@@ -37,7 +37,7 @@ class BasicPacket(models.Model):
     basic_desc 				= models.CharField(max_length=100, null=True, blank=True)
     basic_delivery 			= models.PositiveIntegerField(blank=True, null=True)
     basic_revision 			= models.PositiveIntegerField(blank=True, null=True)
-    basic_price 			= models.BigIntegerField(blank=True, null=True)
+    basic_price 			= models.BigIntegerField(blank=False, null=True)
     packet_service			= models.ForeignKey(ServicePost, on_delete=models.CASCADE, null=True, blank=True)
     tipe_packet             = models.CharField(max_length=20,default='basic')
 
@@ -50,7 +50,7 @@ class StandardPacket(models.Model):
     standard_desc 			= models.CharField(max_length=100, null=True, blank=True)
     standard_delivery 		= models.PositiveIntegerField(blank=True, null=True)
     standard_revision 		= models.PositiveIntegerField(blank=True, null=True)
-    standard_price 			= models.BigIntegerField(blank=True, null=True)
+    standard_price 			= models.BigIntegerField(blank=False, null=True)
     packet_service			= models.ForeignKey(ServicePost, on_delete=models.CASCADE, null=True, blank=True)
     tipe_packet             = models.CharField(max_length=20,default='standard')
 
@@ -63,7 +63,7 @@ class PremiumPacket(models.Model):
     premium_desc 			= models.CharField(max_length=100, null=True, blank=True)
     premium_delivery 		= models.PositiveIntegerField(blank=True, null=True)
     premium_revision 		= models.PositiveIntegerField(blank=True, null=True)
-    premium_price 			= models.BigIntegerField(blank=True, null=True)
+    premium_price 			= models.BigIntegerField(blank=False, null=True)
     packet_service			= models.ForeignKey(ServicePost, on_delete=models.CASCADE, null=True, blank=True)
     tipe_packet             = models.CharField(max_length=20,default='premium')
 

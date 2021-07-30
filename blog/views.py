@@ -70,11 +70,18 @@ def detail_blog_view(request, slug):
 	
 	context = {}
 
+	user = request.user
 	account = Account.objects.filter(email=request.user.email).first()
 	avail_post = BlogPost.objects.filter(slug=slug).first()
 	applied_post= BlogPost.objects.filter(slug=slug, status='applied')
 	project_count = BlogPost.objects.filter(author=avail_post.author).count()
 	service_count = ServicePost.objects.filter(author=avail_post.author).count()
+
+	if request.POST.get('topup'):
+		topup = request.POST.get('topup')
+		user.wallet += int(topup)
+		user.save()
+		return redirect('blog:detail', slug=slug)
 
 
 	context['avail_post'] = avail_post
@@ -100,8 +107,6 @@ def add_to_projectlist(request, slug):
 	project.save()
 	print(project.slug)
 	return redirect("projectlist")
-
-	return redirect('buyerpage')
 
 def cancelled_project(request, slug):
 
