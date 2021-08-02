@@ -22,6 +22,7 @@ from account.views import(
     cancel_service,
     revision_service,
     feedback_service_view,
+    chatbox,
 )
 
 from blog.views import(
@@ -50,6 +51,7 @@ urlpatterns = [
     path('feedbackservice/<service_id>/', feedback_service_view, name='feedback-service'),
     path('cancelservice/<service_id>/', cancel_service, name='cancel-service'),
     path('revisionservice/<service_id>/', revision_service, name='revision-service'),
+    path('chatbox/', chatbox, name='chatbox'),
 ]
 
 if settings.DEBUG:

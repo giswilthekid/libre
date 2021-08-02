@@ -15,6 +15,18 @@
     </head>
 
     <body>
+
+      {% if messages %}
+        {% for message in messages %}
+            <div style="position: relative; width: 1300px; top: 70px; left: 25px;" class="notification {{message.tags}} is-light" id="msg" role="alert">
+              <button class="delete"></button>
+              <p style="font-weight: bold;">
+                {{ message }}
+              </p>
+            </div>
+        {% endfor %}
+      {% endif %}
+
         {% if request.user.is_authenticated %}
         <nav class="navbar" role="navigation" aria-label="main navigation" id="buyernavbar">
           <div class="navbar-start" id="buyernavbarstart">
@@ -399,7 +411,31 @@
           </div>
     <script>
 
+      setTimeout(function(){
+        if ($('#msg').length > 0) {
+          $('#msg').remove();
+        }
+      }, 5000)
 
+      $("#topupbut").click(function(){
+        $("#toggle1").toggle();
+        $("#toggle2").toggle();
+      });
+
+      $("#canceltopupbut").click(function(){
+        $("#toggle1").toggle();
+        $("#toggle2").toggle();
+      });
+
+      document.addEventListener('DOMContentLoaded', () => {
+        (document.querySelectorAll('.notification .delete') || []).forEach(($delete) => {
+          const $notification = $delete.parentNode;
+
+          $delete.addEventListener('click', () => {
+            $notification.parentNode.removeChild($notification);
+          });
+        });
+      });
 
       //Dropdown
 
@@ -421,6 +457,8 @@
         $("#report-form").toggle();
         $("#report-but").toggle();
       });
+
+
 
       //Tabs
 

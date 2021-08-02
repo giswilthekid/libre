@@ -577,3 +577,14 @@ def revision_service(request, service_id):
 	service.save()
 
 	return redirect('servicelist')
+
+@login_required
+def chatbox(request):
+
+	context = {}
+	user = request.user
+	account = Account.objects.filter(email=request.user.email).first()
+
+	context['account'] = account
+
+	return render(request, 'account/chatbox.html', context)

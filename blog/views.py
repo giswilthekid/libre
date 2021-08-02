@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse
 from django.contrib.auth.decorators import login_required
+from django.contrib import messages
 
 from blog.models import BlogPost, Category, SubCategory
 from blog.forms import CreateBlogPostForm, UpdateBlogPostForm
@@ -39,7 +40,7 @@ def create_post_view(request):
 		obj = form.save(commit=False)
 		budget = request.POST.get('budget')
 		if user.wallet < int(budget):
-			print('uang kurang, silakan top up duls')
+			messages.error(request, "It looks like the balance in your wallet is not enough to make the previous post, please top up the balance first!")
 			return redirect('buyerpage')
 		else:
 			author = Account.objects.filter(email=request.user.email).first()
@@ -48,6 +49,7 @@ def create_post_view(request):
 			obj.save()
 			user.save()
 			form = CreateBlogPostForm()
+			messages.success(request, "Your project has been successfully posted!")
 			return redirect('buyerpage')
 
 	category = Category.objects.all()
@@ -106,6 +108,7 @@ def add_to_projectlist(request, slug):
 	project.status = 'applied'
 	project.save()
 	print(project.slug)
+	messages.success(request, "Successfully added the project to the list!")
 	return redirect("projectlist")
 
 def cancelled_project(request, slug):
@@ -115,7 +118,7 @@ def cancelled_project(request, slug):
 	project.status = 'avail'
 	project.save()
 	order_project.delete()
-
+	messages.success(request, "Your project request has been canceled!")
 	return redirect('projectlist')
 
 def edit_post_view(request, slug):
@@ -133,7 +136,7 @@ def edit_post_view(request, slug):
 			obj = form.save(commit=False)
 			obj.save()
 			blog_post = obj
-
+			messages.success(request, "Post edited successfully!")
 			return redirect('buyerpage')
 
 	category = Category.objects.all()
@@ -165,7 +168,7 @@ def delete_post_view(request, slug):
 	author.wallet += blog_post.budget
 	author.save()
 	blog_post.delete()
-
+	messages.warning(request, "Project has been deleted!")
 	return redirect("buyerpage")
 
 

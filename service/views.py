@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse
 from django.contrib.auth.decorators import login_required
 from django.forms import modelformset_factory
+from django.contrib import messages
 
 from service.models import ServicePost, BasicPacket, StandardPacket, PremiumPacket
 from blog.models import Category, SubCategory, BlogPost
@@ -49,35 +50,40 @@ def create_service_view(request):
 	standardform = StandardPacketForm(request.POST or None)
 	premiumform = PremiumPacketForm(request.POST or None)
 
-	if form.is_valid() and basicform.is_valid() and standardform.is_valid() and premiumform.is_valid() :
-		obj = form.save(commit=False)
-		author = Account.objects.filter(email=request.user.email).first()
-		obj.author = author
-		obj.save()
-		form = CreateServicePostForm()
+	if request.POST:
+		if form.is_valid() and basicform.is_valid() and standardform.is_valid() and premiumform.is_valid() :
+			obj = form.save(commit=False)
+			author = Account.objects.filter(email=request.user.email).first()
+			obj.author = author
+			obj.save()
+			form = CreateServicePostForm()
 
-		service_packet = ServicePost.objects.filter(id=obj.id).first()
+			service_packet = ServicePost.objects.filter(id=obj.id).first()
 
-		print(service_packet)
+			print(service_packet)
 
-		basic_form = basicform.save(commit=False)
-		basic_form.packet_service = service_packet
-		basic_form.save()
-		basicform = BasicPacketForm()
+			basic_form = basicform.save(commit=False)
+			basic_form.packet_service = service_packet
+			basic_form.save()
+			basicform = BasicPacketForm()
 
-		standard_form = standardform.save(commit=False)
-		standard_form.packet_service = service_packet
-		standard_form.save()
-		standardform = StandardPacketForm()
+			standard_form = standardform.save(commit=False)
+			standard_form.packet_service = service_packet
+			standard_form.save()
+			standardform = StandardPacketForm()
 
-		premium_form = premiumform.save(commit=False)
-		premium_form.packet_service = service_packet
-		premium_form.save()
-		premiumform = PremiumPacketForm()
+			premium_form = premiumform.save(commit=False)
+			premium_form.packet_service = service_packet
+			premium_form.save()
+			premiumform = PremiumPacketForm()
 
-		return redirect('service:sellerpage')
-	else:
-		print('errors')
+			messages.success(request, "Your service is online now!")
+
+			return redirect('service:sellerpage')
+		else:
+			messages.error(request, "Cant process your service :(")
+			return redirect('service:sellerpage')
+	
 
 	category = Category.objects.all()
 	account = Account.objects.filter(email=request.user.email).first()
@@ -134,7 +140,8 @@ def add_to_servicelist(request, slug, packet_id, tipe_packet):
 		user = request.user
 		basicprice = basic_packet[0].basic_price
 		if (user.wallet < int(basicprice)):
-			print('uang tidak cukup')
+			messages.warning(request, "Your balance is not enough to take this service, topup now!")
+			return redirect('service:sellerpage')
 		else:
 			print('basic:' ,basic_packet)
 			order_service = ServiceList.objects.create(
@@ -145,6 +152,7 @@ def add_to_servicelist(request, slug, packet_id, tipe_packet):
 			)
 			user.wallet -= int(basicprice)
 			user.save()
+			messages.success(request, "Success to take this service, please wait for the confirmation from our freelancer :)")
 			return redirect("servicelist")
 
 	if tipe_packet == 'standard':
@@ -154,7 +162,8 @@ def add_to_servicelist(request, slug, packet_id, tipe_packet):
 		user = request.user
 		standardprice = standard_packet[0].standard_price
 		if (user.wallet < int(standardprice)):
-			print('uang tidak cukup')
+			messages.warning(request, "Your balance is not enough to take this service, topup now!")
+			return redirect('service:sellerpage')
 		else:
 			order_service = ServiceList.objects.create(
 				service=service,
@@ -164,6 +173,7 @@ def add_to_servicelist(request, slug, packet_id, tipe_packet):
 			)
 			user.wallet -= int(standardprice)
 			user.save()
+			messages.success(request, "Success to take this service, please wait for the confirmation from our freelancer :)")
 			return redirect("servicelist")
 
 	if tipe_packet == 'premium':
@@ -173,7 +183,8 @@ def add_to_servicelist(request, slug, packet_id, tipe_packet):
 		user = request.user
 		premiumprice = premium_packet[0].premium_price
 		if (user.wallet < int(premiumprice)):
-			print('uang tidak cukup')
+			messages.warning(request, "Your balance is not enough to take this service, topup now!")
+			return redirect('service:sellerpage')
 		else:
 			order_service = ServiceList.objects.create(
 				service=service,
@@ -183,6 +194,7 @@ def add_to_servicelist(request, slug, packet_id, tipe_packet):
 			)
 			user.wallet -= int(premiumprice)
 			user.save()
+			messages.success(request, "Success to take this service, please wait for the confirmation from our freelancer :)")
 			return redirect("servicelist")
 
 def cancelled_service(request, slug):
@@ -191,7 +203,7 @@ def cancelled_service(request, slug):
 	order_service = ServiceList.objects.filter(service=service, user=request.user)
 
 	order_service.delete()
-
+	messages.success(request, "The service has been successfully canceled")
 	return redirect('servicelist')
 
 def edit_service_view(request, slug):
@@ -230,7 +242,7 @@ def edit_service_view(request, slug):
 			premiumobj = premiumform.save(commit=False)
 			premiumobj.save()
 			premium = premiumobj
-
+			messages.success(request, "Your service has been successfully edited")
 			return redirect('service:sellerpage')
 
 	category = Category.objects.all()
@@ -290,24 +302,7 @@ def delete_service_view(request, slug):
 	context = {}
 
 	service = get_object_or_404(ServicePost, slug=slug)
-	service_order = ServiceList.objects.filter(service=service).first()
-	user_order = service_order.user
 	
-	if (service_order.basic_packet is not None):
-		basic_order = service_order.basic_packet
-		user_order.wallet += int(basic_order.basic_price)
-		user_order.save()
-		service.delete()
-		return redirect("buyerpage")
-	elif (service_order.standard_packet is not None):
-		standard_order = service_order.standard_packet
-		user_order.wallet += int(standard_order.standard_price)
-		service.delete()
-		service.delete()
-		return redirect("buyerpage")
-	elif (service_order.premium_packet is not None):
-		premium_order = service_order.premium_packet
-		user_order.wallet += int(premium_order.premium_price)
-		user_order.save()
-		service.delete()
-		return redirect("buyerpage")
+	service.delete()
+	messages.warning(request, "Service has been deleted!")
+	return redirect('service:sellerpage')

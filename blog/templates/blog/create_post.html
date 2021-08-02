@@ -20,6 +20,15 @@
     </head>
 
     <body>
+    {% if messages %}
+      {% for message in messages %}
+          <div class="notification is-{{message.tags}}" id="msg" role="alert">
+            <button class="delete"></button>
+            {{ message }}
+          </div>
+      {% endfor %}
+    {% endif %} 
+
     {% if request.user.is_authenticated %}
         <nav class="navbar" role="navigation" aria-label="main navigation" id="buyernavbar">
           <div class="navbar-start" id="buyernavbarstart">
@@ -105,7 +114,7 @@
                 <p style="margin-bottom: 5px; font-weight: bold;">
                   Describe the service you looking for, be detailed when you describe it okey:
                 </p>
-                <textarea class="textarea" placeholder="I need ..." maxlength="2500" name="body" id="id_body"></textarea>
+                <textarea class="textarea" placeholder="I need ..." maxlength="2500" name="body" id="id_body" required></textarea>
                 <div id="the-count">
                   <span id="current">0</span>
                   <span id="maximum">/ 2500</span>
@@ -113,7 +122,7 @@
                 <div class="clear" style="clear: right;"></div>
                 <div class="file has-name" style="margin-top: 5px;">
                   <label class="file-label">
-                    <input class="file-input" type="file" name="image" accept="image/*" id="id_image">
+                    <input class="file-input" type="file" name="image" accept="image/*" id="id_image" required>
                     <span class="file-cta" style="background-color: #efeff0; color: #62646a;">
                       <span class="file-icon">
                         <i class="fas fa-upload"></i>
@@ -135,7 +144,7 @@
                   <p style="margin-bottom: 5px; font-weight: bold;">Choose a Category:</p>
                   <div class="control">
                     <div class="select">
-                      <select id="id_category" style="width: 200px;" name="category">
+                      <select id="id_category" style="width: 200px;" name="category" required>
                         <option selected disabled>Select Category</option>
                         {% for cat in category %}
                         <option value="{{cat.id}}">{{cat.name}}</option>
@@ -148,7 +157,7 @@
                   <p style="margin-bottom: 5px; font-weight: bold;">Choose a Subcategory:</p>
                   <div class="control">
                     <div class="select">
-                      <select id="id_subcategory" style="width: 200px;" name="subcategory">
+                      <select id="id_subcategory" style="width: 200px;" name="subcategory" required>
                         <option selected disabled>Select Subcategory</option>
                         {% for subcat in subcategory %}
                         <option value="{{subcat.id}}">{{subcat.name}}</option>
@@ -168,7 +177,7 @@
                   <div class="field">
                     <label class="label">Finish the project before:</label>
                     <div class="control">
-                      <input style="width: 150px;" class="input" type="text" placeholder="Days" name="deadline" id="id_deadline">
+                      <input style="width: 150px;" class="input" type="text" placeholder="Days" name="deadline" id="id_deadline" required>
                     </div>
                   </div> 
                 </div>
@@ -176,7 +185,7 @@
                   <div class="field">
                     <label class="label">Budget for this project:</label>
                     <div class="control">
-                      <input style="width: 450px;" class="input" type="number" placeholder="Rp" name="budget" id="id_budget">
+                      <input style="width: 450px;" class="input" type="number" placeholder="Rp" name="budget" id="id_budget" required>
                     </div>
                   </div>
                 </div>
@@ -295,6 +304,12 @@
       });
 
     });
+
+    setTimeout(function(){
+      if ($('#msg').length > 0) {
+        $('#msg').remove();
+      }
+    }, 2000)
 
     </script>
     </body>
